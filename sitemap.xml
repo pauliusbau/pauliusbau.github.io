@@ -5,71 +5,71 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>pauliusbau.github.io/</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/archives.html</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/archives.html</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/author/paulius-bautrenas.html</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/author/paulius-bautrenas.html</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/authors.html</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/authors.html</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/categories.html</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/categories.html</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/category/rand.html</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/category/rand.html</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/github-pages.html</loc>
+<loc>/github-pages.html</loc>
 <lastmod>2023-12-28T10:40:00+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/tag/blog.html</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/tag/blog.html</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/tag/github.html</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/tag/github.html</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>pauliusbau.github.io/tags.html</loc>
-<lastmod>2023-12-28T17:54:00-00:00</lastmod>
+<loc>/tags.html</loc>
+<lastmod>2023-12-28T18:07:37-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
