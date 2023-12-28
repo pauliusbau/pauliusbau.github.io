@@ -1,0 +1,1 @@
+var tipuesearch = {"pages":[{"title":"WordPress mirė, tegyvuoja GitHub pages!","text":"Nusprendžiau pakeisti blogo \"platformą\" į labiau statinę. Tam pasirinau GitHub Pages. Panamažu blog įrašai iš WordPress bus perkopijuoti čia. Kantybės :)","tags":"rand()","url":"pauliusbau.github.io/github-pages.html","loc":"pauliusbau.github.io/github-pages.html"}]};
