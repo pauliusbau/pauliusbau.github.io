@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Flip-Dot Clock - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/drafts/flip-dot-clock.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="atmega16,ccfl,clock,ds1307,flip-dot,flipdot,font,mosfet,uart,UV LED" />
+        <meta name="description" content="Idėja susikonstruoti unikalų sieninį laikrodį mano galvoje kirbėjo gan seniai, tačiau iki šiol niekaip iki to „nepriėjo“ rankos. Be to, internetas yra pilnas kuo įvairiausių „nixie“, LED&#39;inių, mechaninių, pneumatinių, hidraulinių ir kitokių laikrodžių, o man norėjosi kažko įdomesnio. Taip pat kaip ir kiekvienas tikras inžinierius esu didelis tinginys, todėl nenorėjau …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Flip-Dot Clock"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/drafts/flip-dot-clock.html"/>
+        <meta property="og:description" content="Idėja susikonstruoti unikalų sieninį laikrodį mano galvoje kirbėjo gan seniai, tačiau iki šiol niekaip iki to „nepriėjo“ rankos. Be to, internetas yra pilnas kuo įvairiausių „nixie“, LED&#39;inių, mechaninių, pneumatinių, hidraulinių ir kitokių laikrodžių, o man norėjosi kažko įdomesnio. Taip pat kaip ir kiekvienas tikras inžinierius esu didelis tinginys, todėl nenorėjau …"/>
+        <meta property="article:published_time" content="2015-02-12" />
+            <meta property="article:section" content="C/C++, Elektronika" />
+            <meta property="article:tag" content="atmega16" />
+            <meta property="article:tag" content="ccfl" />
+            <meta property="article:tag" content="clock" />
+            <meta property="article:tag" content="ds1307" />
+            <meta property="article:tag" content="flip-dot" />
+            <meta property="article:tag" content="flipdot" />
+            <meta property="article:tag" content="font" />
+            <meta property="article:tag" content="mosfet" />
+            <meta property="article:tag" content="uart" />
+            <meta property="article:tag" content="UV LED" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/cc-elektronika.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas C/C++, Elektronika ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QZDGKTE256"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', G-QZDGKTE256);
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/drafts/flip-dot-clock.html"
+                       rel="bookmark"
+                       title="Permalink to Flip-Dot Clock">
+                        Flip-Dot Clock
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-02-12T09:30:00+02:00"> kt 12 vasaris 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/atmega16.html">atmega16</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/ccfl.html">ccfl</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/clock.html">clock</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/ds1307.html">ds1307</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/flip-dot.html">flip-dot</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/flipdot.html">flipdot</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/font.html">font</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/mosfet.html">mosfet</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/uart.html">uart</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/uv-led.html">UV LED</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7319.jpg"><img alt="IMG_7319" class="aligncenter wp-image-630 size-medium" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7319-e1419931169552-300x186.jpg" style="width: 300px; height: 186px;" /></a></p>
+<p>Idėja susikonstruoti unikalų sieninį laikrodį mano galvoje kirbėjo gan seniai, tačiau iki šiol niekaip iki to „nepriėjo“ rankos. Be to, internetas yra pilnas kuo įvairiausių „nixie“, LED'inių, mechaninių, pneumatinių, hidraulinių ir kitokių laikrodžių, o man norėjosi kažko įdomesnio. Taip pat kaip ir kiekvienas tikras inžinierius esu didelis tinginys, todėl nenorėjau per daug vargti su mandromis konstrukcijomis ir kitokiais velniais, todėl ilgai laukiau reikiamo momento kol į rankas paklius kas nors, iš ko būtų galima pasidaryti laikrodį. Šis momentas atėjo buvusiame darbe, kai į mano rankas pakliuvo <a class="reference external" href="http://paulius.bautrenas.lt/blog/?p=325">elektromechaninė (angl. flip-dot) švieslentė</a>.</p>
+<div class="section" id="schema-ir-pcb">
+<h2>Schema ir PCB</h2>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;8&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/flip_dot_controller_V2-sch.png"><img alt="flip_dot_controller_V2-sch" class="aligncenter size-large wp-image-648" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/flip_dot_controller_V2-sch-774x1024.png" style="width: 625px; height: 827px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;4&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/fet_board_sch.png"><img alt="fet_board_sch" class="aligncenter wp-image-646 size-medium" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/fet_board_sch-166x300.png" style="width: 166px; height: 300px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+<p>Laikrodžio valdikliui iš principo panaudojau tą patį, šiek tiek ankščiau aprašytą, <a class="reference external" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/08/flip-dot_controller.jpg">flip-dot valdiklį</a>, su kuriuo tyrinėjau <a class="reference external" href="http://paulius.bautrenas.lt/blog/?p=325">elektromechanines švieslentes</a>. Vienintelis skirtumas tas, kad šį kartą prie jo papildomai prijungiau Dallas DS1307 RTC laikrodį. Tuo pačiu linijinį įtampos stabilizatorių 7805 pakeičiau impulsiniu nekaistančiu LM2574n-5 su atitinkamu apkabinimu. Schemos stabilumui užtikrinti, papildomai ant AtMEGA16 Reset kojos užkabinau supervizorių <a class="reference external" href="http://ww1.microchip.com/downloads/en/DeviceDoc/11187f.pdf">MCP100T-475I</a>, kuris neleidžia atmegai startuoti, kol jos maitinimo įtampa nepakilo aukščiau 4,75 V.</p>
+<p>Šią valdiklio versiją papildžiau aibe naujų jungčių. Išvedžiau vieną iš ADC pinų. Numačiau jungtį rotorinio enkoderio ar išorinių mygtukų prijungimui. Valdiklio darbo statuso šviesos diodus irgi iškėliau ant papildomos jungties. Įprojektavau galimybė prijungti papildomą lauktranzių grandinę (schema viršuje, dešinėje), skirtą laikrodžio apšvietimo komutavimui.</p>
+<p>Tiesa, tuos lauktranzius teko iškelti ant atskiros plokštelės, nes į nemokamo Eagle langą jie tiesiog gražiai nebetilpo. Na bet kokiu atveju, abi PCB gavosi gan šaunios:</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;8&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/flip_dot_controller_V2-brd.png"><img alt="flip_dot_controller_V2-brd" class="aligncenter size-large wp-image-647" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/flip_dot_controller_V2-brd-1024x818.png" style="width: 625px; height: 499px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;4&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/fet_board_brd.png"><img alt="fet_board_brd" class="aligncenter wp-image-645 size-medium" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/fet_board_brd-300x300.png" style="width: 300px; height: 300px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+</div>
+<div class="section" id="surinkimas">
+<h2>Surinkimas</h2>
+<p>Šiek tiek išrinkau turimos švieslentės korpusą ir pradėjau ieškoti vietos elektronikai. Vietos radau ant galinio švieslentės skydelio, šalia į korpusą įmontuotos dienos šviesos (CCFL) lempos inverterio.</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6960.jpg"><img alt="IMG_6960" class="aligncenter size-large wp-image-657" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6960-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6982.jpg"><img alt="IMG_6982" class="aligncenter size-large wp-image-658" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6982-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+<p>Būdamas didelis tinginys, daugelį aukščiau aprašytų pakeitimų padariau lituokliu ant egzistuojančios plokštės ir negaminau naujos PCB. Tiesa, tai kainavo šiek tiek nervų.. Taip daryti tikrai niekam nerekomenduočiau, bet dėl sprendimo per daug nesigailiu, nes pakeitimų nebuvo labai daug.</p>
+<p>Valdiklio ir švieslentės maitinimui panaudojau kinietišką DC-DC modulį iš <a class="reference external" href="http://www.ebay.com/itm/DC-DC-HRD-Converter-24v-36v-48v-Step-Down-To-12v-3A-Switching-Power-Module-SSCA-/360699357262?pt=LH_DefaultDomain_2&amp;hash=item53fb5b684e">ebay..</a>. Iš senų laikų turėjau likusį RTC moduliuką, o ir &quot;netyčia&quot; iš pat pradžių valdiklio PCB buvau įprojektavęs I2C jungtį.. Žodžiu, pakoreguotas valdiklis atrodė taip:</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6988.jpg"><img alt="IMG_6988" class="aligncenter size-large wp-image-654" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6988-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6987.jpg"><img alt="IMG_6987" class="aligncenter size-large wp-image-655" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6987-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+<p>Dalis, prie PCB prilituotų laidų eina į laikrodžio nustatymo mygtukus. Kiti į lauktranzių plokštelę. Lauktranzių plokštelės PCB, kaip supratote, irgi negaminau, o tiesiog greituoju surinkau ant &quot;nulinės&quot; plokštės:</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6985.jpg"><img alt="IMG_6985" class="aligncenter size-large wp-image-662" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6985-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6986.jpg"><img alt="IMG_6986" class="aligncenter size-large wp-image-663" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6986-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+<p>Tiek valdiklį, tiek dc-dc, tiek ir lauktranzių plokštelę pritvirtinau varžtais ir sujungiau visus laidus:</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6991.jpg"><img alt="IMG_6991" class="aligncenter size-large wp-image-665" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6991-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7001.jpg"><img alt="IMG_7001" class="aligncenter size-large wp-image-672" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7001-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+<p>Laikrodis valdomas dviem mygtukais. Vienas įjungia/išjungia laiko nustatymo režimą. Kitas nustato laiką ir junginėja apšvietimą (apie tai vėliau). Iš senų laikų turėjau nusipirkęs neracionaliai brangius mygtukus su šviesos diodais. Juos irgi sulitavau ant &quot;nulinės plokštės&quot;. Pačia plokštelę pritvirtinau taip, kad mygtukai būtų prieinami iš išorės.</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;5&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6983.jpg"><img alt="IMG_6983" class="aligncenter size-large wp-image-660" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6983-1024x768.jpg" style="width: 625px; height: 469px;" /></a><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6984.jpg"><img alt="IMG_6984" class="aligncenter size-large wp-image-661" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6984-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;7&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7697.jpg"><img alt="IMG_7697" class="aligncenter size-large wp-image-688" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7697-768x1024.jpg" style="width: 625px; height: 833px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+<p>Kitame švieslentės šone sumontavau maitinimo jungtį ir saugiklį. Papildomai apsaugai nuo neteisingo pajungimo įmontavau peraugusį šotki diodą:</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6994.jpg"><img alt="IMG_6994" class="aligncenter size-large wp-image-670" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6994-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6995.jpg"><img alt="IMG_6995" class="aligncenter size-large wp-image-671" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_6995-1024x768.jpg" style="width: 625px; height: 469px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+<p>Surinktas laikrodis atrodo taip: <a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7317.jpg"><img alt="IMG_7317" class="aligncenter size-large wp-image-631" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7317-1024x768.jpg" style="width: 625px; height: 469px;" /></a></p>
+</div>
+<div class="section" id="softas">
+<h2>Softas</h2>
+<p>Tai sudėtingiausia projekto dalis. Valdiklio programos kodas, ne toks sudėtingas ir ilgas, kaip <a class="reference external" href="http://paulius.bautrenas.lt/blog/?p=227">LEDCtrl</a> atveju, tačiau ne mažiau painus. Kodas painus todėl, kad projekto įgyvendinimas užtruko porą metų. T. y. valdiklis ir &quot;basic&quot; valdymo programa buvo sukurta maždaug 2012 metais, rašant magistrinį darbą. Visas kitas funkcionalumas suprogramuotas 2014 m. pabaigoje (pagaliau įkvėpimas atsirado). Kodo tvarkingumui tikrai nepadėjo ir tai, kad ūpui pakelti dažnai nevengiau buteliuko alaus ar viskio šlakelio. :D Na bet yra kaip yra. Gal vienas kitas bugas ir liko, bet daiktas veikia, atlieka savo funkcijas ir nelūžta.</p>
+<p>Programos kodo per daug nekomentuosiu, tačiau ateities kartoms šiek tiek aprašysiu priimtus programinius ir AtMEGA16&nbsp;hardware išnaudojimo sprendimus. Pirmiausia apie softą. Apie flip-dot švieslentės valdymo mechanizmą užsiminiau įraše apie <a class="reference external" href="http://paulius.bautrenas.lt/blog/?p=325">elektromechanines švieslentes</a>. Ten nieko sudėtingo, tiesiog switch-case konstrukcija, atitinkamai sukomutuojanti švieslentės valdymo dešifratorius. Įdomesnis to praktinis pritaikymas, nes norint atvaizduoti skaičius (laiką), teko sukurti nuosavą &quot;šriftą&quot;.</p>
+<p><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/octagon_fontas.png"><img alt="octagon_fontas" class="aligncenter size-large wp-image-704" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/octagon_fontas-1024x591.png" style="width: 625px; height: 361px;" /></a></p>
+<p>Nusprendžiau naudoti 5x3 taškų dydžio skaičius (didesni tiesiog gražiai netilpo į mano turimą 13x28 matricą).&nbsp; Mano turima elektromechaninė švieslentė yra taip jau sutverta, kad stulpelius yra valdyti daug patogiau nei eilutes, todėl kiekvieną skaitmenį sudaro 3 baitai stulpelių. Kiekviename baite yra saugoma informacija apie kiekvieną stulpelio tašką: 0 - juoda spalva, 1 - geltona. Skaitmens stulpeliai yra skaitomi iš &quot;apačios į viršų&quot;. Taip atrodo visas 11 simbolių (skaitmenys 0–9 ir simbolis &quot;:&quot;) šrifto masyvas:</p>
+<div class="line-block">
+<div class="line">[cpp]</div>
+<div class="line">static uint8_t fdfont[] = {</div>
+<div class="line">0x1F, 0x11, 0x1F, //0</div>
+<div class="line">0x09, 0x1F, 0x01, //1</div>
+<div class="line">0x17, 0x15, 0x1D, //2</div>
+<div class="line">0x15, 0x15, 0x1F, //3</div>
+<div class="line">0x1C, 0x04, 0x1F, //4</div>
+<div class="line">0x1D, 0x15, 0x17, //5</div>
+<div class="line">0x1F, 0x15, 0x17, //6</div>
+<div class="line">0x10, 0x17, 0x18, //7</div>
+<div class="line">0x1F, 0x15, 0x1F, //8</div>
+<div class="line">0x1D, 0x15, 0x1F, //9</div>
+<div class="line">0x00, 0x0A, 0x00&nbsp; // :</div>
+<div class="line">};[/cpp]</div>
+</div>
+<p>Skaičius atvaizduoja funkcija <strong>print_number</strong><em>(number,pst,peil),</em> kuriai reikalingi 3 argumentai: <em>number</em> - norimas atvaizduoti skaitmuo; <em>pst</em> ir <em>peil</em> - atvaizduotino skaitmens apatinio kairiojo kampo koordinatės (skaičiuojama nuo matricos apatinio kairiojo kampo). Ši funkcija atitinkamai išsikviečia funkciją <strong>print_column</strong><em>,</em> kuri nuskaito šrifto masyvą&nbsp; ir su funkcija <strong>segmentas</strong> atitinkamai, bitas po bito perverčia matricos skydelius. Kaip greitai (dar net ne maksimalus greitis) veikia laikrodis, galite pamatyti čia:</p>
+<p>Laiko &quot;rodymas&quot; yra realizuotas <strong>TIMER0_OVF_vect</strong> pertrauktimi. Čia kelis kartus per sekundę yra tikrinama, ar nepasikeitė laikas. Jeigu laikas pasikeitė, yra patikrinama, kurie skaitmenys būtent pasikeitė ir tik jie yra perpiešiami. Vizualiai tai atrodo maždaug taip:</p>
+<p>Laikrodžio nustatymai keičiami tiek per USART sąsają, tiek ir valdymo mygtukais. Mygtuku, prijungtu prie INT1 (PD3), galima įjungti ir išjungti laikrodžio apšvietimą. Labai knietėjo pabandyti laikrodį apšviesti UV šviesos diodų juosta, todėl suprogramavau galimybę įsijungti CCFL arba UV apšvietimą:</p>
+<p>Mygtuku, prijungtu prie INT0 (PD2), yra aktyvuojamas rankinis laiko nustatymo režimas. Aktyvavus šį režimą, mygtukas &quot;INT1&quot; didina pasirinktą skaičių, o mygtukas &quot;INT0&quot; - šoliuoja per skaitmenis.&nbsp; Pasirinktas skaitmuo yra indikuojamas brūkšneliu po skaitmeniu. Perėjus per visus skaitmenis, nustatytas laikas yra išsaugomas. Žinoma, yra suprogramuota papildoma apsauga nuo durniaus, neleidžianti išsaugoti nerealaus laiko (&gt;23:59), bei išeinanti iš rankinio laiko nustatymo režimo, jei jis užtrunka per ilgai (kažkas pradėjo nustatinėti laikrodį ir pamiršo). Pastaroji apsauga yra realizuota&nbsp; pertrauktimi <strong>TIMER1_COMPA_vect</strong>, kuri nuolat tikrina ar nebuvo viršytas nustatytas laiko intervalas. Intervalas yra &quot;įhardkodintas&quot; parametre <em>set_time_timeout</em>. Parametro reikšmė - maksimalus laiko tarpas sekundėmis tarp atliktų veiksmų. Viršijus šį laiką (nespėjus išsaugoti naujo nustatyto laiko), nustatymai yra anuliuojami ir yra gražinamas senas laikas. Pats rankinis nustatymas atrodo taip:</p>
+<p>Laiką ir datą galima nustatyti ir per <strong>USART</strong> sąsają (9600 Boud, 8 bitų su 1 Stop bitu). USART sąsaja taip pat galima įjungti ir išjungti laikrodžio apšvietimą. USART meniu atrodo taip:</p>
+<p><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard01.jpg"><img alt="Clipboard01" class="aligncenter size-full wp-image-677" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard01.jpg" style="width: 677px; height: 374px;" /></a>USART sąsaja yra pritaikyta žmogui. T. y. nustatant laiką ar datą valdiklis gražiai paprašo įvesti valandas, minutes ir sekundes (metus, mėnesį dieną), pasitikslina ar norime įvestus duomenis išsaugoti ir tik tada atlieka realius pakeitimus. Apšvietimas komutuojamas irgi panašiai, tik čia iš naudotojo gavus darbo režimo nustatymą jis yra vykdomas iš karta, nieko daugiau neklausiant.</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;4&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard03.jpg"><img alt="Clipboard03" class="aligncenter size-full wp-image-679" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard03.jpg" style="width: 677px; height: 374px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;4&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard05.jpg"><img alt="Clipboard05" class="aligncenter size-full wp-image-680" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard05.jpg" style="width: 677px; height: 374px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;4&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard06.jpg"><img alt="Clipboard06" class="aligncenter size-full wp-image-681" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard06.jpg" style="width: 677px; height: 374px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+<p>Įdomu tai, kad prijungus <a class="reference external" href="http://paulius.bautrenas.lt/blog/?p=493">HC05 bluetooth moduliuką</a>, visi nustatymai yra puikiausiai pasiekiami iš Android telefono, naudojant &quot;BlueTerm&quot; programėlę:</p>
+<p><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7023.jpg"><img alt="IMG_7023" class="aligncenter size-large wp-image-675" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/IMG_7023-1024x768.jpg" style="width: 625px; height: 469px;" /></a></p>
+<p>Manau, daug kam kyla klausimas, kam iš vis tas valdymas per USART, jeigu yra valdymo mygtukai? Atsakymas yra dvigubas: pirmiausia, USART sąsają kūriau dėl sportinio intereso ir dėl galimybės <strong>automatiškai atnaujinti/sinchronizuoti laiką</strong>. Taip taip, mano laikrodį galima sinchronizuoti su PC laikrodžiu per USART. Tam pasiskolinau&nbsp;<a class="reference external" href="http://noahcoad.com/">Noah Coad</a> programos &quot;<a class="reference external" href="http://blogs.msmvps.com/coad/2005/03/23/serialport-rs-232-serial-com-port-in-c-net/">SerialPort Terminal</a>&quot; kodą ir jį šiek tiek patobulinau pagal savo poreikius.</p>
+<p><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard08.jpg"><img alt="Clipboard08" class="aligncenter size-full wp-image-683" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard08.jpg" style="width: 629px; height: 576px;" /></a></p>
+<p>Programoje pridėjau 3 mygtukus. Mygtukas &quot;About&quot; gražina laikrodžio techninę informaciją, o mygtukai &quot;SyncTime&quot; ir &quot;SyncDate&quot; atitinkamai sinchronizuoja flip-dot laikrodžio RTC su kompiuterio laikrodžiu (dėl lėto USART galima kelių sekundžių paklaida):</p>
+<div class="line-block">
+<div class="line">[row]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard12.jpg"><img alt="Clipboard12" class="aligncenter size-full wp-image-684" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard12.jpg" style="width: 629px; height: 546px;" /></a>[/column]</div>
+<div class="line">[column lg=&quot;6&quot; md=&quot;12&quot; sm=&quot;12&quot; xs=&quot;12&quot; ]</div>
+<div class="line"><a class="reference external image-reference" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard13.jpg"><img alt="Clipboard13" class="aligncenter size-full wp-image-685" src="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/Clipboard13.jpg" style="width: 629px; height: 546px;" /></a>[/column]</div>
+<div class="line">[/row]</div>
+</div>
+</div>
+<div class="section" id="atsisiutimai">
+<span id="download"></span><h2>Atsisiutimai</h2>
+<p>Valdiklio schemą, PCB rasite čia: <a class="reference external" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/flip-dot-controller-V2.rar">flip-dot_controller_V2.rar</a></p>
+<p>Valdiklio programinę įrangą ir patobulintą &quot;SerialPort Terminal&quot; versiją galite atsisiųsti iš čia: <a class="reference external" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/12/flip-dot_clock.zip">flip-dot_clock.zip</a></p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/elektromechanines-svieslentes.html">Elektromechaninės švieslentės (flip-dot display)</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

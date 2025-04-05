@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Elektromechaninės švieslentės (flip-dot display) - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/elektromechanines-svieslentes.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="atmega16,flip-disk,flip-dot,flipdot,FP2800A,Kreuger,Lawo,oscilograma" />
+        <meta name="description" content="Nors tai tikrai sena technologija, tačiau elektromechaninės (angl. flip-dot) švieslentės yra vis dar plačiai paplitusios. Jos naudojamos ten, kur reikia didelio informacijos perskaitomumo ir didelio apžvalgos kampo. Elektromechaninės švieslentės dažniausiai yra naudojamos traukinių ir autobusų stotyse, lauko stadionuose, oro uostuose ir viešajame transporte. Prieš porą metų, kelios tokios švieslentės pakliuvo …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Elektromechaninės švieslentės (flip-dot display)"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/elektromechanines-svieslentes.html"/>
+        <meta property="og:description" content="Nors tai tikrai sena technologija, tačiau elektromechaninės (angl. flip-dot) švieslentės yra vis dar plačiai paplitusios. Jos naudojamos ten, kur reikia didelio informacijos perskaitomumo ir didelio apžvalgos kampo. Elektromechaninės švieslentės dažniausiai yra naudojamos traukinių ir autobusų stotyse, lauko stadionuose, oro uostuose ir viešajame transporte. Prieš porą metų, kelios tokios švieslentės pakliuvo …"/>
+        <meta property="article:published_time" content="2014-12-30" />
+            <meta property="article:section" content="Elektronika" />
+            <meta property="article:tag" content="atmega16" />
+            <meta property="article:tag" content="flip-disk" />
+            <meta property="article:tag" content="flip-dot" />
+            <meta property="article:tag" content="flipdot" />
+            <meta property="article:tag" content="FP2800A" />
+            <meta property="article:tag" content="Kreuger" />
+            <meta property="article:tag" content="Lawo" />
+            <meta property="article:tag" content="oscilograma" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/elektronika.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Elektronika ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QZDGKTE256"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', G-QZDGKTE256);
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/elektromechanines-svieslentes.html"
+                       rel="bookmark"
+                       title="Permalink to Elektromechaninės švieslentės (flip-dot display)">
+                        Elektromechaninės švieslentės (flip-dot display)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-12-30T09:45:00+02:00"> an 30 gruodis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/atmega16.html">atmega16</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/flip-disk.html">flip-disk</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/flip-dot.html">flip-dot</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/flipdot.html">flipdot</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/fp2800a.html">FP2800A</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/kreuger.html">Kreuger</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/lawo.html">Lawo</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/oscilograma.html">oscilograma</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/flipdot_1.jpg"><img alt="flipdot_1" class="aligncenter size-medium wp-image-610" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/flipdot_1.jpg" style="width: 624px; height: 468px;" /></a></p>
+<p>Nors tai tikrai sena technologija, tačiau elektromechaninės (angl. flip-dot) švieslentės yra vis dar plačiai paplitusios. Jos naudojamos ten, kur reikia didelio informacijos perskaitomumo ir didelio apžvalgos kampo. Elektromechaninės švieslentės dažniausiai yra naudojamos traukinių ir autobusų stotyse, lauko stadionuose, oro uostuose ir viešajame transporte. Prieš porą metų, kelios tokios švieslentės pakliuvo man į rankas. Kadangi norėjau švieslentes panaudoti savo tikslams, nusprendžiau jas šiek tiek plačiau patyrinėti. Ypač domino jų valdymas ir &quot;vangių&quot; segmentų atsiradimo priežastys.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/flipdot_2.jpg"><img alt="flipdot_2" class="aligncenter size-large wp-image-580" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/flipdot_2.jpg" style="width: 625px; height: 168px;" /></a></p>
+<p>Viršuje pateikta kompanijos „LAWO Luminator Technology Group“ informacinės sistemos „Full-matrix System“ elektromechaninių švieslenčių, naudojamų Vilniaus miesto autobusuose, nuotrauka. „Full-matrix System“ švieslentės yra elektromechaninės. Kiekviena švieslentė turi papildomą liuminescencinį apšvietimą, naudojamą tamsiu paros metu. Kiekviena švieslentė yra sudaryta iš aibės individualių 10 – 15 mm skersmens aštuonkampių skydelių, kurių viena pusė yra nudažyta juodai, kita – geltonai.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/PICT0076.jpg"><img alt="image1" class="aligncenter size-large wp-image-582" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/PICT0076-1024x768.jpg" style="width: 625px; height: 468px;" /></a></p>
+<p>Kiekvieną skydelį valdo elektromagnetas, sudarytas iš U formos magnetolaidžio bei dviejų ričių. Elektromagnetas, priklausomai nuo valdymo signalo, atverčia arba geltonąją arba juodąją skydelio pusę. Išjungus valdymo signalą, dėl liekamojo elektromagneto magnetolaidžio įmagnetėjimo skydelis pasilieka fiksuotoje padėtyje.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/PICT0067.jpg"><img alt="image2" class="aligncenter size-large wp-image-581" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/PICT0067-1024x768.jpg" style="width: 625px; height: 468px;" /></a></p>
+<p>Tokiu būdu yra užtikrinamas vaizduojamo teksto įskaitomumas bei beveik 180º matymo kampas. Detalus švieslentės skydelių vartymo mechanizmų veikimas ir gamybos metodas yra aprašytas patente „<a class="reference external" href="http://www.freepatentsonline.com/20030041492.pdf">US 2003/0041492 A1 Small dot display element</a>“. Šaltinyje yra nurodyta, kad skydeliai ramybės būsenoje yra šiek tiek pasvirę. Pagal patentą, tai yra padaryta tam, kad būtų sumažintas sukimo monetas, reikalingas skydelio pervertimui. Iš principo, kuo mažesnis skydelio posvyrio kampas, tuo didesniu apžvalgos kampu skydelis yra matomas, tačiau tuo pačiu reikia sukurti stipresnį magnetinį lauką skydelio pervertimui.</p>
+<p>Švieslentės yra maitinamos nuolatine 24V ± 20% įtampa. Dėl konstrukcijos ypatybių lentos naudoja labai mažai elektros srovės: 360 – 560 mA skydelių pervertimo metu ir tik 60 – 200 mA „ramybės“ būsenoje. Lentų konstrukcija taip pat lemia ir tai, kad atvaizduojamas tekstas išlieka net ir išjungus maitinimą. Tiesa, elektromechaninė konstrukciją turi ir trūkumų: švieslentės skydeliai ilgainiui tampa „vangūs“, apsiverčia per lėtai arba neatsiverčia iš viso. Švieslentės yra jautrios mechaninėms šiukšlėms ir dulkėms. Be to, „pasyvūs“ švieslentės taškai reikalauja papildomo apšvietimo, kuris yra gana reiklus elektros srovei (0,5 – 5,5 A).</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/268118_10150228228661035_4800258_n.jpg"><img alt="268118_10150228228661035_4800258_n" class="aligncenter wp-image-609 size-full" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/268118_10150228228661035_4800258_n-e1419866057695.jpg" style="width: 719px; height: 331px;" /></a></p>
+<p>Vilniaus autobusuose taip pat yra naudojama kompanijos „Krueger Apparatebau GmbH &amp; Co.“ gaminama informacinė sistema. Šios kompanijos švieslenčių Vilniaus autobusuose yra įrengta nedaug, tačiau „Krueger“ sistema iš kitų sistemų išsiskiria savo mechanine konstrukcija. Ankščiau aprašytose švieslentėse skydelių vartymo mechanizmas pagal atitinkamą valdymo signalą perverčia visą skydelį (<cite>nuotrauka &lt;{static}/images/elektromechanines-svieslentes/PICT0076.jpg&gt;</cite>), tačiau „Kruger“ sistemoje yra verčiama tik viena skydelio „pusė“. T. y. „Krueger“ švieslentės tašką sudaro judanti skydelio dalis bei nejudanti, pusiau juodai ir geltonai nudažyta, plokštelė. Vartymo mechanizmą paveikus atitinkamu valdymo signalu, vartomoji skydelio dalis yra atverčiama geltonąja puse, kuri uždengia juodąją nejudančios plokštelės pusę, arba juodąja, kuri uždengia geltonąją stacionarios plokštelės pusę.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/PICT0096.jpg"><img alt="image3" class="aligncenter size-large wp-image-585" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/PICT0096-1024x768.jpg" style="width: 625px; height: 468px;" /></a></p>
+<p>Lyginant horizontaliai ir vertikaliai vartomų švieslenčių segmentus, kvadratinės konstrukcijos segmento matomas plotas yra bent 16 % didesnis jei apskrito, horizontaliai vartomo skydelio. Tokia skydelių konstrukcija užtikrina geresnį informacijos perskaitomumą ir didesnį švieslentės vaizduojamos informacijos atnaujinimo greitį. Taip pat vertikalios konstrukcijos segmentų elektromagneto konstrukcija yra daug paprastesnė: „Krueger“ sistemoje yra naudojamas įprastos konstrukcijos solenoidas su cilindrine feromagnetine šerdimi. Tokia konstrukcija yra ne tik paprastesnė, bet ir pigesnė, jos gamybai nėra keliami tokie griežti reikalavimai kaip U formos (naudojami „LAWO“ sistemoje) vartymo mechanizmams.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/PICT0110.jpg"><img alt="image4" class="aligncenter size-large wp-image-586" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/PICT0110-1024x768.jpg" style="width: 625px; height: 468px;" /></a></p>
+<div class="section" id="vangiu-skydeliu-nustatymas-ir-atsiradimo-priezastys">
+<h2><strong>&quot;Vangių&quot; skydelių nustatymas ir atsiradimo priežastys</strong></h2>
+<div class="vimeo" align="left"><iframe width="420" height="315" src="https://player.vimeo.com/video/38010951" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div><p>Kaip jau minėjau tekste, kartais kai kurie švieslentės skydeliai pasidaro &quot;vangūs&quot;, apsiverčia per lėtai arba neatsiverčia iš viso. Tai puikiai iliustruoja šis aukščiau patalpintas video (atsiprašau už kokybę). Video filmuke valdiklis paeiliui perverčia kiekvieną matricos skydelį į geltonąją pusę, po to - į juodąją. Manau tikrai turėtumėte pastebėti skydelius, kurie veikia kitaip nei visi. T. y. persiverčia atvirkščiai negu visi, persivertę nelieka nustatytoje padėtyje ir t. t. Vat tokių skydelių atsiradimo priežastį ir nusprendžiau patyrinėti šiek tiek giliau.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/lenta.jpg"><img alt="lenta" class="aligncenter size-large wp-image-590" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/lenta-1024x682.jpg" style="width: 625px; height: 416px;" /></a></p>
+<p>Tyrimui buvo pasirinkta „Full-matrix System“ informacinėje sistemoje naudojama šono skaitinė švieslentė, sudaryta iš 448 skydelių su vartymo mechanizmais (elektromagnetais). Vartymo mechanizmai yra elektriškai sujungti į matricą, sudarytą iš 16 eilučių ir 28 stulpelių. Šono skaitinėje lentoje yra sumontuoti 3 vartymo mechanizmų valdikliai FP2800A.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/lenta_2.jpg"><img alt="lenta_2" class="aligncenter size-large wp-image-591" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/lenta_2-1024x497.jpg" style="width: 625px; height: 303px;" /></a></p>
+<p>FP2800A – tai „iš 5 į 28“ tipo dešifratorius, atpažįstantis kodinę signalų jo įėjimuose kombinaciją ir sukuriantis signalą viename tą kodinę kombinaciją atitinkančiame išėjime [R. Kirvaitis. Loginės schemos]. Pagrindinė FP2800A ypatybė yra ta, kad dešifratoriaus išėjimai dirba „šaltinio imtuvo“ režimais&nbsp; (nuotrauka apačioje), t.&nbsp; y. dešifratorius pagal valdymo komandą gali tam tikrą išėjimą prijungti arba prie maitinimo šaltinio teigiamo poliaus arba prie neigiamo. Tai yra ypač svarbu elektromechaninių švieslenčių valdymui, nes elektros srovė per vartymo mechanizmo rites turi tekėti abejomis kryptimis.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/source-sink.jpg"><img alt="source-sink" class="aligncenter size-full wp-image-593" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/source-sink.jpg" style="width: 877px; height: 219px;" /></a>
+Kaip jau buvo minėta, švieslentės 16 x 24 skydelių matricą valdo 3 vartymo mechanizmų valdikliai FP2800A. Vienas iš jų yra skirtas matricos stulpelių valdymui (funkcinė schema virsuje), kiti du – eilučių valdymui. Kiekvienas iš šių valdiklių yra valdomas 7 linijų duomenų perdavimo magistrale, kuri pagrindiniame valdiklyje dažnai būna multipleksuojama. Mikrovaldiklis tinkamais laiko momentais privalo kiekvienam iš valdiklių nurodyti konkretų komutuojamo išėjimo adresą (5 adreso linijos) ir komutuojamo išėjimo poliariškumą (Data signalas). Be to, mikrovaldiklis turi generuoti Enable signalą, inicijuojantį adreso linijos dešifraciją, bei dekoduoto valdiklio išėjimo prijungimą arba prie maitinimo šaltinio teigiamo poliaus, arba prie neigiamo.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/rc.jpg"><img alt="rc" class="aligncenter wp-image-592" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/rc.jpg" style="width: 251px; height: 143px;" /></a></p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/pinout.png"><img alt="pinout" class="aligncenter size-medium wp-image-621" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/pinout-279x300.png" style="width: 279px; height: 300px;" /></a></p>
+<p>Valdikliai FP2800A gali komutuoti iki 370 mA srovę, todėl, norint apsaugoti skydelių vartymo mechanizmus bei pačius valdiklius, yra būtina riboti valdiklio išėjimų komutavimo intervalus. Tam gamintojas siūlo nesudėtingą schemą (nuotrauka viršuje), sudarytą iš kondensatoriaus C1 ir rezistoriaus R1. Gamintojo rekomenduotinos elementų parametrų vertės yra C1=0,22 μF ir R=22 kΩ , garantuojančios maksimalią 24 ms Enable signalo veikimo trukmę. Kadangi elektros srovė turi tekėti abejomis kryptimis per skydelių vartymo mechanizmų elektromagnetų rites, yra naudojami 2 atskiri lygiagrečiai sujungti valdikliai. Valdiklių apsaugai jų išėjimai yra atskirti diodais D1 ir D2 (nuotrauka viršuje, dešinėje).</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/timing.jpg"><img alt="timing" class="aligncenter size-full wp-image-594" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/timing.jpg" style="width: 908px; height: 380px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/apsauga.jpg"><img alt="apsauga" class="aligncenter size-full wp-image-588" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/apsauga.jpg" style="width: 541px; height: 236px;" /></a></p>
+<p>Norint detaliau ištirti švieslentės veikimą bei gauti norimas dinamines charakteristikas buvo nuspręsta sukurti eksperimentinį švieslentės valdiklį, kuris leistų valdyti švieslentės taškus pagal tiesiogines komandas, siunčiamas iš asmeninio kompiuterio. Vienas svarbiausių dalykų, kuriant eksperimentinį valdiklį, buvo sužinoti, kaip švieslentės taškai yra prijungti prie 3 vartymo mechanizmų valdiklių FP2800A. Tai buvo nustatyta rankiniu būdu, analizuojant švieslentės spausdintinę plokštę.&nbsp; Dešifratorių FP2800A ir flip-dot matricos jungimai yra pateikti lentelėje apačioje. Lentelėje panaudota eilučių ir stulpelių numeracija yra pažymėta pirmoje poskyrio nuotraukoje.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/desifratoriaus_jungimas.jpg"><img alt="desifratoriaus_jungimas" class="aligncenter size-large wp-image-589" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/desifratoriaus_jungimas-1024x288.jpg" style="width: 625px; height: 175px;" /></a></p>
+<p>Eksperimentiniame švieslentės valdiklyje buvo panaudotas mikrovaldiklis AtMEGA16, tiesiogiai, per lankstų 26 gyslų kabelį su IDC jungtimi, siunčiantis valdymo ir adreso signalų kombinacijas dešifratoriams FP2800A. Valdiklyje periferinių įrenginių ir asmeninio kompiuterio prijungimui buvo įprojektuotos USART ir I2C sąsajos. Taip pat numatyti keli papildomi mygtukai ir šviesos diodai, naudojami valdiklio veiksmų kontrolei ir indikacijai, bei IBIS duomenų perdavimo sąsaja, naudotina komunikacijai su įvairiais autobusuose naudojamų informacinių sistemų įrenginiais.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/flip-dot_controller.jpg"><img alt="flip-dot_controller" class="aligncenter size-full wp-image-596" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/flip-dot_controller.jpg" style="width: 848px; height: 576px;" /></a></p>
+<p>Daugiau informacijos apie valdiklį rasite mano <a class="reference external" href="https://github.com/pauliusbau/electronics-farm/tree/master/Flip-Dot%20Clock">GitHub'e</a></p>
+<p>Srovės matavimui buvo parinktas 1 Ω 17 W šunto rezistorius. Didelės vardinės galios rezistorius buvo parinktas tam, kad būtų galima išvengti šiluminių galios nuostolių dėl kurių šuntas fiziškai šyla. Dėl to keičiasi jo elektriniai parametrai, t. y. varža, kas darbo metu sukelia srovės matavimo paklaidas. Rezistoriaus vardinė 1 Ω varža leido tiksliai ir be papildomų matematinių veiksmų nustatyti, kokia srovė teką švieslentės grandine. Įtampos krytis šunto varžoje buvo matuojamas skaitmeniniu oscilografu Rigol DS1052E.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131656895.jpg"><img alt="134131656895" class="aligncenter size-full wp-image-599" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131656895.jpg" style="width: 780px; height: 309px;" /></a></p>
+<p>Tyrimo metu, eksperimentiniam valdikliui buvo sudaryta programa, paeiliui perverčianti visus 28-o stulpelio skydelius pirma į geltonąją pusę, po to – į juodąją. Bandymo buvo gauta srovės oscilograma, pateikta viršuje, kairėje.&nbsp; Iš jos matome, kad verčiant skydelius į geltonąją pusę (1 impulsų serija), srovė tekanti per skydelių elektromagnetų rites yra maždaug 100 mA mažesnė nei verčiant skydelius į juodąją pusę (2 impulsų serija). Tai galima paaiškinti tuo, kad skydelio vartymo mechanizmo elektromagneto magnetolaidis yra nesimetriškas. Vienas magnetolaidžio strypelis yra šiek tiek ilgesnis nei kitas. Dėl to, skydelio posvyrio kampas abiejose stacionariose padėtyse skiriasi. Pasak <a class="reference external" href="http://www.freepatentsonline.com/20030041492.pdf">patento</a>, kuo yra mažesnis skydelio posvyrio kampas, tuo reikia sukurti stipresnį magnetinį lauką skydelio pervertimui.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131672916.jpg"><img alt="134131672916" class="aligncenter size-full wp-image-602" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131672916.jpg" style="width: 775px; height: 503px;" /></a></p>
+<p>Galima pastebėti, kad verčiant 28-ojo stulpelio pirmąjį skydelį, per elektromagnetą tekanti srovė yra mažesnė (pažymėta raudona rodykle) nei verčiant kitus to paties stulpelio segmentus. Ši tendencija kartojasi ir individualiai vartant tik šį segmentą. Iš oscilogramos (28;1) matome, kad srovė tekanti per segmento (28;1) elektromagneto ritę yra vienoda verčiant skydelį ir į vieną pusę, ir į kitą. Taip būti neturėtų, nes korektiškai veikiančių segmentų vertimo srovės skiriasi. Apačioje yra pateikta segmento (3;4) oscilograma, patvirtinanti prieš tai suformuotą teiginį.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131656919.jpg"><img alt="134131656919" class="aligncenter size-full wp-image-600" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131656919.jpg" style="width: 788px; height: 315px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131656944.jpg"><img alt="134131656944" class="aligncenter size-full wp-image-601" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131656944.jpg" style="width: 404px; height: 309px;" /></a></p>
+<p>Paveiksle, pateiktame viršuje, dešinėje, yra atvaizduota srovės, tekančios per segmento su išimtu feromagnetiniu skydeliu vartymo mechanizmo elektromagnetą, oscilograma. Iš tiesų (28;1) ir (1;3) segmentų oscilogramos yra labai panašios, tik šiek tiek skiriasi amplitudinės vertės, todėl galima teigti, kad&nbsp; segmento (28;1) skydelis yra sugadintas. Iš tikro, tai matosi net plika akimi. Skydelis yra vangus, persiverčia daug lėčiau nei visi kiti. Taip pat jis tvirtai nesilaiko stacionarioje pozicijoje, ir persiverčia, verčiant kaimyninius skydelius, pav. (27;1) ar (28;2).</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131656861.jpg"><img alt="134131656861" class="aligncenter size-full wp-image-598" src="https://paulius.bautrenas.lt/images/elektromechanines-svieslentes/134131656861.jpg" style="width: 774px; height: 237px;" /></a></p>
+<p>Su specialia magnetinius polius parodančia <a class="reference external" href="http://www.directindustry.com/prod/magnet-physik/magnetic-field-sensors-11843-778655.html">kortele</a> buvo nustatyta, kad segmento (28;1) skydelis yra nekorektiškai permagnetintas. Paveiksle viršuje yra pateiktas gerai įmagnetinto skydelio (segmentas (3;4)) brėžinys, šalia – neteisingai permagnetinto. Iš paveikslų matome, kad gerai veikiantis skydelis yra įmagnetintas horizontalia kryptimi, o vangus skydelis – vertikalia.</p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
