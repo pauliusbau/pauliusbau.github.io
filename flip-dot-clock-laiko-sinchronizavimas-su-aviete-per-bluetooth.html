@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Flip-Dot Clock laiko sinchronizavimas su Aviete per Bluetooth - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="bluetooth,clock,date,flip-dot,Python,python serial,RaspberriPi,regexp,RPI,synch,synchronization,time" />
+        <meta name="description" content="Persukdamas savo elektromechaninį laikrodį į vasaros laiką, pastebėjau, kad laikrodis skuba daugiau nei viena minute. Kadangi laikrodis surinktas kreivai - šleivai, gali būti, kad RTC veikimą įtakoja kokia nors elektromagnetinė interferencija ar pan. Per daug į tai gilintis patingėjau, nes prisiminiau, kad prie laikrodžio kaip tyčia yra prijungtas HC05 BlueTooth moduliukas …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Flip-Dot Clock laiko sinchronizavimas su Aviete per Bluetooth"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth.html"/>
+        <meta property="og:description" content="Persukdamas savo elektromechaninį laikrodį į vasaros laiką, pastebėjau, kad laikrodis skuba daugiau nei viena minute. Kadangi laikrodis surinktas kreivai - šleivai, gali būti, kad RTC veikimą įtakoja kokia nors elektromagnetinė interferencija ar pan. Per daug į tai gilintis patingėjau, nes prisiminiau, kad prie laikrodžio kaip tyčia yra prijungtas HC05 BlueTooth moduliukas …"/>
+        <meta property="article:published_time" content="2015-04-29" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="bluetooth" />
+            <meta property="article:tag" content="clock" />
+            <meta property="article:tag" content="date" />
+            <meta property="article:tag" content="flip-dot" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="python serial" />
+            <meta property="article:tag" content="RaspberriPi" />
+            <meta property="article:tag" content="regexp" />
+            <meta property="article:tag" content="RPI" />
+            <meta property="article:tag" content="synch" />
+            <meta property="article:tag" content="synchronization" />
+            <meta property="article:tag" content="time" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth.html"
+                       rel="bookmark"
+                       title="Permalink to Flip-Dot Clock laiko sinchronizavimas su Aviete per Bluetooth">
+                        Flip-Dot Clock laiko sinchronizavimas su Aviete per Bluetooth
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-04-29T14:20:00+03:00"> tr 29 balandis 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/bluetooth.html">bluetooth</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/clock.html">clock</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/date.html">date</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/flip-dot.html">flip-dot</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/python.html">Python</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/python-serial.html">python serial</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/raspberripi.html">RaspberriPi</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/regexp.html">regexp</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/rpi.html">RPI</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/synch.html">synch</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/synchronization.html">synchronization</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/time.html">time</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/flip-dot-clock-synch.png"><img alt="flip-dot clock synch" class="aligncenter size-full wp-image-752" src="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/flip-dot-clock-synch.png" style="width: 571px; height: 264px;" /></a></p>
+<p>Persukdamas savo <a class="reference external" href="flip-dot-clock">elektromechaninį laikrodį</a> į vasaros laiką, pastebėjau, kad laikrodis skuba daugiau nei viena minute. Kadangi laikrodis surinktas kreivai - šleivai, gali būti, kad RTC veikimą įtakoja kokia nors elektromagnetinė interferencija ar pan. Per daug į tai gilintis patingėjau, nes prisiminiau, kad prie laikrodžio kaip tyčia yra prijungtas&nbsp;<a class="reference external" href="http://paulius.bautrenas.lt/blog/?p=493">HC05 BlueTooth moduliukas</a>, kuris leidžia laikrodžio laiką atnaujinti nuotoliu būdu, o tai yra puiki galimybė laiko neatitikimą nuo realybės išspręsti reguliaria laiko sinchronizacija su RPI, kuri savo ruožtu laiką gauna iš NTP serverio.</p>
+<div class="section" id="pasiruosimas">
+<h2>Pasiruošimas</h2>
+<p>Įkišam USB Bluetooth adapterį į RPI ir terminale įvykdome šias komandas:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>bluetooth<span class="w"> </span>bluez-utils<span class="w"> </span>blueman
+</pre></div>
+<p>Įvykdytos komandos sudiegs visą bendravimui su bluetooth adapteriu reikalingą programinę įrangą. Norint įsitikinti, kad bluetooth modulis susidiegė teisingai, galima įvykdyti šią komandą:</p>
+<div class="highlight"><pre><span></span>hciconfig
+</pre></div>
+<p>Turėtume pamatyti kažką panašaus į:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/hciconfig.png"><img alt="hciconfig" class="aligncenter size-full wp-image-764" src="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/hciconfig.png" style="width: 621px; height: 111px;" /></a></p>
+<p>Įsitikinti, ar bluetooth veikia galima ir taip:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>/etc/init.d/bluetooth<span class="w"> </span>status
+</pre></div>
+<p>Beje, tokiu pat būdu, iškilus poreikiui, galima sustabdyti, paleisti ir perkrauti bluetooth komunikatorių. Tam komandoje žodį &quot;<em>status</em>&quot;, atitinkamai, reiktų keisti &quot;s<em>tart&quot;</em>, &quot;<em>stop&quot;</em>, &quot;<em>restart&quot;</em>&nbsp;ar &quot;<em>force-reload</em>&quot;.</p>
+<p>Jeigu bluetooth modulis veikia tvarkingai, galima susirasti aplinkinius įrenginius su komanda:</p>
+<div class="highlight"><pre><span></span>hcitool<span class="w"> </span>scan
+</pre></div>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/hcitool_scan.png"><img alt="hcitool_scan" class="aligncenter size-full wp-image-766" src="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/hcitool_scan.png" style="width: 474px; height: 82px;" /></a></p>
+<p>Įrenginių sąraše turėtų matytis mus dominantis įrenginys. Norint su juo bendrauti, bluetooth įrenginius reikia suporuoti (angl. <em>pair</em>) su komanda:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>bluez-simple-agent<span class="w"> </span>hci0<span class="w"> </span>xx:xx:xx:xx:xx:xx
+</pre></div>
+<p>Savaime suprantama, vietoje <em>xx:xx:xx:xx:xx:xx</em>&nbsp;reiktų nurodyti savo pasirinkto bluetooth įrenginio MAC adresą. Įvykdžius komandą bei teisingai įvedus įrenginio slaptažodį (PIN kodą), įrenginiai turėtų susiporuoti ir būti pasiruošę tiesioginiam bendravimui. Norint su įrenginiu bendrauti nuosekliuoju protokolu (USART), reikia suderinti&nbsp;RFCOMM protokolo nustatymus:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/bluetooth/rfcomm.conf
+</pre></div>
+<p>Faile reikia paredaguoti šias eilutes, įrašant į atitinkamą vietą savo pasirinkto bluetooth įrenginio MAC adresą:</p>
+<div class="highlight"><pre><span></span>rfcomm1<span class="w"> </span><span class="o">{</span>
+<span class="w">   </span><span class="nb">bind</span><span class="w"> </span>yes<span class="p">;</span>
+<span class="w">   </span>device<span class="w"> </span>xx:xx:xx:xx:xx:xx<span class="p">;</span>
+<span class="w">   </span>channel<span class="w"> </span><span class="m">1</span><span class="p">;</span>
+<span class="w">   </span>comment<span class="w"> </span><span class="s2">&quot;Connection to Bluetooth serial module&quot;</span><span class="p">;</span>
+<span class="o">}</span>
+</pre></div>
+<p>Išsaugojus failą, įvykdome komandą, kuri sukurs virtualų nuoseklųjį prievadą (angl. <em>serial port</em>) <strong>/dev/rfcomm1</strong>, per kurį bus galima bendrauti su pasirinktu įrenginiu, mano atveju su <a class="reference external" href="flip-dot-clock">flip-dot laikrodžiu</a>:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>rfcomm<span class="w"> </span><span class="nb">bind</span><span class="w"> </span>all
+</pre></div>
+<p>Pasiruošimas kaip ir baigtas, liko tik susidiegti <a class="reference external" href="https://github.com/pyserial/pyserial">pySerial</a> biblioteką, kuri leis siųsti ir priimti duomenis nuosekliuoju prievadu.</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python-serial
+</pre></div>
+</div>
+<div class="section" id="python-skriptas">
+<h2>Python skriptas</h2>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/flip-dot_synch.png"><img alt="flip-dot_synch" class="aligncenter size-large wp-image-754" src="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/flip-dot_synch-1024x426.png" style="width: 625px; height: 260px;" /></a></p>
+<p>Po ilgų išieškojimų gavosi štai toks nepadoriai ilgas python skriptas (veikimo diagrama viršuje), kurio naujausią versiją rasite <a class="reference external" href="https://github.com/pauliusbau/raspberrypi-mayhem/tree/master/RPI-bluetoothTimeSynch">mano GitHub saugykloje</a>!</p>
+<p>Skirptas gavosi toks ilgas todėl, kad jis <a class="reference external" href="flip-dot-clock">laikrodžio</a> laiką ir datą atnaujina ne aklai, tačiau tik tada, kai to reikia, t. y. kai laikrodžio laikas nesutampa su RPI laiku per&nbsp;<em>max_seconds_diff = 20</em> sekundžių. Tam teko realizuoti aibę visokių papildomų patikrinimų ir apsaugų nuo timeout'ų ir blogo suveikimo. Taip pat skripte realizavau ir logo rašymą į failą <em>flip-dot_synch.log</em>, kuris&nbsp;labai praverčia skriptą leidžiant cron priemonėmis:</p>
+<div class="highlight"><pre><span></span><span class="m">30</span><span class="w"> </span><span class="m">2</span>,4<span class="w"> </span><span class="se">\*</span><span class="w"> </span><span class="se">\*</span><span class="w"> </span><span class="se">\*</span><span class="w"> </span>sudo<span class="w"> </span>python<span class="w"> </span>/home/python/flip-dot_synch.py<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+<p>Beje, sukurtus logus terminale patogu skaityti su komanda &quot;tail&quot;:</p>
+<div class="highlight"><pre><span></span>tail<span class="w"> </span>/home/python/flip-dot_synch.log
+</pre></div>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/flipdot_synch_log.png"><img alt="flipdot_synch_log" class="aligncenter size-full wp-image-773" src="https://paulius.bautrenas.lt/images/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth/flipdot_synch_log.png" style="width: 675px; height: 408px;" /></a></p>
+</div>
+<div class="section" id="naudinga-literatura">
+<h2>Naudinga literatūra:</h2>
+<ul class="simple">
+<li><a class="reference external" href="http://www.uugear.com/portfolio/bluetooth-communication-between-raspberry-pi-and-arduino/">http://www.uugear.com/portfolio/bluetooth-communication-between-raspberry-pi-and-arduino/</a></li>
+<li><a class="reference external" href="http://www.modmypi.com/blog/installing-the-raspberry-pi-nano-bluetooth-dongle">http://www.modmypi.com/blog/installing-the-raspberry-pi-nano-bluetooth-dongle</a></li>
+<li><a class="reference external" href="http://blog.davidvassallo.me/2014/05/11/android-linux-raspberry-pi-bluetooth-communication/">http://blog.davidvassallo.me/2014/05/11/android-linux-raspberry-pi-bluetooth-communication/</a></li>
+<li><a class="reference external" href="http://stackoverflow.com/questions/19908167/reading-serial-data-in-realtime-in-python">http://stackoverflow.com/questions/19908167/reading-serial-data-in-realtime-in-python</a></li>
+<li><a class="reference external" href="http://www.roman10.net/serial-port-communication-in-python/#comments">http://www.roman10.net/serial-port-communication-in-python/#comments</a></li>
+<li><a class="reference external" href="http://www.regexr.com">http://www.regexr.com</a></li>
+<li><a class="reference external" href="https://regex101.com/#python">https://regex101.com/#python</a></li>
+</ul>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
