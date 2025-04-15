@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>LEDCtrl - LED juostos valdiklis - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/ledctrl-led-juostos-valdiklis.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="Atmega,ATMega8,Atmel,LDR,LDR PI,LED,LED strip,PI,PIR,PWM" />
+        <meta name="description" content="LEDCtrl - tai stipriai &#34;perprojektuotas&#34; (angl. overengineered)  LED juostos valdiklis, aprūpintas PIR ir LDR jutikliais, 2x8 LCD ir rotoriniu enkoderiu, skirtas valdyti palėpės laiptų apšvietimą. Idėja susikonstruoti šį daiktą kilo gan seniai, po to kai naktį dėdė sugebėjo nusiristi nuo palėpės laiptų, nes tiesiog pamiršo, kad palėpės laiptai yra gan statūs …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="LEDCtrl - LED juostos valdiklis"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/ledctrl-led-juostos-valdiklis.html"/>
+        <meta property="og:description" content="LEDCtrl - tai stipriai &#34;perprojektuotas&#34; (angl. overengineered)  LED juostos valdiklis, aprūpintas PIR ir LDR jutikliais, 2x8 LCD ir rotoriniu enkoderiu, skirtas valdyti palėpės laiptų apšvietimą. Idėja susikonstruoti šį daiktą kilo gan seniai, po to kai naktį dėdė sugebėjo nusiristi nuo palėpės laiptų, nes tiesiog pamiršo, kad palėpės laiptai yra gan statūs …"/>
+        <meta property="article:published_time" content="2014-08-22" />
+            <meta property="article:section" content="Elektronika" />
+            <meta property="article:tag" content="Atmega" />
+            <meta property="article:tag" content="ATMega8" />
+            <meta property="article:tag" content="Atmel" />
+            <meta property="article:tag" content="LDR" />
+            <meta property="article:tag" content="LDR PI" />
+            <meta property="article:tag" content="LED" />
+            <meta property="article:tag" content="LED strip" />
+            <meta property="article:tag" content="PI" />
+            <meta property="article:tag" content="PIR" />
+            <meta property="article:tag" content="PWM" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/elektronika.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Elektronika ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/ledctrl-led-juostos-valdiklis.html"
+                       rel="bookmark"
+                       title="Permalink to LEDCtrl - LED juostos valdiklis">
+                        LEDCtrl - LED juostos valdiklis
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-08-22T08:00:00+03:00"> pn 22 rugpjūtis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/atmega.html">Atmega</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/atmega8.html">ATMega8</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/atmel.html">Atmel</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/ldr.html">LDR</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/ldr-pi.html">LDR PI</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/led.html">LED</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/led-strip.html">LED strip</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/pi.html">PI</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/pir.html">PIR</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/pwm.html">PWM</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6399.jpg"><img alt="IMG_6399" class="aligncenter wp-image-229 size-medium" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6399-800x600.jpg" style="width: 625px; height: 469px;" /></a></p>
+<p>LEDCtrl - tai stipriai&nbsp;&quot;perprojektuotas&quot; (angl.&nbsp;<em>overengineered</em>) &nbsp;LED juostos valdiklis, aprūpintas PIR ir LDR jutikliais, 2x8 LCD ir rotoriniu enkoderiu, skirtas valdyti palėpės laiptų apšvietimą. Idėja susikonstruoti šį daiktą kilo gan seniai, po to kai naktį dėdė sugebėjo nusiristi nuo palėpės laiptų, nes tiesiog pamiršo, kad palėpės laiptai yra gan statūs (beveik kaip kopėčios). Norėdamas apsaugoti save ir artimuosius nuo panašių nutikimų, nusprendžiau palėpės laiptų angą apšviesti pigia LED juosta, maitinama iš 12V maitblokio. Sprendimas buvo vykęs, tačiau naktį erzino gan ryškus parazitinis palėpės kambario apšvietimas, trukdantis miegoti. Bandžiau problemą spręsti po ranka pasitaikiusiu LM317. Viskas buvo kaip ir gerai, tačiau norėjosi kažkokio mandresnio, ne taip kaistančio, sprendimo, leidžiančio dinamiškai keisti LED juostos šviesos stiprį. Taip pat norėjau kažkokio interaktyvumo. Taip ir kilo idėja susikonstruoti valdiklį, kuris LED juostą įjungtų (ar sustiprintų LED šviesos srautą) tik tada kai to reikia, t. y. tik tada kai kas nors lipa laiptais ar eina jų link.</p>
+<div class="section" id="schema-ir-pcb">
+<h2>&nbsp;Schema ir PCB</h2>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/LEDCtrl_schema1.png"><img alt="LEDCtrl_schema" class="aligncenter size-large wp-image-244" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/LEDCtrl_schema1-827x1024.png" style="width: 625px; height: 773px;" /></a></p>
+<p>Schema idiotiškai paprasta. Atmega8 su standartiniu apkabinimu. Standartinis 2x8 LCD, kurio kontrastas sureguliuotas 100R ir 10K varžiniu dalikliu, o pašvietimas valdomas lauktranziu Q2 (gal tik reikėjo pašvietimo grandinėje nuosekliai kokį srovę ribojantį rezistorių įmontuoti..). Kadangi valdiklis yra pritaikytas IPM (angl. <em>PWM</em>)&nbsp;valdyti standartines kiniškas 12V LED juostas, todėl schemoje yra ir 7805 reguliatorisu su atitinkamu apkabinimu.</p>
+<p>Vartotojo sąsaja realizuota rotoriniu enkoderiu su mygtuku, pirktu iš ebay. Enkoderį pasirinkau grynai iš smalsumo, nes buvo baisiai įdomu su juo pasižaisti. Be to buvo labai nusibodę paprasti mygtukai.</p>
+<p>Schemoje įprojektuoti 3 šviesos diodai LED1–LED3 skirti &quot;debuginimui&quot;, kurie baigtame projekte tiesiog gražiai mirksi ir jokios naudos neduoda. Taip pat nepamiršau į schemoje įdėti ir AVR ISP bei USART jungčių. Pastaroji irgi labiau skirta &quot;debuginimui&quot;, nes visa naudotojo sąsaja yra realizuota per LCD ekranėlį ir rotorinį enkoderį.</p>
+<p>Kadangi pigios kiniškos LED juostos (pirkau iš ebay) dažniausiai būna su integruotais srovę ribojančiais rezistoriais, valdiklis juostą valdo paprasčiausiu IPM (angl. <em>PWM</em>) per lauko tranzistorių Q1.</p>
+<p>Aplinkos apšviestumo lygis fiksuojamas paprasčiausiu LDR - &nbsp;12K-100K fotorezistoriumi. Iš jo ir rezistoriaus R12 yra sudarytas varžinis daliklis, kurio išėjimas patenka tiesiai į atmegos ADC.</p>
+<p>Judesius fiksuoja ultra pigus PIR modulis. Apie panašius PIR modulius galit pasiskaityti <a class="reference external" href="https://learn.adafruit.com/pir-passive-infrared-proximity-motion-sensor">Adafruit Learn sistemoje</a>. Linkas iš ties pravartus, nes <a class="reference external" href="https://learn.adafruit.com/pir-passive-infrared-proximity-motion-sensor/testing-a-pir">ten</a> yra aprašyti skirtingi PIR veikimo režimai ir būdai pakeisti PIR išėjimo signalo parametrus. Verta iš kart įspėti, net potenciometru &quot;Time&quot; nureguliavus PIR signalo periodo trukmę iki minimumo, ji vis tiek yra labai ilga. Gal kokiai signalizacijai tai ir gerai, bet ne mano atveju. Man norėjosi trumpų PIR signalo periodų, todėl PIR modulio išėjimą prie INT0 prijungiau per RC high pass filtrą su maždaug 2 ms laiko konstanta. Kad įrašas atrodytų rimčiau, štai jums PIR signalo prieš filtą (geltona kreivė) ir po filtro (žalia kreivė) oscilograma:</p>
+<p><img alt="NewFile2" class="aligncenter size-full wp-image-284" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/NewFile2.jpg" style="width: 469px; height: 343px;" /></p>
+<p>PCB projektavau nenumatęs jokio konkretaus korpuso (žioplas sprendimas!), todėl stengiausi ją padaryti kuo mažesnę, visas jungtis išvesti į vieną kraštą, palikti pakankamai vietos rotorinio enkoderio rankenėlei. Tiesa pasakius, pirminiame variante buvau privėlęs žioplų klaidų (sumaišiau LCD maitinimo VEE ir VDD išvadus, nepalikau pakankamai vietos tarp 12V maitinimo jungčių, kiek per vėlai sugalvojau PIR prijungti per RC filtrą ir pan.), tačiau prie projekto <a class="reference external" href="https://github.com/pauliusbau/electronics-farm/tree/master/staircase_lamp">Github'e</a> šios klaidos yra ištaisytos.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/LRDCtrl_PCB.png"><img alt="LRDCtrl_PCB" class="aligncenter size-large wp-image-237" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/LRDCtrl_PCB-1024x550.png" style="width: 625px; height: 335px;" /></a></p>
+<p>Tiesa, verta paminėti, kad schemoje nėra&nbsp;apsaugos nuo atvirkštinio maitinimo prijungimo (angl. reverse poliarity protection), srovės ribojimo ir apsaugos nuo trumpo jungimo grandžių. Šį &quot;kliurką&quot; pastebėjau, tik montuodamas valdiklį į korpusą. Jei ketinat darytis šio valdiklio kopiją, būtinai pagalvokit apie minėtas apsaugas.</p>
+</div>
+<div class="section" id="surinkimas">
+<h2>Surinkimas</h2>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_5338.jpg"><img alt="IMG_5338" class="aligncenter wp-image-278 size-full" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_5338.jpg" style="width: 636px; height: 475px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_5334.jpg"><img alt="IMG_5334" class="aligncenter wp-image-280 size-full" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_5334.jpg" style="width: 636px; height: 475px;" /></a></p>
+<p>Kaip ir minėjau, PCB tikrai paprasta, todėl ją sulituoti nebuvo sunku. Gal tik kiek teko pavargi bandant ištaisyti žioplą LCD maitinimo klaidą (laidų raizgalynė&nbsp;PCB dešiniajame kampe). Svarbiausia, kad viskas veikė. Ne iš pirmo karto, bet veikė.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_5345.jpg"><img alt="IMG_5345" class="aligncenter size-large wp-image-274" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_5345-764x1024.jpg" style="width: 522px; height: 699px;" /></a></p>
+<p>Visas smagumas prasidėjo, kai pagaliau prisiruošiau sumontuoti valdiklį į plastikinę dėžutę / korpusą. Norėjau, kad daugiau nebereikėtų niekada lįsti į valdiklio vidų, todėl nusprendžiau išvesti AVR ISP ir USART jungtis į lauką. Tam tiesiai prie PCB prilitavau IDC tipo kabelį su DB9 jungtimi. Aišku, nei vienam nei kitam IDC kabelio galui nepagailėjau karštų klijų. :D Taip pat nusprendžiau tiesiai prie PCB prilituoti ir PIR jutiklio išvadus, todėl laidų gavosi neplanuotai&nbsp;daug..</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_5437.jpg"><img alt="IMG_5437" class="aligncenter size-large wp-image-267" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_5437-764x1024.jpg" style="width: 522px; height: 699px;" /></a></p>
+<p>Nusprendžiau PCB korpuso viduje tvirtinti 3 mm varžais, o tarp korpuso ir PCB sudėti 8 mm plastikines tarpines (tie juodi vamzdeliai nuotraukoje apačioje). Juos sukišti į savo vietas buvo gan keblu, bet su stomatologo įrankiais tai pavyko atlikti gan greitai. :) Taip pat montuojant šiek tiek kreivokai išgręžiau varžtų tvirtinimo skyles, todėl jas pridengiau raudono kartono poveržlėmis.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6143.jpg"><img alt="IMG_6143" class="aligncenter size-full wp-image-258" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6143.jpg" style="width: 636px; height: 475px;" /></a></p>
+<p>Nors viduje gavosi tikra laidų raizgalynė, iš išorės valdiklis gavosi gan gražus. Kaip rusai sako: &quot;сойдёт для сельской местности!&quot;.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6399.jpg"><img alt="image1" class="aligncenter size-large wp-image-229" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6399-1024x768.jpg" style="width: 625px; height: 468px;" /></a></p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6401.jpg"><img alt="IMG_6401" class="aligncenter size-full wp-image-252" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6401.jpg" style="width: 636px; height: 475px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6402.jpg"><img alt="IMG_6402" class="aligncenter size-full wp-image-251" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6402.jpg" style="width: 636px; height: 475px;" /></a></p>
+</div>
+<div class="section" id="softas">
+<h2>Softas</h2>
+<p>Va čia tai sudėtingiausiai projekto dalis, todėl kad valdiklio programoje yra realizuoti 4 darbo režimai ir 3 lygių naudotojo&nbsp;meniu. Praktiškai visi valdiklio nustatymai yra keičiami per naudotojo meniu, todėl programos kodas gavosi tikrai sudėtingas ir ilgas. Prie to dar prisidėjo tai, kad programą rašiau praktiškai metus su nereguliariomis pertraukomis, iš kurių ilgiausia buvo beveik 6 mėn. Programuojantys puikai žino, kad net padarius kelių dienų pertrauką būna sunku vėl &quot;įsijaust į kodą&quot;, o dar po ilgesnės pertraukos iš vis pasidaro sunku galus sugaudyti. Kodo tvarkingumui tikrai nepadėjo ir tai, kad ūpui pakelti dažnai nevengiau buteliuko alaus ar viskio šlakelio. :D Na bet yra kaip yra. Gal vienas kitas bugas ir liko, bet daiktas veikia, atlieka savo funkcijas ir nelūžta.</p>
+<p>Pačio kodo komentuoti neketinu, nes nieko ten nėra ypatingo. Tiesiog ilga switch–case if– else if–else spageti makalynė su šiokiais tokiais komentarais ir viskas. Kam reikės, tas jau (tikriausiai tik aš pats kada nors ateityje) atsirinks. Gal tik verta paminėti kelis atmega8 hardware išnaudojimo sprendimus:</p>
+<ul class="simple">
+<li><strong>INT0</strong> - Pertrauktis apdoroja PIR jutiklį.</li>
+<li><strong>INT1</strong> - Pertrauktis skirta darbui su rotoriniu enkoderiu. Naudojama vaikščiojimui per naudotojo meniu bei parametrų verčių keitimui tiek confige tiek ir esant tam tikriems darbo režimams.</li>
+<li><strong>TIMER0</strong> - TIMER0_OVF_vect pertrauktis atlieka ADC matavimus, kur reikia sušeria gautas reikšmes ir kai kuriuose darbo režimuose atnaujina LCD rodomą informaciją.&nbsp;Kodėl nepanaudojau ADC pertraukties? Nežinau. T. y. nebeatsimenu, nes ADC nuskaitymą užkūriau vieną ir pirmųjų&nbsp;:D Rodos dėl to, kad ADC pertrauktis stabdė kitų procesų darbą.</li>
+<li><strong>TIMER1</strong> - TIMER1_COMPA_vect pertrauktis naudojama kaip laikrodis, skaičiuojantis sekundėmis. Pastarosios naudojamos atgaliniam skaičiavimui tarp darbo režimų persijungimo ir LCD pašvietimo trumpam įjungimui.</li>
+<li><strong>TIMER2</strong> - Laikmatis naudojamas tik impulso pločio moduliacijai (angl. <em>PWM</em>).</li>
+<li><strong>USART</strong> - Sukonfigūruota ant 9600 Boud, 8 bitų su 1 Stop bitu. Skirta grynai debuginimui.</li>
+<li><strong>EEPROM</strong> - visi konfigūraciniai parametrai, prieinami naudotojui per meniu, yra saugomi EEPROM'e. Tam, kad pirmą kartą užprogramuotas valdiklis nepradėtų grybauti, kode yra aprašyta funkcija&nbsp;<em>first_time_boot()</em>, kuri valdikliui startavus pirmą kartą į EEPROM surašo pagrindinių parametrų vertes.</li>
+</ul>
+<p>Beje, visą valdiklio projektą, kartu su programos kodu, galite rasti straipsnio apačioje, <a class="reference external" href="#download">atsisiuntimuose</a>. ;)</p>
+</div>
+<div class="section" id="darbo-rezimai">
+<h2>Darbo režimai</h2>
+<p>Kaip minėjau, valdiklyje yra realizuoti 4 darbo režimai. Trumpai apie juos:</p>
+<ul class="simple">
+<li><strong>ON/OFF</strong> - LED juosta arba visiškai išjungta, arba nuolat šviečia pasirinktu stiprumu. Šviesos intensyvumas reguliuojamas darbo metu rotoriniu enkroderiu ir nustatyta vertė iškart išsaugoma EEPROM'e.</li>
+<li><strong>PIR/LDR</strong> - Valdiklis nuolat tikriną ar kambario apšviestumas nenukrito žemiau nustatytos&nbsp;vertės (parametras <em>LDRth</em>). Užfiksavus, kad kambario apšviestumas yra nebepakankamas, yra įjungiama PIR pertrauktis. Suveikus PIR jutikliui, valdiklis švelniai sustiprina LED šviesos intensyvumą nuo naudotojo nustatytos reikšmės&nbsp;<em>PWMmin</em> iki&nbsp;<em>PWMmax&nbsp;*(žr. poskyrį &quot;`Naudotojo meniu &lt;#menu&gt;`__&quot;). Tai atlikęs mikrovaldiklis laukia nustatytą laiko&nbsp;intervalą&nbsp;*TimeOut</em> ir LED juostos šviesos stiprį švelniai sumažina nuo&nbsp;PWMmax iki&nbsp;<em>PWMmin.
+*Atgalinio *TimeOut&nbsp;*skaičiavimo metu PIR pertrauktis gali suveikti iš naujo tik jeigu LDR jutiklio rodmenys nepakilo aukščiau nuostato&nbsp;*LDRth</em>. Tada laikas pradedamas skaičiuoti iš naujo. Jei&nbsp;LDR jutiklio rodmenys staiga pakilo aukščiau&nbsp;nuostato <em>LDRth</em>, pav. užlipom laiptais ir įjungėm kambario apšvietimą, PIR pertrauktis yra išjungiama ir PIR signalas yra tiesiog ignoruojamas.</li>
+<li><strong>PIR</strong> - Veikimo principas yra analogiškas &quot;PIR/LDR&quot; darbo režimui, tik čia nėra atsižvelgiama į fotorezistoriaus rodmenis. T. y. tiesiog, pirmą kartą PIR užfiksavus judesį, valdiklis&nbsp;velniai sustiprina LED šviesos intensyvumą nuo naudotojo nustatytos reikšmės <em>PWMmin</em> iki <em>PWMmax&nbsp;*(kai tai veikia galite pamatyti skirsnyje &quot;Rezultatai&quot;). Tai atlikęs mikrovaldiklis laukia nustatytą laiko intervalą *TimeOut</em> ir LED juostos šviesos stiprį švelniai sumažina nuo <em>PWMmax</em> iki <em>PWMmin</em>.&nbsp;Atgalinio <em>TimeOut</em> skaičiavimo metu PIR pertrauktis gali suveikti iš naujo.&nbsp;Tada laikas pradedamas skaičiuoti iš naujo.</li>
+<li><strong>LDR</strong> - Tai savotiškas PI tipo LED juostos šviesos stiprio reguliatorius. Šiame darbo režime fotorezitoriaus vertė yra matuojama 8 kartus ir išvedamas vidurkis (I reguliatoriaus grandis). Po to ši vertė proporcingai (P reguliatoriaus grandis) yra perskaičiuojama ir &quot;sušeriama&quot; į&nbsp;OCR2 registrą. Reguliatoriaus proporcinis koeficientas yra reguliuojamas tiesiai iš naudotojo meniu, darbo režimo metu&nbsp;(žr. poskyrį &quot;<a class="reference external" href="#menu">Naudotojo meniu</a>&quot;).
+Iš principo yra galimi du skirtingi šiuo darbo režimo variantai: &quot;atvirkštinis&quot; ir &quot;tiesioginis&quot; LED juostos šviesos stiprio reguliavimas. &quot;Atvirkštinis&quot; reguliavimas LED juostos šviesos intensyvumą mažina vis labiau, kuo patalpa yra labiau apšviesta. &quot;Tiesioginis&quot; reguliavimas -&nbsp;LED juostos šviesos intensyvumą&nbsp;didina vis labiau,&nbsp;kuo patalpa yra labiau apšviesta. Kokiu režimu reguliatorius veikia yra nustatome konfigūracijos meniu punkte&nbsp;<em>LDRinv&nbsp;*(žr. poskyrį *&quot;Naudotojo meniu&quot;</em>).*&nbsp;*</li>
+</ul>
+</div>
+<div class="section" id="naudotojo-meniu">
+<span id="menu"></span><h2>Naudotojo meniu</h2>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/menu1.jpg"><img alt="menu" class="aligncenter size-large wp-image-313" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/menu1-1024x785.jpg" style="width: 625px; height: 479px;" /></a></p>
+<p>Vat ant tiek naudotojo sąsaja yra&nbsp;komplikuota. :D Taip, ant tiek komplikuota, kad nenufotografavęs beveik kiekvieno LCD rodomo puslapio (pamiršau vieną :( ) ir &quot;nesuphotoshopinęs&quot; visko į vieną paveikslą, net nesugebėčiau nieko paaiškinti. Na tai pradedam...</p>
+<div class="section" id="statusas">
+<h3><strong>Statusas</strong></h3>
+<p>Tai LCD puslapiai, kurie yra rodomi esant konkrečiam darbo režimui. T. y. kai jau iš pirmo nustatymo meniu lygio buvo išsirinktas konkretus darbo režimas. Kiekvienas darbo režimo statuso puslapis yra šiek tiek skirtingas.</p>
+<ul class="simple">
+<li><strong>ON/OFF</strong> režimo metu yra indikuojama, kad LED juosta yra išjungta (&quot;OFF&quot;) arba, kokiu ryškumu (procentais) ji šviečia.</li>
+<li>Esant <strong>PIR</strong> darbo režimui, LCD ekrane atvaizduojamas <em>TimeOut</em> laikas.</li>
+<li><strong>PIR/LDR</strong> režimo metu - pirmiausia, kol fotorezitoriaus rodmenys (nuotraukoje &quot;R55&quot;, kur 55 - tai esame LDR reikšmė procentais), nenukrito žemiau <em>LDRth</em> nuostato (nuotraukoje &quot;T20&quot;, kur 20 - nuostato vertė), rodomas vienas puslapis. Kai &nbsp;fotorezitoriaus rodmenys nukrenta žemiau&nbsp;LDRth nuostato yra persijungiama į PIR darbo režimo puslapį.</li>
+<li><strong>LDR</strong> darbo režimo metu, pirmoje LCD eilutėje yra rodoma reali LDR&nbsp;reikšmė procentais. Antroje LCD eilutėje yra rodomas PI reguliatoriaus proporcinis&nbsp;koeficientas (nuotraukoje &quot;K&quot;), šalia jo, tai kas patenka į OCR2 registrą procentais, to reikia, kad būtų galima stebėti&nbsp;koeficiento &quot;K&quot; įtaką PI reguliatoriaus darbui.</li>
+</ul>
+</div>
+<div class="section" id="as-meniu-lygis">
+<h3><strong>1-as meniu lygis</strong></h3>
+<p>Esant bet kokiam darbo režimui, du kartus paspaudus rotorinio enkoderio mygtuką, naudotojas yra permetamas į nustatymų meniu. Tiksliau, į pirmąjį jo lygį, kuriame galima pasirinkti pageidaujamą darbo režimą, pereiti į konfigūracijos meniu &quot;Config&quot; arba sugrįžti į darbo statuso langą (t. y. išeiti iš meniu).</p>
+<p>Pasirinkus vieną iš darbo režimų, yra papildomai paklausiame, ar tikrai norimą jį įjungti. Jei pasirenkama reikšmė &quot;ON&quot;, darbo režimas yra tuoj pat įjungimas, o vartotojas yra nuvedamas į darbo režimo statuso langą. Jei pasirenkama &quot;OFF&quot; - naudotojas yra gražinamas į pirmąjį menių lygį.</p>
+<p>Pasirinkus menių punktą &quot;CONFIG&quot; yra pereinama į konfigūracinį menių.</p>
+</div>
+<div class="section" id="as-meniu-lygis-2">
+<span id="as-meniu-lygis-1"></span><h3><strong>2-as meniu lygis</strong></h3>
+<p>Čia yra keičiami valdiklio nustatymai, apie kuriuos šiek tiek užsiminiau skirsnyje &quot;Darbo režimai&quot;. Funkcija &quot;EXIT&quot; naudotoją gražina į prieš tai buvusį meniu lygį, o pasirinkus vieną iš keistinų parametrų yra pereinama į 3-iąjį meniu.</p>
+<p>**&nbsp;3-čiasis meniu lygis**</p>
+<ul class="simple">
+<li><strong>MinPWM</strong> - procentais keičiamas minimalus LED juostos šviesos stipris. Realybėje 0% atitinka OCR2=0x00, o 100$ - OCR2=0x255. Arba, dar paprasčiau: 0% - 0V, 100% - 12V.</li>
+<li><strong>MaxPWM</strong> - analogiškai procentais keičiamas ir maksimalus LED juostos šviesos stiprio nustatymas.</li>
+<li><strong>TimeOut</strong> - laiko intervalas sekundėmis, kurį mikrovaldiklis PIR ir PIR/LDR darbo režimuose laukia prieš sumažindamas LED juostos šviesos stiprį nuo <em>PWMmax</em> iki <em>PWMmin</em>.</li>
+<li><strong>LDRth</strong> - keičiamas minimalus kambario apšviestumo lygis, prie kurio PIR/LDR darbo režimas turėtų įjungti PIR pertrauktį. LCD puslapyje yra rodomas tiek realus, iš LDR gaunamas, apšviestumo lygis procentais (nuotraukoje &quot;R56&quot;), tiek ir nustatomo <em>LDRth</em> parametro vertė (nuotraukoje &quot;T20&quot;) procentais.</li>
+<li><strong>LDRinv</strong> - Galimybė &quot;invertuoti&quot; analoginio skaitmeniniu keitiklio (realiai LDR jutiklio) rodmenis. Kai <em>LDRinv</em>=0, duomenys nėra invertuojami. <em>LDRinv</em>=1 - invertuoja duomenis. Tiek realūs <em>R</em>, tiek invertuoti duomenys&nbsp;<em>I</em> yra vienu metu atvaizduojami šiame LCD puslapyje.</li>
+<li><strong>ADCgain</strong> - analoginio skaitmeninio keitiklio stiprinimo koeficiento nustatymo langas.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="rezultatai">
+<span id="results"></span><h2>Rezultatai</h2>
+<p>Štai taip atrodo mano palėpes laiptų apšvietimas. Pirmoje nuotraukoje LED juosta šviečia silpniausiu pajėgumu, antroje - didžiausiu.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6426.jpg"><img alt="IMG_6426" class="aligncenter size-full wp-image-241" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6426.jpg" style="width: 636px; height: 475px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6431.jpg"><img alt="IMG_6431" class="aligncenter size-full wp-image-240" src="https://paulius.bautrenas.lt/images/ledctrl-led-juostos-valdiklis/IMG_6431.jpg" style="width: 636px; height: 475px;" /></a></p>
+<p>O čia keli filmukai, kai veikia valdiklis. Filmavimo metu buvo įjungtas darbo režimas &quot;PIR/LDR&quot;.</p>
+<div class="vimeo" align="left"><iframe width="420" height="315" src="https://player.vimeo.com/video/103897326" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div><div class="vimeo" align="left"><iframe width="420" height="315" src="https://player.vimeo.com/video/103897327" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div><div class="vimeo" align="left"><iframe width="420" height="315" src="https://player.vimeo.com/video/103897328" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div></div>
+<div class="section" id="atsisiutimai">
+<span id="download"></span><h2>Atsisiutimai</h2>
+<p>Valdiklio schemą, PCB ir programinę įrangą rasite&nbsp;<a class="reference external" href="https://github.com/pauliusbau/electronics-farm/tree/master/staircase_lamp">Github'e</a></p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
