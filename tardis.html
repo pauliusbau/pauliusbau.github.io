@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>TARDIS modeliuko modifikacija - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/tardis.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="Atmel,attiny85,AVR,Doctor Who,TARDIS,Tardis light,tardis pulsing LED" />
+        <meta name="description" content="Esu didelis Doctor Who gerbėjas. Nesu toks pamišęs, kaip &#34;tikrieji&#34; Whovian&#39;ai, kurie mintinai moka visus dialogus, atsimena senąsias serialo serijas, žino aktorių biografijas ir pan., bet net ir man ilgą laiką norėjosi turėti nors kokios Doctor Who atributikos. Iš ebay pirkti buvo brangu, o Lietuvoje serialų atributikos net su …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="TARDIS modeliuko modifikacija"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/tardis.html"/>
+        <meta property="og:description" content="Esu didelis Doctor Who gerbėjas. Nesu toks pamišęs, kaip &#34;tikrieji&#34; Whovian&#39;ai, kurie mintinai moka visus dialogus, atsimena senąsias serialo serijas, žino aktorių biografijas ir pan., bet net ir man ilgą laiką norėjosi turėti nors kokios Doctor Who atributikos. Iš ebay pirkti buvo brangu, o Lietuvoje serialų atributikos net su …"/>
+        <meta property="article:published_time" content="2015-07-01" />
+            <meta property="article:section" content="Elektronika" />
+            <meta property="article:tag" content="Atmel" />
+            <meta property="article:tag" content="attiny85" />
+            <meta property="article:tag" content="AVR" />
+            <meta property="article:tag" content="Doctor Who" />
+            <meta property="article:tag" content="TARDIS" />
+            <meta property="article:tag" content="Tardis light" />
+            <meta property="article:tag" content="tardis pulsing LED" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/elektronika.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Elektronika ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/tardis.html"
+                       rel="bookmark"
+                       title="Permalink to TARDIS modeliuko modifikacija">
+                        TARDIS modeliuko modifikacija
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-07-01T14:01:00+03:00"> tr 01 liepa 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/atmel.html">Atmel</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/attiny85.html">attiny85</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/avr.html">AVR</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/doctor-who.html">Doctor Who</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/tardis.html">TARDIS</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/tardis-light.html">Tardis light</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/tardis-pulsing-led.html">tardis pulsing LED</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/tardis/IMG_8793.jpg"><img alt="IMG_8793" class="aligncenter wp-image-799 size-medium" src="https://paulius.bautrenas.lt/images/tardis/IMG_8793-625.jpg" style="width: 625px; height: 469px;" /></a></p>
+<p>Esu didelis <a class="reference external" href="https://en.wikipedia.org/wiki/Doctor_Who">Doctor Who</a> gerbėjas. Nesu toks pamišęs, kaip &quot;tikrieji&quot; <a class="reference external" href="http://www.urbandictionary.com/define.php?term=Whovian">Whovian</a>'ai, kurie mintinai moka visus dialogus, atsimena senąsias serialo serijas, žino aktorių biografijas ir pan., bet net ir man ilgą laiką norėjosi turėti nors kokios Doctor Who atributikos. Iš ebay pirkti buvo brangu, o Lietuvoje serialų atributikos net su žiburiu nesurasi, todėl ilgą laiką taip ir gyvenau svajodamas apie kokį nors menkniekį. 2014 m. pabaigoje svečiavausi Stoholme, kur visai netikėtai ir tuo labiau visai neplanuotai vienoje komiksų parduotuvėje užtikau Doctor Who kampelį. Tą kart spjoviau į visus suvalkietiško kraujo nuogąstavimus ir įsigijau TARDIS ir Dalek'o modeliukus. Dalek'u likau labai patenkintas, o vat TARDIS mano įgeidžių šiek tiek netenkino. Nors modelio kosmetinė išvaizda ir pagaminimo kokybė yra tiesiog ideali, tačiau TARDIS lemputę galima tik įjungti/išjungti, t. y. arba ji šviečia, arba ne, o ne pulsuoja, kaip turėtų. Na bet tai lengvai pataisoma..</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/tardis/IMG_8791.jpg"><img alt="IMG_8791" class="aligncenter size-medium wp-image-798" src="https://paulius.bautrenas.lt/images/tardis/IMG_8791-300x225.jpg" style="width: 300px; height: 225px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/tardis/IMG_8797.jpg"><img alt="IMG_8797" class="aligncenter size-medium wp-image-800" src="https://paulius.bautrenas.lt/images/tardis/IMG_8797-300x225.jpg" style="width: 300px; height: 225px;" /></a></p>
+<p>Kaip matyti iš nuotraukų viršuje, TARDIS modeliuko viduje nieko neįprasto: baltas šviesos diodas, CR1632 baterija ir jungiklis. Savaime supranta, norint kad šviesos diodas pulsuotų, reikia kažką papildomai prikonstruoti. Paprasčiausias variantas butų surinkti schemą su 555, kaip yra aprašyta <a class="reference external" href="http://www.cemetech.net/forum/viewtopic.php?p=191885&amp;sid=e581d9f744a9f2a438d9f4dd85d0c3e7#191885">čia</a>, tačiau man norėjosi kažko įmantresnio. Nenorėjau, kad TARDIS lemputė pulsuotų visą laiką. Norėjau, kad įjungus maitinimą, TARDIS lemputė &quot;papulsuotų&quot; kelis kartus ir išsijungtų, o stuktelėjus TARDIS, lemputė vėl pradėtų pulsuoti. Taip gimė elementari schema su ATTiny85 (tokį turėjau):</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/tardis/tardis.png"><img alt="tardis" class="aligncenter size-full wp-image-810" src="https://paulius.bautrenas.lt/images/tardis/tardis.png" style="width: 998px; height: 379px;" /></a></p>
+<p>Schemoje panaudotas vibracijos jutiklis &quot;SW-18020P&quot;, kurių tuziną už 1 eurą pirkau iš AliExpress. Jutiklio sandara yra pavaizduota nuotraukose apačioje. Jutiklis yra prijungtas prie mikrovaldiklio pertraukties INT0 išvado PB2.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/tardis/IMG_8802.jpg"><img alt="IMG_8802" class="aligncenter size-medium wp-image-801" src="https://paulius.bautrenas.lt/images/tardis/IMG_8802-300x225.jpg" style="width: 300px; height: 225px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/tardis/IMG_8804.jpg"><img alt="IMG_8804" class="aligncenter size-medium wp-image-802" src="https://paulius.bautrenas.lt/images/tardis/IMG_8804-225x300.jpg" style="width: 225px; height: 300px;" /></a></p>
+<p>Schemą surinkau ant &quot;oro&quot; ir ant karštų klijų. Dėl viso pikto nusprendžiau palikti prilituotą ISP jungtį. Šis sprendimas išties pasiteisino, nes viską surinkus, teko mikrovaldiklio kodą dar šiek tiek patobulinti.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/tardis/IMG_8808.jpg"><img alt="IMG_8808" class="aligncenter size-medium wp-image-803" src="https://paulius.bautrenas.lt/images/tardis/IMG_8808-300x225.jpg" style="width: 300px; height: 225px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/tardis/IMG_8811.jpg"><img alt="IMG_8811" class="aligncenter size-medium wp-image-804" src="https://paulius.bautrenas.lt/images/tardis/IMG_8811-300x225.jpg" style="width: 300px; height: 225px;" /></a></p>
+<p>Mikrovaldiklio programa gavosi irgi gan paprasta. Mikrovaldiklis, vos tik gavęs maitinimą, <em>tardis_count = 3</em> kartus sužybsi šviesos diodu ir nueina į Power-down energijos taupymo režimą, kurio metu valgo tik ~0,1 μA srovės. Suveikus vibracijos jutikliui, mikrovaldiklis pabunda ir vėl nurodytą skaičių kartų sužybsi šviesos diodu. Po to ima vėl užmiega. Kodas gavosi štai toks:</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;avr/io.h&gt;</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;util/delay.h&gt;</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;avr/interrupt.h&gt;</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;avr/pgmspace.h&gt;</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;avr/sleep.h&gt;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="cp">#define F_CPU 8000000UL</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">tardis</span><span class="p">[]</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">43</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">94</span><span class="p">,</span><span class="mi">109</span><span class="p">,</span><span class="mi">124</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">154</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">182</span><span class="p">,</span><span class="mi">195</span><span class="p">,</span><span class="mi">208</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mi">229</span><span class="p">,</span><span class="mi">237</span><span class="p">,</span><span class="mi">244</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">253</span><span class="p">,</span><span class="mi">255</span><span class="p">};</span>
+<span class="linenos">11</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">tardis_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">fade_in</span><span class="p">(){</span>
+<span class="linenos">14</span><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tardis</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tardis</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="linenos">15</span><span class="w">     </span><span class="n">_delay_ms</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+<span class="linenos">16</span><span class="w">     </span><span class="n">OCR0B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tardis</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="linenos">17</span><span class="w">     </span><span class="p">}</span>
+<span class="linenos">18</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">fade_out</span><span class="p">(){</span>
+<span class="linenos">21</span><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tardis</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tardis</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="mi">-1</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">){</span>
+<span class="linenos">22</span><span class="w">     </span><span class="n">OCR0B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tardis</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="linenos">23</span><span class="w">     </span><span class="n">_delay_ms</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+<span class="linenos">24</span><span class="w">     </span><span class="p">}</span>
+<span class="linenos">25</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">tardis_light</span><span class="p">(){</span>
+<span class="linenos">28</span><span class="w">     </span><span class="k">for</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">tardis_count</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="linenos">29</span><span class="w">        </span><span class="n">fade_in</span><span class="p">();</span>
+<span class="linenos">30</span><span class="w">        </span><span class="n">_delay_ms</span><span class="p">(</span><span class="mi">250</span><span class="p">);</span>
+<span class="linenos">31</span><span class="w">        </span><span class="n">fade_out</span><span class="p">();</span>
+<span class="linenos">32</span><span class="w">        </span><span class="n">_delay_ms</span><span class="p">(</span><span class="mi">250</span><span class="p">);</span>
+<span class="linenos">33</span><span class="w">     </span><span class="p">}</span>
+<span class="linenos">34</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">go_to_sleep</span><span class="p">(){</span>
+<span class="linenos">37</span><span class="w">     </span><span class="n">cli</span><span class="p">();</span>
+<span class="linenos">38</span><span class="w">     </span><span class="n">set_sleep_mode</span><span class="p">(</span><span class="n">SLEEP_MODE_PWR_DOWN</span><span class="p">);</span>
+<span class="linenos">39</span><span class="w">     </span><span class="n">sleep_enable</span><span class="p">();</span>
+<span class="linenos">40</span><span class="w">     </span><span class="n">sei</span><span class="p">();</span>
+<span class="linenos">41</span><span class="w">     </span><span class="n">sleep_cpu</span><span class="p">();</span>
+<span class="linenos">42</span><span class="w">     </span><span class="n">sleep_disable</span><span class="p">();</span>
+<span class="linenos">43</span><span class="w">     </span><span class="c1">//sei();</span>
+<span class="linenos">44</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span>
+<span class="linenos">47</span><span class="w">  </span><span class="n">ISR</span><span class="p">(</span><span class="n">INT0_vect</span><span class="p">){</span>
+<span class="linenos">48</span><span class="w">     </span><span class="n">cli</span><span class="p">();</span>
+<span class="linenos">49</span><span class="w">     </span><span class="n">tardis_light</span><span class="p">();</span>
+<span class="linenos">50</span><span class="w">     </span><span class="n">sei</span><span class="p">();</span>
+<span class="linenos">51</span><span class="w">     </span><span class="n">_delay_ms</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="linenos">52</span><span class="w">     </span><span class="n">go_to_sleep</span><span class="p">();</span>
+<span class="linenos">53</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">54</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">main</span><span class="p">(){</span>
+<span class="linenos">57</span>
+<span class="linenos">58</span><span class="w">     </span><span class="c1">//Status LED</span>
+<span class="linenos">59</span><span class="w">     </span><span class="n">DDRB</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PB4</span><span class="p">);</span>
+<span class="linenos">60</span><span class="w">     </span><span class="n">PORTB</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="n">_BV</span><span class="p">(</span><span class="n">PB4</span><span class="p">);</span>
+<span class="linenos">61</span>
+<span class="linenos">62</span><span class="w">     </span><span class="c1">//Main LED</span>
+<span class="linenos">63</span><span class="w">     </span><span class="n">DDRB</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PB1</span><span class="p">);</span><span class="w">  </span><span class="c1">// make OC0B PWM output pin</span>
+<span class="linenos">64</span>
+<span class="linenos">65</span><span class="w">     </span><span class="c1">//PWM</span>
+<span class="linenos">66</span><span class="w">     </span><span class="n">TCCR0A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">COM0B1</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">WGM00</span><span class="p">);</span><span class="w">  </span><span class="c1">// mode #1</span>
+<span class="linenos">67</span><span class="w">     </span><span class="n">TCCR0B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">CS00</span><span class="p">);</span><span class="w">  </span><span class="c1">// clkI/O/(No prescaling)</span>
+<span class="linenos">68</span>
+<span class="linenos">69</span><span class="w">     </span><span class="c1">//INT0 enable:</span>
+<span class="linenos">70</span><span class="w">     </span><span class="n">MCUCR</span><span class="o">&amp;=~</span><span class="p">(</span><span class="n">_BV</span><span class="p">(</span><span class="n">ISC01</span><span class="p">))</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="n">_BV</span><span class="p">(</span><span class="n">ISC00</span><span class="p">));</span>
+<span class="linenos">71</span><span class="w">     </span><span class="n">GIMSK</span><span class="o">|=</span><span class="n">_BV</span><span class="p">(</span><span class="n">INT0</span><span class="p">);</span>
+<span class="linenos">72</span>
+<span class="linenos">73</span><span class="w">     </span><span class="c1">//PB2 as input for INT0</span>
+<span class="linenos">74</span><span class="w">     </span><span class="n">DDRB</span><span class="w"> </span><span class="o">&amp;=~</span><span class="n">_BV</span><span class="p">(</span><span class="n">PB2</span><span class="p">);</span>
+<span class="linenos">75</span><span class="w">     </span><span class="n">PORTB</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">PB2</span><span class="p">);</span>
+<span class="linenos">76</span>
+<span class="linenos">77</span><span class="w">     </span><span class="n">sei</span><span class="p">();</span>
+<span class="linenos">78</span>
+<span class="linenos">79</span><span class="w">     </span><span class="c1">//Disable ADC, saves ~230uA</span>
+<span class="linenos">80</span><span class="w">     </span><span class="n">ADCSRA</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">ADEN</span><span class="p">);</span>
+<span class="linenos">81</span>
+<span class="linenos">82</span><span class="w">     </span><span class="n">tardis_light</span><span class="p">();</span>
+<span class="linenos">83</span><span class="w">     </span><span class="n">go_to_sleep</span><span class="p">();</span>
+<span class="linenos">84</span>
+<span class="linenos">85</span><span class="w">     </span><span class="k">while</span><span class="p">(</span><span class="mi">5</span><span class="p">){}</span>
+<span class="linenos">86</span><span class="w">  </span><span class="p">}</span>
+</pre></div>
+<p>Viso šito reikalo rezultatas gavosi štai toks:</p>
+<div class="vimeo" align="left"><iframe width="420" height="315" src="https://player.vimeo.com/video/132202537" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div><p>Elektrinę principinę schemą eagle formatu bei AVR Studio 4 projekto failus rasite mano <a class="reference external" href="https://github.com/pauliusbau/electronics-farm/tree/master/TARDIS">GitHub'e</a>.</p>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/ledctrl-led-juostos-valdiklis.html">LEDCtrl - LED juostos valdiklis</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
