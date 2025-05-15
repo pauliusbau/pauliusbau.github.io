@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Avietė: DHT22 -> MySQL - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/aviete-dht22-mysql.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="Adafruit DHT,Adafruit_DHT,AM2303,avietė,cron,DHT22,gcc,logging,MySQL,Python,RaspberriPi,recompile,RPI" />
+        <meta name="description" content="Viena pagrindinių priežasčių, kodėl aš iš viso pirkau RaspberryPi, buvo noras pagaliau prisiversti susidraugauti su linuxu ir kažkiek pramokti python, php, mysql, java, js, ir visokius kitokius šiandien aktualius velnius. Programuoti vien dėl programavimo yra tuščias laiko gaišimas, todėl iš karto reikia daryti kažką naudingo, o ne rašinėti visokius &#34;hello …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Avietė: DHT22 -&gt; MySQL"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/aviete-dht22-mysql.html"/>
+        <meta property="og:description" content="Viena pagrindinių priežasčių, kodėl aš iš viso pirkau RaspberryPi, buvo noras pagaliau prisiversti susidraugauti su linuxu ir kažkiek pramokti python, php, mysql, java, js, ir visokius kitokius šiandien aktualius velnius. Programuoti vien dėl programavimo yra tuščias laiko gaišimas, todėl iš karto reikia daryti kažką naudingo, o ne rašinėti visokius &#34;hello …"/>
+        <meta property="article:published_time" content="2014-11-14" />
+            <meta property="article:section" content="Elektronika" />
+            <meta property="article:tag" content="Adafruit DHT" />
+            <meta property="article:tag" content="Adafruit_DHT" />
+            <meta property="article:tag" content="AM2303" />
+            <meta property="article:tag" content="avietė" />
+            <meta property="article:tag" content="cron" />
+            <meta property="article:tag" content="DHT22" />
+            <meta property="article:tag" content="gcc" />
+            <meta property="article:tag" content="logging" />
+            <meta property="article:tag" content="MySQL" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="RaspberriPi" />
+            <meta property="article:tag" content="recompile" />
+            <meta property="article:tag" content="RPI" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/elektronika.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Elektronika ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/aviete-dht22-mysql.html"
+                       rel="bookmark"
+                       title="Permalink to Avietė: DHT22 -> MySQL">
+                        Avietė: DHT22 -&gt; MySQL
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-11-14T12:35:00+02:00"> pn 14 lapkritis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/adafruit-dht.html">Adafruit DHT</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/adafruit_dht.html">Adafruit_DHT</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/am2303.html">AM2303</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/aviete.html">avietė</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/cron.html">cron</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/dht22.html">DHT22</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/gcc.html">gcc</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/logging.html">logging</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/mysql.html">MySQL</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/python.html">Python</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/raspberripi.html">RaspberriPi</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/recompile.html">recompile</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/rpi.html">RPI</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/IMG_7148.jpg"><img alt="IMG_7148" class="aligncenter size-medium wp-image-515" src="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/IMG_7148-625x468.jpg" style="width: 625px; height: 468px;" /></a></p>
+<p>Viena pagrindinių priežasčių, kodėl aš iš viso pirkau RaspberryPi, buvo noras pagaliau prisiversti susidraugauti su linuxu ir kažkiek pramokti python, php, mysql, java, js, ir visokius kitokius šiandien aktualius velnius. Programuoti vien dėl programavimo yra tuščias laiko gaišimas, todėl iš karto reikia daryti kažką naudingo, o ne rašinėti visokius &quot;hello world&quot;. Vos tik nusipirkęs RPI,&nbsp;nusprendžiau pasidaryti kelių zonų termometrą&nbsp;su istorinių duomenų atvaizdavimo galimybe. Tam, kad spyris į užpakalį kažką daryti būtų kuo stipresnis, nusprendžiau viską programuoti pats. Sukurpiau tokį pradinį planą: Cron jobas kas 5 min. paleidžiai Python scriptą, kuris kelis kartus nuskaito DHT22 jutiklio duomenis, juos suvidurkina ir surašo į MySQL DB.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22.jpg"><img alt="dht22" class="aligncenter size-full wp-image-521" src="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22.jpg" style="width: 250px; height: 250px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22-temperature-and-humidty-sensor-circuitry-wiring.jpg"><img alt="dht22 temperature and humidty sensor circuitry wiring" class="aligncenter size-medium wp-image-522" src="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22-temperature-and-humidty-sensor-circuitry-wiring-207x300.jpg" style="width: 207px; height: 300px;" /></a></p>
+<p>Kaip jau supratot, pasirinkau <a class="reference external" href="http://www.adafruit.com/datasheets/DHT22.pdf">DHT22</a> oro temperatūros ir drėgmės jutiklius. Juos pasirinkau dėl pakankamai mažos kainos (~4$ perkant iš <a class="reference external" href="http://www.aliexpress.com/item/1pcs-DHT22-digital-temperature-and-humidity-sensor-Temperature-and-humidity-module-AM2302-replace-SHT11-SHT15-Free/1956275791.html">AliExpress</a>), paprasto prijungimo (1-wire) ir, žinoma, dėl to, kad jau yra sukurta DHT22 duomenų nuskaitymo RPI biblioteka. Prie RPI DHT22 jutiklius prijungiau pagal viršuje dešinėje&nbsp;pateiktą schemą. Projekte naudoju du DHT22 jutiklius, &nbsp;todėl dėl naudojamos&nbsp;DHT22 duomenų nuskaitymo bibliotekos apribojimų, jutiklius teko prijungti prie atskirtų RPI portų. Vieną iš jutiklių prijungiau prie GPIO19, kitą prie GPIO19. Iš principo, kur juos prijungti, skirtumo nėra. Man šie portai tiesiog buvo fiziškai patogiausi.</p>
+<p>Atėjo laikas susidiegti DHT22 nuskaitymo biblioteką. Tam konsolėje įvykdome šią komandą:</p>
+<div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git
+</pre></div>
+<p>Po to, jau kaip ir galime nuskaityti duomenis:</p>
+<div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/home/Adafruit-Raspberry-Pi-Python-Code/Adafruit_DHT_Driver
+sudo<span class="w"> </span>./Adafruit_DHT<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">19</span>
+</pre></div>
+<p>Adafruit_DHT driveris priima du nustatymus: jutiklio versiją (DHT11 ar DHT22) ir porto numerį, prie kurio jutiklis yra prijungtas. Kadangi bandau nuskaityti duomenis iš DHT22 jutiklio, prijungto prie GPIO19 posto, Adafruit_DHT driveriui padaviau šiuos nustatymus: &quot;<em>22 19</em>&quot;. Rezultatas štai toks:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22_s.jpg"><img alt="dht22_s" class="aligncenter size-full wp-image-526" src="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22_s.jpg" style="width: 276px; height: 50px;" /></a></p>
+<p>DHT22 yra gan užsispyręs jutiklis, todėl Adafruit_DHT biblioteka ne visuomet sugeba iš jo nuskaityti duomenis. Jei biblioteka negrąžina temperatūros ir santykinės oro drėgmės reikšmių, į jutiklį reikia kreiptis dar bartą. Liuda, bet bent kartą iš penkių jutiklis tikrai negražins mus dominančių duomenų:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22_f.jpg"><img alt="dht22_f" class="aligncenter size-full wp-image-525" src="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22_f.jpg" style="width: 269px; height: 31px;" /></a></p>
+<p><a class="reference external" href="http://sharedmemorydump.net/post/2013-10-16-improvements-to-collection-of-sensor-data">Benaršydamas internete</a>, radau, kad Adrafuit_DHT driveris potencialiai gali &quot;pakabinti&quot; visą sistemą. Potenciali bėda slypi šiame nekaltame driverio kodo gabaliukyje, kuris gali netyčia pereiti į amžiną ciklą:</p>
+<div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">bcm2835_gpio_lev</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">usleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<p><a class="reference external" href="http://www.anginf.de/?p=286">Protingi žmonės</a>&nbsp;siūlo šią potencialią klaidą taisyti taip:</p>
+<div class="highlight"><pre><span></span><span class="c1">// wait for pin to drop?</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">safety</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">max_wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">bcm2835_gpio_lev</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="c1">// if no answer, quit</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">safety</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">max_wait</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;}</span>
+<span class="w">   </span><span class="n">usleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">   </span><span class="n">safety</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>Pasiklioviau patarimu ir perkompiliavau Adafruit_DHT driverį. Tiesa, teko kiek pavargti, nes norint perkompiliuoti Adafruit_DHT.c, reikėjo pirma atsisiųsti&nbsp;BCM2835 biblioteką, ją susikompiliuoti ir susidiegti. Taip padariau taip (pagal <a class="reference external" href="http://www.anginf.de/?p=286">šį pavyzdį</a>):</p>
+<div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>work/bcm2835
+<span class="nb">cd</span><span class="w"> </span>work/bcm2835
+wget<span class="w"> </span>http://www.open.com.au/mikem/bcm2835/bcm2835-1.36.tar.gz
+tar<span class="w"> </span>xvfz<span class="w"> </span>bcm2835-1.36.tar.gz
+<span class="nb">cd</span><span class="w"> </span>./bcm2835-1.36
+./configure
+make
+sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+<p>Patį Adafruit_DHT.c perkompiliavau (žinoma, prieš tai atnaujinęs C kodo gabaliuką) su šia komanda:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>gcc<span class="w"> </span>Adafruit_DHT.c<span class="w"> </span>-l<span class="w"> </span>bcm2835<span class="w"> </span>-std<span class="o">=</span>gnu99<span class="w"> </span>-o<span class="w"> </span>Adafruit_DHT
+</pre></div>
+<p>Na ką, atnaujintas driveris kaip ir veikia. Reikia pasiruošti MySQL duomenų bazę, į kurią rašysim duomenis. Susikūriau MySQL DB pavadinimu &quot;warehouse&quot;, kurioje sukūriau tokią duomenų lentelę:</p>
+<div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;duomenys&#39;</span><span class="w"> </span><span class="p">(</span>
+<span class="s1">&#39;D_ID&#39;</span><span class="w"> </span><span class="n">mediumint</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="s1">&#39;D_DATE_CREATED&#39;</span><span class="w"> </span><span class="k">timestamp</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="s1">&#39;D_ActualDate&#39;</span><span class="w"> </span><span class="n">datetime</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="s1">&#39;D_Temperature_1&#39;</span><span class="w"> </span><span class="nb">float</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="s1">&#39;D_Humidity_1&#39;</span><span class="w"> </span><span class="nb">float</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="s1">&#39;D_Temperature_2&#39;</span><span class="w"> </span><span class="nb">float</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="s1">&#39;D_Humidity_2&#39;</span><span class="w"> </span><span class="nb">float</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="s1">&#39;D_Info&#39;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="n">utf16_lithuanian_ci</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="s1">&#39;D_Comments&#39;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="n">utf16_lithuanian_ci</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;D_ID&#39;</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">CHARSET</span><span class="o">=</span><span class="n">utf16</span><span class="w"> </span><span class="k">COLLATE</span><span class="o">=</span><span class="n">utf16_lithuanian_ci</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">48</span><span class="w"> </span><span class="p">;[</span><span class="o">/</span><span class="k">sql</span><span class="p">]</span>
+</pre></div>
+<p>Pagal kelis internetiniu pavyzdžius sukurpiau šiokį tokį Python skriptą, kuris nuskaito abiejų DHT22 jutiklių duomenis, juos suvidurkina ir kartu su laiko žyme, surašo į prieš tai sukurtą mysql lentelę:</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># -\*- coding: utf-8 -\*-</span>
+
+<span class="kn">import</span> <span class="nn">MySQLdb</span> <span class="k">as</span> <span class="nn">mdb</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">arrow</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span> <span class="c1">## uses GPIO numbers NOT pin numbers</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span> <span class="kc">False</span> <span class="p">)</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span> <span class="c1">## 37 PIN / GPIO26</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;/home/python/&#39;</span><span class="p">))</span>
+
+<span class="c1">#globals for temperature and humidity averaging</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">hum</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">read_dht22</span> <span class="p">(</span> <span class="n">PiPin</span> <span class="p">):</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&quot;./Adafruit_DHT&quot;</span><span class="p">,</span> <span class="s2">&quot;2302&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">PiPin</span><span class="p">)])</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;Temp =</span><span class="se">\\</span><span class="s2">s+([-+]?[0-9.]+)&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">matches</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">temp</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1">#print temp</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1">#print &quot;fail&quot;</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;Hum =</span><span class="se">\\</span><span class="s2">s+([0-9.]+)&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">matches</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">hum</span>
+        <span class="n">hum</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1">#print hum</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1">#print &quot;fail&quot;</span>
+    <span class="k">return</span> <span class="n">success</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">mdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;USERNAME&#39;</span><span class="p">,</span> <span class="s1">&#39;PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;warehouse&#39;</span><span class="p">);</span>
+
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT VERSION()&quot;</span><span class="p">)</span>
+
+<span class="n">ver</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+<span class="n">sys_date</span> <span class="o">=</span> <span class="n">arrow</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;YYYY-MM-DD HH:mm:ss&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="s2">&quot;Database version : </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="n">ver</span>
+    <span class="nb">print</span> <span class="n">sys_date</span>
+
+<span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#Turn LED ON, while reading DHT2 sensors</span>
+
+<span class="n">count_1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">temperature_1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">humidity_1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">read_dht22</span><span class="p">(</span><span class="mi">19</span><span class="p">)):</span>
+            <span class="n">count_1</span> <span class="o">=</span> <span class="n">count_1</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">temperature_1</span> <span class="o">=</span> <span class="n">temperature_1</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+            <span class="n">humidity_1</span> <span class="o">=</span> <span class="n">humidity_1</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">hum</span><span class="p">)</span>
+            <span class="c1">#print &quot;[19] Temp: %s Hum: %s Count: %s&quot; %(temp,hum,count_1)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">count_1</span> <span class="o">=</span> <span class="n">count_1</span> <span class="c1">#print &quot;echem..&quot;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">count_1</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">temperature_1</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">temperature_1</span><span class="o">/</span><span class="n">count_1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">humidity_1</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">humidity_1</span><span class="o">/</span><span class="n">count_1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">count_1</span><span class="o">=</span><span class="n">count_1</span>
+
+<span class="nb">print</span> <span class="s2">&quot;[19] Temperature: </span><span class="si">%s</span><span class="s2"> Humidity: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">temperature_1</span><span class="p">,</span><span class="n">humidity_1</span><span class="p">)</span>
+
+<span class="n">count_2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">temperature_2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">humidity_2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">read_dht22</span><span class="p">(</span><span class="mi">13</span><span class="p">)):</span>
+            <span class="n">count_2</span> <span class="o">=</span> <span class="n">count_2</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">temperature_2</span> <span class="o">=</span> <span class="n">temperature_2</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+            <span class="n">humidity_2</span> <span class="o">=</span> <span class="n">humidity_2</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">hum</span><span class="p">)</span>
+            <span class="c1">#print &quot;[1] Temp: %s Hum: %s Count: %s&quot; %(temp,hum,count_2)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">count_2</span> <span class="o">=</span> <span class="n">count_2</span> <span class="c1">#print &quot;echem..&quot;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">count_2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">temperature_2</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">temperature_2</span><span class="o">/</span><span class="n">count_2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">humidity_2</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">humidity_2</span><span class="o">/</span><span class="n">count_2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">count_2</span><span class="o">=</span><span class="n">count_2</span>
+
+<span class="nb">print</span> <span class="s2">&quot;[13] Temperature: </span><span class="si">%s</span><span class="s2"> Humidity: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">temperature_2</span><span class="p">,</span><span class="n">humidity_2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">count_1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count_2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)</span>
+<span class="s2">            VALUES ( </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">, &#39;CronJob&#39;)&quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">sys_date</span><span class="p">,</span><span class="n">temperature_1</span><span class="p">,</span><span class="n">humidity_1</span><span class="p">,</span><span class="n">temperature_2</span><span class="p">,</span><span class="n">humidity_2</span><span class="p">])</span>
+
+<span class="k">elif</span> <span class="p">(</span><span class="n">count_1</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count_2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)</span>
+<span class="s2">            VALUES ( </span><span class="si">%s</span><span class="s2">, NULL,NULL,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">, &#39;CronJob&#39;)&quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">sys_date</span><span class="p">,</span><span class="n">temperature_2</span><span class="p">,</span><span class="n">humidity_2</span><span class="p">])</span>
+
+<span class="k">elif</span> <span class="p">(</span><span class="n">count_1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count_2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)</span>
+<span class="s2">            VALUES ( </span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,NULL,NULL, &#39;CronJob&#39;)&quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">sys_date</span><span class="p">,</span><span class="n">temperature_1</span><span class="p">,</span><span class="n">humidity_1</span><span class="p">])</span>
+
+<span class="k">else</span> <span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)</span>
+<span class="s2">            VALUES ( </span><span class="si">%s</span><span class="s2">, NULL,NULL,NULL,NULL, &#39;CronJob&#39;)&quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">sys_date</span><span class="p">])</span>
+
+<span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">mdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">con</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="s2">&quot;Error </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">finally</span><span class="p">:</span>
+
+<span class="k">if</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</pre></div>
+<p>Tam, kad skriptas veiktų, reikia susidiegti MySQLdb modulį:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python-mysqldb
+</pre></div>
+<p>Skripte panaudojau ir&nbsp;<a class="reference external" href="http://crsmithdev.com/arrow/">Arrow</a> laiko apskaitos biblioteką, kurią taip pat reikia susidiegti:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python-setuptools
+sudo<span class="w"> </span>easy_install<span class="w"> </span>pip
+sudo<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>arrow
+</pre></div>
+<p>Beje, nepamirškit skripte nurodyti savo mysql naudotojo vardo ir slaptažodžio ;)</p>
+<p>Patogumo dėlei, paruoštą skirptą (jį pavadinau mysql_dht.py) ir perkompiliuotą Adafruit_DHT driverį nukopijavau į /home/python direktoriją. Jei naudojate kitą direktoriją, ją nurodykite skirpto eilutėje &quot;os.chdir(os.path.abspath('<strong>/home/python/</strong>'))&quot;, kitaip skriptas neveiks.</p>
+<p>Ar skriptas veikia, galima pasitikrinti tiesiai iš konsolės:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>python<span class="w"> </span>/home/python/mysql_dht.py
+</pre></div>
+<p>Turėtumėte gauti tokį rezultatą:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22_mysql.jpg"><img alt="dht22_mysql" class="aligncenter wp-image-535 size-full" src="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22_mysql.jpg" style="width: 422px; height: 96px;" /></a></p>
+<p>Jeigu gaunate tokią klaidą, įsitikinkite ar Adafruit_DHT driveris yra tikrai toje pačioje direktorijoje, kaip ir pats mysql_dht.py skirptas:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22_mysql_error.jpg"><img alt="dht22_mysql_error" class="aligncenter size-full wp-image-536" src="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/dht22_mysql_error.jpg" style="width: 624px; height: 257px;" /></a></p>
+<p>Jei skriptas veikia gerai, galima užkurti automatinį jo vykdymą. Tam panaudojau Cron:</p>
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>crontab<span class="w"> </span>-e
+</pre></div>
+<p>Atsidariusiame lange, pačioje apačioje įrašiau tokią eilutę:</p>
+<div class="highlight"><pre><span></span><span class="m">0</span>,5,10,15,20,25,30,35,40,45,50,55<span class="w">  </span><span class="se">\*</span><span class="w"> </span><span class="se">\*</span><span class="w"> </span><span class="se">\*</span><span class="w"> </span><span class="se">\*</span><span class="w"> </span>sudo<span class="w"> </span>python<span class="w"> </span>/home/python/mysql_dht.py<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+<p>Išsaugojus failą, mūsų skriptas bus įvykdomas kas 5 minutes. Simbolis &quot;&amp;&quot; eilutės gale reiškia, kad procesas bus vykdomas fone ir netrukdys sistemos darbui.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/mysql.jpg"><img alt="mysql" class="aligncenter size-full wp-image-539" src="https://paulius.bautrenas.lt/images/aviete-dht22-mysql/mysql.jpg" style="width: 873px; height: 406px;" /></a></p>
+<p>Ar Cron jobas veikia, gerai parodo mysql duomenys. Jei duomenys tvarkingai atsigula į nurodytą lentelę, galima eiti gerti kavos :D</p>
+<p><strong>Tinginiams:</strong></p>
+<p>Perkompiliuotą Adafruit_DHT driverį ir naujausią mano kodo versiją rasite <a class="reference external" href="https://github.com/pauliusbau/raspberrypi-mayhem/tree/master/RPI-Weather">mano GitHub saugykloje</a>!</p>
+<p><strong>Naudinga literatūra:</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.raspipress.com/2012/09/tutorial-install-phpmyadmin-on-your-raspberry-pi">http://www.raspipress.com/2012/09/tutorial-install-phpmyadmin-on-your-raspberry-pi</a></li>
+<li><a class="reference external" href="http://zetcode.com/db/mysqlpython/">http://zetcode.com/db/mysqlpython/</a></li>
+<li><a class="reference external" href="http://www.raspberrypi.org/forums/viewtopic.php?f=32&amp;t=79597">http://www.raspberrypi.org/forums/viewtopic.php?f=32&amp;t=79597</a></li>
+<li><a class="reference external" href="http://sharedmemorydump.net/post/2013-07-20-adding-a-dht-sensor-to-the-raspberry-pi">http://sharedmemorydump.net/post/2013-07-20-adding-a-dht-sensor-to-the-raspberry-pi</a></li>
+<li><a class="reference external" href="http://sharedmemorydump.net/post/2013-10-16-improvements-to-collection-of-sensor-data">http://sharedmemorydump.net/post/2013-10-16-improvements-to-collection-of-sensor-data</a></li>
+<li><a class="reference external" href="http://sharedmemorydump.net/post/2013-07-18-logging-data-temperature-with-raspberry-pi">http://sharedmemorydump.net/post/2013-07-18-logging-data-temperature-with-raspberry-pi</a></li>
+<li><a class="reference external" href="http://www.anginf.de/?p=286">http://www.anginf.de/?p=286</a></li>
+<li><a class="reference external" href="http://www.raspberrypi-spy.co.uk/2013/07/running-a-python-script-at-boot-using-cron/">http://www.raspberrypi-spy.co.uk/2013/07/running-a-python-script-at-boot-using-cron/</a></li>
+<li><a class="reference external" href="http://serverfault.com/questions/248305/running-cron-on-every-10-minutes">http://serverfault.com/questions/248305/running-cron-on-every-10-minutes</a></li>
+<li><a class="reference external" href="http://alvinalexander.com/linux/unix-linux-crontab-every-minute-hour-day-syntax">http://alvinalexander.com/linux/unix-linux-crontab-every-minute-hour-day-syntax</a></li>
+<li><a class="reference external" href="http://askubuntu.com/questions/56683/where-is-the-cron-crontab-log">http://askubuntu.com/questions/56683/where-is-the-cron-crontab-log</a></li>
+<li><a class="reference external" href="http://stackoverflow.com/questions/26124363/how-to-keep-run-python-program-in-background-on-raspberry-pi-after-terminate-ssh">http://stackoverflow.com/questions/26124363/how-to-keep-run-python-program-in-background-on-raspberry-pi-after-terminate-ssh</a></li>
+<li><a class="reference external" href="http://stackoverflow.com/questions/24161476/subprocess-popen-simple-code-not-working">http://stackoverflow.com/questions/24161476/subprocess-popen-simple-code-not-working</a></li>
+</ul>
+<p><strong>Bonus:</strong></p>
+<p>Norintiems, bet negalintiems prisijungti prie MySQL DB, kuri sukasi jūsų RPI, siūlau pasiskaityti čia: <a class="reference external" href="http://stackoverflow.com/questions/18733802/how-do-i-open-up-my-mysql-on-my-raspberry-pi-for-outside-remote-connections">http://stackoverflow.com/questions/18733802/how-do-i-open-up-my-mysql-on-my-raspberry-pi-for-outside-remote-connections</a>&nbsp;Man padėjo! ;)</p>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth.html">Flip-Dot Clock laiko sinchronizavimas su Aviete per Bluetooth</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
