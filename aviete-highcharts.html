@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Avietė: DHT22 duomenų atvaizdavimas - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/aviete-highcharts.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="bootstrap,DHT22,gauges,github,HighCharts,innerHTML,JavaScript,jQuary,jQuaryUI,JS,jSON,jSON push,MySQL,php,RaspberriPi,RPI,Sunrise,Sunset,timedate,toLocaleFormat,viewport" />
+        <meta name="description" content="Kaip jau rašiau ankščiau, prie savo RaspberryPi esu prisijungęs porą termometrų/higrometrų, kurių duomenis kas tam tikrą laiką saugau MySQL duomenų bazėje. Kaip man ir nepatiktų rašyti SQL užklausas, vis tiek norėtųsi namų &#34;meteo stotelės&#34; duomenis matyti gražiu, suprantamu, grafiniu formatu. Taip pat būtų visai smagu turėti galimybė pasiekti tuos …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Avietė: DHT22 duomenų atvaizdavimas"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/aviete-highcharts.html"/>
+        <meta property="og:description" content="Kaip jau rašiau ankščiau, prie savo RaspberryPi esu prisijungęs porą termometrų/higrometrų, kurių duomenis kas tam tikrą laiką saugau MySQL duomenų bazėje. Kaip man ir nepatiktų rašyti SQL užklausas, vis tiek norėtųsi namų &#34;meteo stotelės&#34; duomenis matyti gražiu, suprantamu, grafiniu formatu. Taip pat būtų visai smagu turėti galimybė pasiekti tuos …"/>
+        <meta property="article:published_time" content="2015-03-15" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="bootstrap" />
+            <meta property="article:tag" content="DHT22" />
+            <meta property="article:tag" content="gauges" />
+            <meta property="article:tag" content="github" />
+            <meta property="article:tag" content="HighCharts" />
+            <meta property="article:tag" content="innerHTML" />
+            <meta property="article:tag" content="JavaScript" />
+            <meta property="article:tag" content="jQuary" />
+            <meta property="article:tag" content="jQuaryUI" />
+            <meta property="article:tag" content="JS" />
+            <meta property="article:tag" content="jSON" />
+            <meta property="article:tag" content="jSON push" />
+            <meta property="article:tag" content="MySQL" />
+            <meta property="article:tag" content="php" />
+            <meta property="article:tag" content="RaspberriPi" />
+            <meta property="article:tag" content="RPI" />
+            <meta property="article:tag" content="Sunrise" />
+            <meta property="article:tag" content="Sunset" />
+            <meta property="article:tag" content="timedate" />
+            <meta property="article:tag" content="toLocaleFormat" />
+            <meta property="article:tag" content="viewport" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/aviete-highcharts.html"
+                       rel="bookmark"
+                       title="Permalink to Avietė: DHT22 duomenų atvaizdavimas">
+                        Avietė: DHT22 duomenų atvaizdavimas
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-03-15T12:58:00+02:00"> sk 15 kovas 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/bootstrap.html">bootstrap</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/dht22.html">DHT22</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/gauges.html">gauges</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/github.html">github</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/highcharts.html">HighCharts</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/innerhtml.html">innerHTML</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/javascript.html">JavaScript</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/jquary.html">jQuary</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/jquaryui.html">jQuaryUI</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/js.html">JS</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/json.html">jSON</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/json-push.html">jSON push</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/mysql.html">MySQL</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/php.html">php</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/raspberripi.html">RaspberriPi</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/rpi.html">RPI</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/sunrise.html">Sunrise</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/sunset.html">Sunset</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/timedate.html">timedate</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/tolocaleformat.html">toLocaleFormat</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/viewport.html">viewport</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-highcharts/highcarts1.png"><img alt="highcarts" class="aligncenter size-large wp-image-712" src="https://paulius.bautrenas.lt/images/aviete-highcharts/highcarts1-1024x367.png" style="width: 625px; height: 224px;" /></a></p>
+<p>Kaip jau rašiau <a class="reference external" href="aviete-dht22-mysql">ankščiau</a>, prie savo RaspberryPi esu prisijungęs porą termometrų/higrometrų, kurių duomenis kas tam tikrą laiką saugau MySQL duomenų bazėje. Kaip man ir nepatiktų rašyti SQL užklausas, vis tiek norėtųsi namų &quot;meteo stotelės&quot; duomenis matyti gražiu, suprantamu, grafiniu formatu. Taip pat būtų visai smagu turėti galimybė pasiekti tuos duomenis iš bet kurios pasaulio vietos internetu. Žodžiu, prisižiūrėjęs pavyzdžių internete, nusprendžiau surinktus duomenis atvaizduoti internetinėje naršyklėje grafiku, skalėmis ir tekstu.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-highcharts/phpmysql.gif"><img alt="phpmysql" class="aligncenter size-full wp-image-718" src="https://paulius.bautrenas.lt/images/aviete-highcharts/phpmysql.gif" style="width: 431px; height: 179px;" /></a></p>
+<p>Visa duomenų atvaizdavimo sistema susideda iš vidinės (angl. <em>back-end</em>) ir išorinės (angl. <em>front-end</em>) dalių. Vidinė dalis - tai MySQL duomenų bazė ir spec. PHP skriptas, pagal tam tikrus kriterijus iš DB ištraukiantis duomenis ir gražinantis juos jSON formatu. Išorinė dalis - web puslapiai, vienokiu ar kitokiu būdu atvaizduojantys back-end'o sugeneruotus duomenis.</p>
+<div class="section" id="back-end">
+<h2>Back End</h2>
+<p>Kadangi iki šiol realios web programavimo patirties kaip ir neturėjau, nusprendžiau viską daryti kuo paprasčiau, t. y. neišradinėti dviračio ir naudoti tik gerai internete aprašytus sprendimus. Užbėgdamas už akių prasitarsiu, kad grafiniam duomenų atvaizdavimui pasirinkau <a class="reference external" href="http://www.highcharts.com">HighCharts</a> grafikus. HighCharts labai gerai draugauja su <a class="reference external" href="http://blueflame-software.com/blog/how-to-create-dynamic-x-axis-data-using-json">jSON</a>, todėl būtent šis pasirinkimas ir lėmė back-end gražinamų duomenų struktūrą.</p>
+<p>Po ilgo knibinėjimosi, gavosi štai toks <em>data.php</em> skriptas:</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="x">   </span><span class="cp">&lt;?php</span>
+<span class="linenos"> 2</span>   <span class="nv">$servername</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span><span class="p">;</span>
+<span class="linenos"> 3</span>   <span class="nv">$username</span> <span class="o">=</span> <span class="s2">&quot;USERNAME&quot;</span><span class="p">;</span>
+<span class="linenos"> 4</span>   <span class="nv">$password</span> <span class="o">=</span> <span class="s2">&quot;PASSWORD&quot;</span><span class="p">;</span>
+<span class="linenos"> 5</span>   <span class="nv">$dbname</span> <span class="o">=</span> <span class="s2">&quot;warehouse&quot;</span><span class="p">;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span>   <span class="nv">$con</span> <span class="o">=</span> <span class="nb">mysql_connect</span><span class="p">(</span><span class="nv">$servername</span><span class="p">,</span><span class="nv">$username</span><span class="p">,</span><span class="nv">$password</span><span class="p">);</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span>   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$con</span><span class="p">)</span> <span class="p">{</span>
+<span class="linenos">10</span>     <span class="k">die</span><span class="p">(</span><span class="s1">&#39;Could not connect: &#39;</span> <span class="o">.</span> <span class="nb">mysql_error</span><span class="p">());</span>
+<span class="linenos">11</span>   <span class="p">}</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>   <span class="nb">mysql_select_db</span><span class="p">(</span><span class="nv">$dbname</span><span class="p">,</span> <span class="nv">$con</span><span class="p">);</span>
+<span class="hll"><span class="linenos">14</span>   <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&quot;getLast&quot;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class="linenos">15</span>       <span class="nv">$sth</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="s2">&quot;select</span>
+<span class="linenos">16</span><span class="s2">                           UNIX_TIMESTAMP(date_format(d.d_actualdate, &#39;%Y-%m-%d %H:%i&#39;))*1000 as d_actualdate</span>
+<span class="linenos">17</span><span class="s2">                           ,d.D_Temperature_1 d_temperature_1</span>
+<span class="linenos">18</span><span class="s2">                           ,d.D_Humidity_1 d_humidity_1</span>
+<span class="linenos">19</span><span class="s2">                           ,d.D_Temperature_2 d_temperature_2</span>
+<span class="linenos">20</span><span class="s2">                           ,d.D_Humidity_2 d_humidity_2</span>
+<span class="linenos">21</span><span class="s2">                           ,d.D_Temperature_3 d_temperature_3</span>
+<span class="linenos">22</span><span class="s2">                           from warehouse.duomenys d</span>
+<span class="linenos">23</span><span class="s2">                           where d.D_ActualDate &gt;= DATE_SUB(NOW(), INTERVAL 1 HOUR)</span>
+<span class="linenos">24</span><span class="s2">                           order by 1 desc</span>
+<span class="linenos">25</span><span class="s2">                           limit 1&quot;</span><span class="p">);</span>
+<span class="linenos">26</span>   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="linenos">27</span>
+<span class="hll"><span class="linenos">28</span>   <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&quot;dateMin&quot;</span><span class="p">],</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&quot;dateMax&quot;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class="linenos">29</span>           <span class="nv">$sth</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="s2">&quot;SELECT</span>
+<span class="linenos">30</span><span class="s2">                               UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), &#39;%Y-%m-%d %H:%i&#39;))*1000 as d_actualdate</span>
+<span class="linenos">31</span><span class="s2">                               ,round(d.d_temperature_1,1) as d_temperature_1</span>
+<span class="linenos">32</span><span class="s2">                               ,round(d.d_temperature_2,1) as d_temperature_2</span>
+<span class="linenos">33</span><span class="s2">                               ,round(d.d_humidity_1,1) as d_humidity_1</span>
+<span class="linenos">34</span><span class="s2">                               ,round(d.d_humidity_2,1) as d_humidity_2</span>
+<span class="linenos">35</span><span class="s2">                               ,round(d.d_temperature_3,1) as d_temperature_3</span>
+<span class="linenos">36</span><span class="s2">                               from warehouse.duomenys d</span>
+<span class="linenos">37</span><span class="s2">                               where d.d_actualdate &gt;= &#39;&quot;</span><span class="o">.</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&quot;dateMin&quot;</span><span class="p">]</span><span class="o">.</span><span class="s2">&quot;&#39;</span>
+<span class="linenos">38</span><span class="s2">                               and d.d_actualdate &lt;= &#39;&quot;</span><span class="o">.</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">&quot;dateMax&quot;</span><span class="p">]</span><span class="o">.</span><span class="s2">&quot;&#39;</span>
+<span class="linenos">39</span><span class="s2">                               order by d.d_actualdate&quot;</span><span class="p">);</span>
+<span class="hll"><span class="linenos">40</span>       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class="linenos">41</span>
+<span class="linenos">42</span>                               <span class="nv">$sth</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="s2">&quot;SELECT</span>
+<span class="linenos">43</span><span class="s2">                               UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), &#39;%Y-%m-%d %H:00&#39;))*1000 as d_actualdate</span>
+<span class="linenos">44</span><span class="s2">                               ,round(avg(d.d_temperature_1),1) as d_temperature_1</span>
+<span class="linenos">45</span><span class="s2">                               ,round(avg(d.d_temperature_2),1) as d_temperature_2</span>
+<span class="linenos">46</span><span class="s2">                               ,round(avg(d.d_humidity_1),1) as d_humidity_1</span>
+<span class="linenos">47</span><span class="s2">                               ,round(avg(d.d_humidity_2),1) as d_humidity_2</span>
+<span class="linenos">48</span><span class="s2">                               ,round(avg(d.d_temperature_3),1) as d_temperature_3</span>
+<span class="linenos">49</span><span class="s2">                               from warehouse.duomenys d</span>
+<span class="linenos">50</span><span class="s2">                               where d.d_actualdate &gt;= DATE_SUB(date(NOW()), INTERVAL 1 WEEK)</span>
+<span class="linenos">51</span><span class="s2">                               and d.d_actualdate &lt; DATE_SUB(date(NOW()), INTERVAL 1 DAY)</span>
+<span class="linenos">52</span><span class="s2">                               group by date_format(d.d_actualdate, &#39;%Y-%m-%d %H&#39;)</span>
+<span class="linenos">53</span>
+<span class="linenos">54</span><span class="s2">                               UNION</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span><span class="s2">                               SELECT</span>
+<span class="linenos">57</span><span class="s2">                               UNIX_TIMESTAMP(date_format(date_add(d.d_actualdate, INTERVAL 2 HOUR), &#39;%Y-%m-%d %H:%i&#39;))*1000 as d_actualdate</span>
+<span class="linenos">58</span><span class="s2">                               ,round(d.d_temperature_1,1) as d_temperature_1</span>
+<span class="linenos">59</span><span class="s2">                               ,round(d.d_temperature_2,1) as d_temperature_2</span>
+<span class="linenos">60</span><span class="s2">                               ,round(d.d_humidity_1,1) as d_humidity_1</span>
+<span class="linenos">61</span><span class="s2">                               ,round(d.d_humidity_2,1) as d_humidity_2</span>
+<span class="linenos">62</span><span class="s2">                               ,round(d.d_temperature_3,1) as d_temperature_3</span>
+<span class="linenos">63</span><span class="s2">                               from warehouse.duomenys d</span>
+<span class="linenos">64</span><span class="s2">                               where d.d_actualdate &gt;= DATE_SUB(date(NOW()), INTERVAL                             1 DAY)</span>
+<span class="linenos">65</span>
+<span class="linenos">66</span><span class="s2">                               order by 1&quot;</span><span class="p">);</span>
+<span class="linenos">67</span>       <span class="p">}</span>
+<span class="linenos">68</span>   <span class="p">}</span>
+<span class="linenos">69</span>
+<span class="linenos">70</span>   <span class="nv">$return_arr</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="linenos">71</span>
+<span class="linenos">72</span>   <span class="k">while</span><span class="p">(</span><span class="nv">$r</span> <span class="o">=</span> <span class="nb">mysql_fetch_array</span><span class="p">(</span><span class="nv">$sth</span><span class="p">))</span> <span class="p">{</span>
+<span class="linenos">73</span>
+<span class="linenos">74</span>   <span class="nv">$rows</span><span class="p">[</span><span class="s1">&#39;at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;d_actualdate&#39;</span><span class="p">];</span>
+<span class="linenos">75</span>       <span class="nv">$rows</span><span class="p">[</span><span class="s1">&#39;T1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;d_temperature_1&#39;</span><span class="p">];</span>
+<span class="linenos">76</span>       <span class="nv">$rows</span><span class="p">[</span><span class="s1">&#39;T2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;d_temperature_2&#39;</span><span class="p">];</span>
+<span class="linenos">77</span>       <span class="nv">$rows</span><span class="p">[</span><span class="s1">&#39;H1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;d_humidity_1&#39;</span><span class="p">];</span>
+<span class="linenos">78</span>       <span class="nv">$rows</span><span class="p">[</span><span class="s1">&#39;H2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;d_humidity_2&#39;</span><span class="p">];</span>
+<span class="linenos">79</span>       <span class="nv">$rows</span><span class="p">[</span><span class="s1">&#39;T3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;d_temperature_3&#39;</span><span class="p">];</span>
+<span class="linenos">80</span>
+<span class="linenos">81</span>   <span class="nb">array_push</span><span class="p">(</span><span class="nv">$return_arr</span><span class="p">,</span><span class="nv">$rows</span><span class="p">);</span>
+<span class="linenos">82</span>   <span class="p">}</span>
+<span class="linenos">83</span>
+<span class="linenos">84</span>   <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;datapoints&#39;</span> <span class="o">=&gt;</span> <span class="nv">$return_arr</span><span class="p">);</span>
+<span class="linenos">85</span>
+<span class="linenos">86</span>   <span class="k">print</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nx">JSON_NUMERIC_CHECK</span><span class="p">);</span>
+<span class="linenos">87</span>
+<span class="linenos">88</span>   <span class="nb">mysql_close</span><span class="p">(</span><span class="nv">$con</span><span class="p">);</span>
+<span class="linenos">89</span>   <span class="cp">?&gt;</span>
+</pre></div>
+<p>Į skriptą galima kreiptis trimis skirtingais būdais (paryškinimai kode):</p>
+<ul class="simple">
+<li>data.php\?getLast - gražina paskutinės duomenų surinkimo iteracijos reikšmes.</li>
+<li>data.php\?dateMin=2015-03-03&amp;dateMax=2015-03-04 - gražina visus nurodytos datos intervalo duomenis.</li>
+<li>data.php - gražina paskutinių 7 dienų duomenis. Čia, tvarkingam duomenų atvaizdavimui, yra realizuotas šioks toks duomenų agregavimas. T. y. pirmų 6 dienų duomenys yra pateikiami valandos vidurkiais, o paskutinės dienos - visi duomenys (neagreguoti).</li>
+</ul>
+<p>Visais atvejais, duomenys yra gražinami jSON'u, kurios struktūros pavyzdys yra pateiktas dešinėje. Duomenys yra gražinami &quot;<em>datapoints</em>&quot; masyve. Kiekviename iš masyvo elementų yra pateikiama duomenų data &quot;<em>at</em>&quot; <a class="reference external" href="http://www.w3schools.com/jsref/jsref_gettime.asp">JavaScript TimeStamp</a> formatu ir konkrečios iteracijos jutiklių duomenys.</p>
+<div class="line-block">
+<div class="line">Duomenų surinkimo laiką specialiai gražinu js timestamp formatu, nes tik tokį laiko ir datos formatą supranta HighCharts grafikas, kitais atvejais (datą gražinant perskaitomu formatu, pav. 2015-03-02 15:32), HighCharts tai interpretuoja kaip kategorijos tekstą ir dalis šaunių HighCharts funkcijų tiesiog nebeveikia.</div>
+</div>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-highcharts/jSON.jpg"><img alt="jSON" class="aligncenter wp-image-729 size-full" src="https://paulius.bautrenas.lt/images/aviete-highcharts/jSON.jpg" style="width: 249px; height: 540px;" /></a></p>
+</div>
+<div class="section" id="front-end">
+<h2>Front End</h2>
+<div class="section" id="grafikas">
+<h3>Grafikas</h3>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-highcharts/highcarts1.png"><img alt="highcarts" class="aligncenter size-large wp-image-712" src="https://paulius.bautrenas.lt/images/aviete-highcharts/highcarts1-1024x367.png" style="width: 625px; height: 224px;" /></a></p>
+<p>Kaip jau minėjau ankščiau, grafikui naudoju <a class="reference external" href="http://www.highcharts.com">HighCharts</a>. Ties HighCharts apsistojau dėl <a class="reference external" href="http://api.highcharts.com/highcharts">labai geros dokumentacijos</a>, galybės <a class="reference external" href="http://www.highcharts.com/docs/chart-and-series-types/line-chart">pavyzdžių</a> ir paprasto, interaktyvaus valdymo.</p>
+<p>Grafiko kodas gavosi labai ilgas iš principo dėl to, kad pagal savo poreikius keičiau daug standartinių HighCharts nustatymų ir papildomai priprogramavau keletą funkcijų: suprogramavau grafike atvaizduojamų duomenų laiko rėžio nustatymą per jQuaryUI (<em>by default</em> grafikas užsikrauna paskutinių 7 dienų duomenis), pridėjau šviesaus paros laiko (saulėtekis - saulėlydis) atvaizdavimą, kurį radau <a class="reference external" href="http://blog.tafkas.net/2012/11/26/charting-sunrise-and-sunset-in-highcharts/">čia</a>, ir nustačiau automatini grafiko duomenų atnaujinimą.</p>
+<p>Dalį grafiko kodo galite rasti mano <a class="reference external" href="http://jsfiddle.net/pauliusbau/3e9cwxcr/4/">JSFiddle</a>, o visą grafiko kodą rasite <a class="reference external" href="#download">atsisiuntimuose</a>.</p>
+</div>
+<div class="section" id="skales-ir-tekstas">
+<h3>Skalės ir Tekstas</h3>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-highcharts/gauges.png"><img alt="gauges" class="aligncenter size-large wp-image-734" src="https://paulius.bautrenas.lt/images/aviete-highcharts/gauges-577x1024.png" style="width: 249px; height: 442px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/aviete-highcharts/text.png"><img alt="text" class="aligncenter size-large wp-image-735" src="https://paulius.bautrenas.lt/images/aviete-highcharts/text-577x1024.png" style="width: 249px; height: 442px;" /></a></p>
+<p>Nors grafikas ir yra labai patogus įrankis,&nbsp; tačiau juo gan sunku naudotis mobiliajame telefone. Iš principo, po ilgesnio naudojimosi, supratau, kad apskritai telefone mane labiau domina išvysti paskutinius, aktualius duomenis, o ne visos savaitės grafiką. Taip gimė dar pora puslapiukų, kuriuose atvaizduojama tik paskutinė informacija.</p>
+<p>Pirmiausiai, pagaminau puslapiuką (<a class="reference external" href="https://paulius.bautrenas.lt/images/aviete-highcharts/gauges.png">gauges.php</a>), kuriame DHT22 duomenys atvaizduojami skalėmis. Skalės sugeneruotos su <a class="reference external" href="http://www.highcharts.com/demo/gauge-speedometer">HighCharts</a>, duomenys į skales yra perduodami jSON'u, panaudojant <em>data.php\?getLast</em> metodą.</p>
+<div class="highlight"><pre><span></span><span class="linenos">1</span><span class="w">   </span><span class="nx">getGaugeConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">renderID</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="p">,</span><span class="w"> </span><span class="nx">data_temp</span><span class="p">,</span><span class="w"> </span><span class="nx">data_hum</span><span class="p">){</span>
+<span class="linenos">2</span><span class="w">   </span><span class="kd">var</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="linenos">3</span><span class="w">   </span><span class="c1">//.....//</span>
+<span class="linenos">4</span><span class="w">   </span><span class="nx">config</span><span class="p">.</span><span class="nx">title</span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">5</span><span class="w">   </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">title</span>
+<span class="linenos">6</span><span class="w">   </span><span class="p">};</span>
+<span class="linenos">7</span><span class="w">   </span><span class="c1">//.....//</span>
+<span class="linenos">8</span><span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="nx">config</span><span class="p">;</span>
+<span class="linenos">9</span><span class="w">   </span><span class="p">};</span>
+</pre></div>
+<p>Šioje vietoje, manau, įdomiausia yra tai, kad tas pats skalių configas yra panaudotas dviem skirtingom skalėms atvaizduoti. Tai atlikau, sukūręs funkciją <em>getGaugeConfig</em>, per kurios argumentus į skalių configą perduodu reikiamus parametrus. Viršuje, pateiktas tik mažulytis funkcijos fragmentas, visą kodą rasite <a class="reference external" href="#download">atsisiuntimuose</a>.</p>
+<p>Po ilgesnio naudojimosi &quot;skalių puslapiu&quot;, pastebėjau, kad labiau žiūriu ne į rodykles, bet į skaičius po jomis. Taip kilo idėja padaryti mažą paprastą puslapį, kuriame aktualūs duomenys būtų išvedami tiesiog tekstu (<a class="reference external" href="https://paulius.bautrenas.lt/images/aviete-highcharts/text.png">nuotrauka viršuje</a>). Ant greitųjų &quot;sumečiau&quot; <em>now.php</em>, kurio išeities kodą rasite <a class="reference external" href="#download">atsisiuntimuose</a>.</p>
+<p>Puslapis gavosi idiotiškai paprastas, bet žavus. Su &quot;<a class="reference external" href="https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag">viewport</a>&quot; nustatymais&nbsp; ir šiek tiek <a class="reference external" href="http://getbootstrap.com/">bootstrap</a> jį pritaikiau savo telefono ekranui. Duomenis puslapiui paruošiu tuo pačiu <em>data.php**</em>?getLast**, o iškoduotą jSON atvaizduoju su paprasčiausiu <a class="reference external" href="http://www.w3schools.com/jsref/prop_html_innerhtml.asp">innerHTML</a>. Tiesa, duomenų surinkimo laiką puslapyje formatavau su <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleFormat">toLocaleFormat</a>. Sunku patikėti, bet šios patogios funkcijos Chrome nepalaiko :/ Gerai, kad radau <a class="reference external" href="http://javascript.ru/Date/toLocaleFormat#comment-16083">internete</a>, kaip alternatyvią funkciją realizuoti pačiam:</p>
+<div class="highlight"><pre><span></span><span class="linenos">1</span><span class="w">   </span><span class="nb">Date</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">FormatDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">format</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">2</span><span class="w">   </span><span class="kd">var</span><span class="w"> </span><span class="nx">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nx">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getYear</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1900</span><span class="p">,</span><span class="nx">m</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="nx">d</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getDate</span><span class="p">(),</span><span class="nx">H</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getHours</span><span class="p">(),</span><span class="nx">M</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getMinutes</span><span class="p">(),</span><span class="nx">S</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getSeconds</span><span class="p">()}</span>
+<span class="linenos">3</span><span class="w">   </span><span class="k">for</span><span class="p">(</span><span class="nx">k</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">f</span><span class="p">)</span>
+<span class="linenos">4</span><span class="w">   </span><span class="nx">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">format</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">k</span><span class="p">,</span><span class="w"> </span><span class="nx">f</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">f</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">f</span><span class="p">[</span><span class="nx">k</span><span class="p">]);</span>
+<span class="linenos">5</span><span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="nx">format</span><span class="p">;</span>
+<span class="linenos">6</span><span class="w">   </span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="atsisiuntimai">
+<span id="download"></span><h2>Atsisiuntimai</h2>
+<p>Visus aukščiau aprašytus skriptus rasite <a class="reference external" href="https://github.com/pauliusbau/raspberrypi-mayhem/tree/master/RPI-Weather">mano GitHub saugykloje</a>!</p>
+</div>
+<div class="section" id="naudinga-literatura">
+<h2>Naudinga literatūra:</h2>
+<ul class="simple">
+<li><a class="reference external" href="http://blueflame-software.com/blog/using-highcharts-with-php-and-mysql">http://blueflame-software.com/blog/using-highcharts-with-php-and-mysql</a></li>
+<li><a class="reference external" href="http://blueflame-software.com/blog/how-to-create-dynamic-x-axis-data-using-json">http://blueflame-software.com/blog/how-to-create-dynamic-x-axis-data-using-json</a></li>
+<li><a class="reference external" href="http://blueflame-software.com/blog/how-to-load-mysql-results-to-highcharts-using-json">http://blueflame-software.com/blog/how-to-load-mysql-results-to-highcharts-using-json</a></li>
+<li><a class="reference external" href="http://www.kliptu.com/free-script/dynamic-highchart-example-with-jquery-php-json">http://www.kliptu.com/free-script/dynamic-highchart-example-with-jquery-php-json</a></li>
+<li><a class="reference external" href="http://www.boock.ch/meteo/tuto_mysql_highcharts/tuto_mysql_highcharts_04.php">http://www.boock.ch/meteo/tuto_mysql_highcharts/tuto_mysql_highcharts_04.php</a></li>
+<li><a class="reference external" href="http://www.d3noob.org/2013/02/using-mysql-database-as-source-of-data.html">http://www.d3noob.org/2013/02/using-mysql-database-as-source-of-data.html</a></li>
+<li><a class="reference external" href="http://stackoverflow.com/questions/11851122/blank-page-highchart-in-using-jquery-to-call-json-arrary/11852873#11852873">http://stackoverflow.com/questions/11851122/blank-page-highchart-in-using-jquery-to-call-json-arrary/11852873#11852873</a></li>
+<li><a class="reference external" href="http://stackoverflow.com/questions/13228081/highcharts-not-displaying-series-pushed-from-json">http://stackoverflow.com/questions/13228081/highcharts-not-displaying-series-pushed-from-json</a></li>
+<li><a class="reference external" href="http://williams.best.vwh.net/sunrise_sunset_algorithm.htm">http://williams.best.vwh.net/sunrise_sunset_algorithm.htm</a></li>
+<li><a class="reference external" href="http://blog.tafkas.net/2012/11/26/charting-sunrise-and-sunset-in-highcharts">http://blog.tafkas.net/2012/11/26/charting-sunrise-and-sunset-in-highcharts</a></li>
+<li><a class="reference external" href="http://jsfiddle.net/jlbriggs/FnhRV">http://jsfiddle.net/jlbriggs/FnhRV</a></li>
+<li><a class="reference external" href="http://www.java2s.com/Tutorials/Javascript/jQuery_UI/DatePicker/Build_jQuery_UI_Datepicker_Select_a_Date_Range_in_JavaScript.htm">http://www.java2s.com/Tutorials/Javascript/jQuery_UI/DatePicker/Build_jQuery_UI_Datepicker_Select_a_Date_Range_in_JavaScript.htm</a></li>
+<li><a class="reference external" href="http://javascript.ru/Date/toLocaleFormat#comment-16083">http://javascript.ru/Date/toLocaleFormat#comment-16083</a></li>
+</ul>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/aviete-dht22-mysql.html">Avietė: DHT22 -&gt; MySQL</a></li>
+        <li><a href="https://paulius.bautrenas.lt/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth.html">Flip-Dot Clock laiko sinchronizavimas su Aviete per Bluetooth</a></li>
+        <li><a href="https://paulius.bautrenas.lt/github-pages.html">WordPress mirė, tegyvuoja GitHub pages!</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

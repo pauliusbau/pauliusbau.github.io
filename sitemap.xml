@@ -6,35 +6,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://paulius.bautrenas.lt/</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/archives.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/author/paulius-bautrenas.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/author/pauliusbau.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/authors.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -47,29 +47,36 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>https://paulius.bautrenas.lt/aviete-highcharts.html</loc>
+<lastmod>2015-03-15T12:58:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>https://paulius.bautrenas.lt/categories.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/category/elektronika.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/category/programavimas.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/category/rand.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -111,378 +118,490 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/adafruit-dht.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/adafruit_dht.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/am2303.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/atmega.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/atmega16.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/atmega8.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/atmel.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/attiny85.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/aviete.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/avr.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/blog.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/bluetooth.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/bootstrap.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/ccfl.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/clock.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/cron.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/date.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/dht22.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/doctor-who.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/ds1307.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/flip-disk.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/flip-dot.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/flipdot.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/font.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/fp2800a.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/gauges.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/gcc.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/github.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/highcharts.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/innerhtml.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/javascript.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/jquary.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/jquaryui.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/js.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/json-push.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/json.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/kreuger.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/lawo.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/ldr-pi.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/ldr.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/led-strip.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/led.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/logging.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/mosfet.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/mysql.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/oscilograma.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/php.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/pi.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/pir.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/pwm.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/python-serial.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/python.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/raspberripi.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/recompile.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/regexp.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/rpi.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/sunrise.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/sunset.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/synch.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/synchronization.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/tardis-light.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/tardis-pulsing-led.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/tardis.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/time.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/timedate.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/tolocaleformat.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/uart.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tag/uv-led.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://paulius.bautrenas.lt/tag/viewport.html</loc>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://paulius.bautrenas.lt/tags.html</loc>
-<lastmod>2025-05-15T21:53:43-00:00</lastmod>
+<lastmod>2025-05-23T23:19:20-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
