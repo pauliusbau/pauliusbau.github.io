@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Automatinis nuotraukų mažinimas - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/nuotrauku-mazinimas.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="batch,batch process,cmd,convert,for /r,image magick,image recize,nuotraukų mažinimas,sumažinimas,vbs,windows" />
+        <meta name="description" content="Prisireikė darbe sumažinti krūvą kamerų nuotraukų. Nuotraukų, švelniai tariant, daug. Labai daug, apie 6 mln. vnt. (~1 TB).  Visos nuotraukos tvarkingai sudėliotos į hierarchinę aplankų struktūrą pagal kameros pavadinimą, metus, mėnesį ir dieną, todėl &#34;prieiti&#34; iki konkrečios nuotraukos nėra labai jau paprasta. Dar įdomiau, kad ne visų kamerų vaizdus reikia …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Automatinis nuotraukų mažinimas"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/nuotrauku-mazinimas.html"/>
+        <meta property="og:description" content="Prisireikė darbe sumažinti krūvą kamerų nuotraukų. Nuotraukų, švelniai tariant, daug. Labai daug, apie 6 mln. vnt. (~1 TB).  Visos nuotraukos tvarkingai sudėliotos į hierarchinę aplankų struktūrą pagal kameros pavadinimą, metus, mėnesį ir dieną, todėl &#34;prieiti&#34; iki konkrečios nuotraukos nėra labai jau paprasta. Dar įdomiau, kad ne visų kamerų vaizdus reikia …"/>
+        <meta property="article:published_time" content="2015-08-26" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="batch" />
+            <meta property="article:tag" content="batch process" />
+            <meta property="article:tag" content="cmd" />
+            <meta property="article:tag" content="convert" />
+            <meta property="article:tag" content="for /r" />
+            <meta property="article:tag" content="image magick" />
+            <meta property="article:tag" content="image recize" />
+            <meta property="article:tag" content="nuotraukų mažinimas" />
+            <meta property="article:tag" content="sumažinimas" />
+            <meta property="article:tag" content="vbs" />
+            <meta property="article:tag" content="windows" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/nuotrauku-mazinimas.html"
+                       rel="bookmark"
+                       title="Permalink to Automatinis nuotraukų mažinimas">
+                        Automatinis nuotraukų mažinimas
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-08-26T15:08:00+03:00"> tr 26 rugpjutis 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/batch.html">batch</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/batch-process.html">batch process</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/cmd.html">cmd</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/convert.html">convert</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/for-r.html">for /r</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/image-magick.html">image magick</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/image-recize.html">image recize</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/nuotrauku-mazinimas.html">nuotraukų mažinimas</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/sumazinimas.html">sumažinimas</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/vbs.html">vbs</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/windows.html">windows</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/app-resizeme-512.png"><img alt="app-resizeme-512" class="aligncenter size-medium wp-image-894" src="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/app-resizeme-512-300x300.png" style="width: 300px; height: 300px;" /></a></p>
+<p>Prisireikė darbe sumažinti krūvą kamerų nuotraukų. Nuotraukų, švelniai tariant, daug. Labai daug, apie 6 mln. vnt. (~1 TB). &nbsp;Visos nuotraukos tvarkingai sudėliotos į hierarchinę aplankų struktūrą pagal kameros pavadinimą,&nbsp;metus, mėnesį&nbsp;ir&nbsp;dieną, todėl &quot;prieiti&quot; iki konkrečios nuotraukos nėra labai jau paprasta. Dar įdomiau, kad ne visų kamerų vaizdus reikia mažinti. Kai kurie kamerų vaizdai jau yra reikiamo dydžio, ir juos papildomai apdorojant būtų be reikalo gaištamas laikas. Ką&nbsp;daryti..? Aš radau tris skirtingo sudėtingumo šios užduoties įgyvendinimo variantus.</p>
+<div class="section" id="image-resizer">
+<h2><a class="reference external" href="https://imageresizer.codeplex.com/">Image Resizer</a></h2>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/ContextMenu.png"><img alt="ContextMenu" class="aligncenter size-full wp-image-893" src="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/ContextMenu.png" style="width: 437px; height: 375px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/ImageResizer.png"><img alt="ImageResizer" class="aligncenter size-full wp-image-892" src="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/ImageResizer.png" style="width: 376px; height: 353px;" /></a></p>
+<p>Tai pats paprasčiausias variantas. <a class="reference external" href="https://imageresizer.codeplex.com">Atsisiuntus</a> ir susiinstaliavus &quot;Image Resizer&quot;, jums beliks tik pasirinkti norimus sumažinti paveikslėlius, ant jų paspausti dešiniu pelės klavišu, išsirinkti meniu punktą &quot;Rezise pictures&quot;, nustatyti norimus parametrus ir paspausti &quot;Resize&quot;. Viską kitą programa padarys pati.</p>
+<p>Didžiausias programos privalumas yra tas, kad ji turi intuityvią naudotoją sąsają. Taip pat yra pakankamai protinga ir gali tik mažinti paveikslėlius (uždėjus varnelę &quot;Only shrink pictures&quot;). Kitos programos, tuo tarpu, bando ištampyti mažus paveikslėlius iki nustatyto dydžio. Labai patogu, kad &quot;Image Resizer&quot;&nbsp;gali ne tik perrašyti failų originalus bet ir&nbsp;sukurti sumažintų paveikslų kopiją.</p>
+<p>Didžiausiais programos trūkumas - &quot;Image Resizer&quot;&nbsp;negalima &quot;užsiundyti&quot; ant visos nuotraukų direktorijos. T. y. reikia rankiniu būdu pasirinkti konkrečius nuotraukų failus. Mano atveju, ši programa nelabai tinka, nes kaip minėjau įžangoje, mano nuotraukos tvarkingai sudėliotos į hierarchinę aplankų struktūrą pagal kameros pavadinimą, metus, mėnesį ir dieną, todėl &quot;prieiti&quot; iki konkrečios nuotraukos nėra labai paprasta ir užima per daug laiko. Taip pat programa kaip ir neturi jokio vizualinio darbo eigos indikatoriaus. T. y. paleidus &quot;Resize&quot;, apie vykstantį darbą galima suprasti tik iš failų dydžių ir iš CPU apkrovos. Nėra nurodoma, ką programa konkrečiai veikia.</p>
+<div class="section" id="image-magick">
+<h3>Image Magick</h3>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/Imagemagick-logo.png"><img alt="Imagemagick-logo" class="aligncenter size-medium wp-image-887" src="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/Imagemagick-logo-291x300.png" style="width: 291px; height: 300px;" /></a></p>
+<p><a class="reference external" href="http://www.imagemagick.org/script/index.php">Image Magick</a> - tai, tikriausiai, pats galingiausiais ir universaliausiais įrankis, skirtas manipuliacijos su paveikslėliais iš komandinės eilutės. Su &quot;Image &nbsp;Magick&quot; galime keisti paveikslėlio dydį ir formatą, transformuoti paveikslėlį (pasukti, pakreipti ir pan.), kai kurias paveikslėlio vietas padaryt permatomas, ant paveikslėlio užpiešti geometrines figūras, sukomponuoti kelis paveikslus į vieną ar pakeisti paveikslėlio spalvinę gamą. Ir visa tai (tikrai dar daugiau visko) galima atlikti iš komandinės eilutės! Na bet kol kas mus domina tik paveikslėlių mažinimas.</p>
+<p>Apie paveikslėlių mažinimą yra parašyta išsami&nbsp;<a class="reference external" href="http://www.imagemagick.org/Usage/resize/">pasakėčia</a>, &nbsp;kurią tikrai vertėtų kada nors pasiskaityti, tačiau pradžiai užteks ir tokios komandos:</p>
+<div class="highlight"><pre><span></span>convert<span class="w"> </span>image.jpg<span class="w"> </span>-resize<span class="w"> </span>640x480&gt;<span class="w"> </span>image_min.jpg
+</pre></div>
+<p>Ši komanda nurodytą paveikslėlį <em>image.jpg</em> sumažins iki nurodyto dydžio (atsižvelgdama į originalaus paveikslėlio proporcijas) ir išsaugos nauju vardu&nbsp;<em>image_min.jpg</em>. Norint, kad komanda originalų&nbsp;paveikslėlį perrašytų, tiesiog reikia nurodyti&nbsp;tokį pat naujo failo pavadinimą kaip ir originalaus failo. Easy!</p>
+<p>O&nbsp;kaip tokią komandą &quot;užsiundyti&quot; ant visų pageidaujamų failų? T. y. kaip su &quot;Image Magick&quot; sumažinti visas aplanke esančias nuotraukas? O gi, pasirodo, labai paprastai. Mums padės komandinės eilutės komanda <a class="reference external" href="https://technet.microsoft.com/en-us/library/bb490909.aspx">FOR</a>, kuri, kaip ir reikia suprasti, užsuks ciklą, kuris pereis per visus failus ir jiems įvykdys dydžio sumažinimo&nbsp;komandą:</p>
+<div class="highlight"><pre><span></span>FOR<span class="w"> </span>/R<span class="w"> </span>%f<span class="w"> </span>IN<span class="w"> </span><span class="o">(</span><span class="se">\*</span>.jpg<span class="o">)</span><span class="w"> </span>DO<span class="w"> </span>convert<span class="w"> </span><span class="s2">&quot;%f&quot;</span><span class="w"> </span>-resize<span class="w"> </span><span class="s2">&quot;640x480&gt;&quot;</span><span class="w"> </span><span class="s2">&quot;%f&quot;</span>
+</pre></div>
+<p>Nuotraukų mažinimu aš iš principo siekiau išpešti kuo daugiau laisvos duomenų saugyklos vietos, todėl man labiau rūpėjo sumažinti ne tiek matmenimis, kiek užimama disko vieta dideles nuotraukas. Taip gimė komanda, kuri mažina tik nuotraukas didesnes nei 100 kB:</p>
+<div class="highlight"><pre><span></span>FOR<span class="w"> </span>/r<span class="w"> </span>%f<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">(</span><span class="se">\*</span><span class="o">)</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="k">if</span><span class="w"> </span>%~zf<span class="w"> </span>gtr<span class="w"> </span><span class="m">100000</span><span class="w"> </span>convert<span class="w"> </span><span class="s2">&quot;%f&quot;</span><span class="w"> </span>-resize<span class="w"> </span><span class="s2">&quot;640x480&gt;&quot;</span><span class="w"> </span><span class="s2">&quot;%f&quot;</span>
+</pre></div>
+<p>Aišku, didelių nuotraukų dydžio galima ir nekeisti. Kartais gali užtekti tik sumažinti nuotraukos kokybę. Po ilgų išieškojimų, pagaminau tokią komandą:</p>
+<div class="highlight"><pre><span></span>FOR<span class="w"> </span>/R<span class="w"> </span>%f<span class="w"> </span>IN<span class="w"> </span><span class="o">(</span><span class="se">\*</span>.jpg<span class="o">)</span><span class="w"> </span>DO<span class="w"> </span>convert<span class="w"> </span><span class="s2">&quot;%f&quot;</span><span class="w"> </span>-strip<span class="w"> </span>-interlace<span class="w"> </span>Plane<span class="w"> </span>-gaussian-blur<span class="w"> </span><span class="m">0</span>.05<span class="w"> </span>-quality<span class="w"> </span><span class="m">75</span>%<span class="w"> </span><span class="s2">&quot;%f&quot;</span>
+</pre></div>
+<p>Norint, kad visas sumažintos kokybės nuotraukas komanda išsaugotų šakniniame kataloge, komandą galima pakeisti taip:</p>
+<div class="highlight"><pre><span></span>FOR<span class="w"> </span>/R<span class="w"> </span>%f<span class="w"> </span>IN<span class="w"> </span><span class="o">(</span><span class="se">\*</span>.jpg<span class="o">)</span><span class="w"> </span>DO<span class="w"> </span>convert<span class="w"> </span><span class="s2">&quot;%f&quot;</span><span class="w"> </span>-strip<span class="w"> </span>-interlace<span class="w"> </span>Plane<span class="w"> </span>-gaussian-blur<span class="w"> </span><span class="m">0</span>.05<span class="w"> </span>-quality<span class="w"> </span><span class="m">75</span>%<span class="w"> </span><span class="s2">&quot;%~nxf&quot;</span>
+</pre></div>
+<p>Prierašas %~nxf&nbsp; <a class="reference external" href="http://superuser.com/questions/489240/how-to-get-filename-only-without-path-in-windows-command-line">gražina tik failo pavadinimą</a>, tuo tarpu kaip&nbsp;%f gražina visą kelią iki failo.</p>
+</div>
+<div class="section" id="image-magick-vbs">
+<h3>Image Magick + VBS</h3>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/kameros_struktura.jpg"><img alt="kameros_struktura" class="aligncenter size-full wp-image-908" src="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/kameros_struktura.jpg" style="width: 472px; height: 245px;" /></a></p>
+<p>Prieš tai aprašytas metodas puikiai tinka absoliučiai visų direktorijoje ir šios subdirektorijose esančių nuotraukų sumažinimui. Tačiau ką daryti, jeigu norime sumažinti tik kai kurių kamerų nuotraukas? Tarkim, kad norime sumažinti tik &quot;Kamera2&quot; ir &quot;Kamera4&quot; vaizdus (žr. paveikslą viršuje), visus kitus paliekant ramybėje. Bandant panaudoti prieš tai aprašytą <em>for /R</em>&nbsp;metodą tektų komandą vykdyti du kartus: vieną kartą direktorijai \<em>Kameros\Kamera2</em>, kitą kartą - <em>\Kameros\Kamera4</em>. Tai gan nepatogu bei sunku automatizuoti.</p>
+<p>Kiek pasigilinus ir &quot;pasigooglinus&quot; gimė štai toks <em>Kameru_vaizdu_suspaudimas.vbs</em> skriptas:</p>
+<div class="highlight"><pre><span></span><span class="k">Const</span><span class="w"> </span><span class="n">srcDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;C:&quot;</span>
+<span class="k">Const</span><span class="w"> </span><span class="n">camerasDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;\\Kameros&quot;</span>
+
+<span class="k">Const</span><span class="w"> </span><span class="n">minFileSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="c">&#39;kb</span>
+
+<span class="k">Set</span><span class="w"> </span><span class="n">fso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateObject</span><span class="p">(</span><span class="s">&quot;Scripting.FileSystemObject&quot;</span><span class="p">)</span>
+<span class="k">set</span><span class="w"> </span><span class="n">img</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateObject</span><span class="p">(</span><span class="s">&quot;ImageMagickObject.MagickImage.1&quot;</span><span class="p">)</span>
+
+<span class="c">&#39; Skriptui aktualiu kameru masyvas:</span>
+<span class="k">Dim</span><span class="w"> </span><span class="n">kameros</span>
+<span class="n">kameros</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;Kamera2&quot;</span><span class="p">,</span><span class="s">&quot;Kamera4&quot;</span><span class="p">)</span>
+
+<span class="k">Sub</span><span class="w"> </span><span class="nf">ShowSubFolders</span><span class="p">(</span><span class="n">Folder</span><span class="p">)</span>
+<span class="k">For</span><span class="w"> </span><span class="k">Each</span><span class="w"> </span><span class="n">Subfolder</span><span class="w"> </span><span class="ow">In</span><span class="w"> </span><span class="n">Folder</span><span class="p">.</span><span class="n">SubFolders</span>
+<span class="k">set</span><span class="w"> </span><span class="n">objShell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WScript</span><span class="p">.</span><span class="n">CreateObject</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;WScript.Shell&quot;</span><span class="p">)</span>
+<span class="n">objShell</span><span class="p">.</span><span class="n">CurrentDirectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fso</span><span class="p">.</span><span class="n">GetFolder</span><span class="p">(</span><span class="n">Subfolder</span><span class="p">)</span>
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="p">(</span><span class="n">objShell</span><span class="p">.</span><span class="n">CurrentDirectory</span><span class="p">)</span>
+<span class="k">Set</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SubFolder</span><span class="p">.</span><span class="n">Files</span>
+<span class="k">For</span><span class="w"> </span><span class="k">Each</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="ow">In</span><span class="w"> </span><span class="n">files</span>
+<span class="k">If</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">Size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">minFileSize</span><span class="w"> </span><span class="k">Then</span>
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="n">Subfolder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;\\&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">Name</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">Size</span><span class="o">/</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;kb&quot;</span>
+<span class="n">img</span><span class="p">.</span><span class="n">Convert</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-resize&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;640x480&gt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">name</span>
+<span class="k">Else</span>
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="s">&quot;SKIP &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Subfolder</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;\\&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">Name</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">Size</span><span class="o">/</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;kb&quot;</span>
+<span class="k">End</span><span class="w"> </span><span class="k">If</span>
+<span class="k">Next</span>
+<span class="n">ShowSubFolders</span><span class="w"> </span><span class="n">Subfolder</span>
+<span class="k">Next</span>
+<span class="k">End</span><span class="w"> </span><span class="k">Sub</span>
+
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="s">&quot;-------------------------------------------&quot;</span>
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="s">&quot;Vaizdo kameru vaizdu suspaustimo skriptas&quot;</span>
+
+<span class="n">DateInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateInfo</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">Now</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">VbCrLf</span>
+<span class="n">Wscript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="n">DateInfo</span>
+
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="s">&quot;-------------------------------------------&quot;</span>
+
+<span class="k">For</span><span class="w"> </span><span class="k">Each</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="ow">In</span><span class="w"> </span><span class="n">kameros</span>
+
+<span class="k">If</span><span class="w"> </span><span class="n">fso</span><span class="p">.</span><span class="n">FolderExists</span><span class="p">(</span><span class="n">srcDir</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">camerasDir</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;\\&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">Then</span>
+
+<span class="k">Set</span><span class="w"> </span><span class="n">kamera</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fso</span><span class="p">.</span><span class="n">GetFolder</span><span class="p">(</span><span class="n">srcDir</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">camerasDir</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;\\&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span>
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="s">&quot;Nulindau i &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">kamera</span>
+<span class="k">Set</span><span class="w"> </span><span class="n">folderObj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fso</span><span class="p">.</span><span class="n">GetFolder</span><span class="p">(</span><span class="n">kamera</span><span class="p">)</span>
+<span class="k">set</span><span class="w"> </span><span class="n">objShell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WScript</span><span class="p">.</span><span class="n">CreateObject</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;WScript.Shell&quot;</span><span class="p">)</span>
+<span class="n">objShell</span><span class="p">.</span><span class="n">CurrentDirectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fso</span><span class="p">.</span><span class="n">GetFolder</span><span class="p">(</span><span class="n">kamera</span><span class="p">)</span>
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="p">(</span><span class="n">objShell</span><span class="p">.</span><span class="n">CurrentDirectory</span><span class="p">)</span>
+
+<span class="k">set</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">folderObj</span><span class="p">.</span><span class="n">Files</span>
+<span class="k">for</span><span class="w"> </span><span class="k">each</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">files</span>
+<span class="k">If</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">Size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">minFileSize</span><span class="w"> </span><span class="k">Then</span>
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="n">kamera</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;\\&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">Size</span><span class="o">/</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;kb&quot;</span>
+<span class="n">img</span><span class="p">.</span><span class="n">Convert</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-resize&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;640x480&gt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">name</span>
+<span class="k">Else</span>
+<span class="n">WScript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="s">&quot;SKIP&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">kamera</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;\\&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">round</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="n">Size</span><span class="o">/</span><span class="mi">1024</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;kb&quot;</span>
+<span class="k">End</span><span class="w"> </span><span class="k">If</span>
+<span class="k">Next</span>
+
+<span class="c">&#39;Pereisim per visus subfolderius:</span>
+<span class="n">ShowSubFolders</span><span class="w"> </span><span class="n">fso</span><span class="p">.</span><span class="n">GetFolder</span><span class="p">(</span><span class="n">kamera</span><span class="p">)</span>
+
+<span class="k">Else</span>
+<span class="n">Wscript</span><span class="p">.</span><span class="n">Echo</span><span class="w"> </span><span class="s">&quot;Folder &quot;&quot;&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">srcDir</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">camerasDir</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;\\&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">&quot;&quot;&quot; does not exist?&quot;</span>
+<span class="k">End</span><span class="w"> </span><span class="k">If</span>
+
+<span class="k">Next</span>
+</pre></div>
+<p>Skriptas gavosi pakankamai gudrus. Jis iš nurodytos direktorijos &quot;C:\Kameros\&quot; atsirenka tik masyve &quot;<em>kameros</em>&quot; nurodytas subdirektorijas&nbsp;&quot;Kamera2&quot;&nbsp;ir&nbsp;&quot;Kamera4&quot;. &nbsp;Tada paeiliui pereina per šių subdirektorijų subdirektorijas &nbsp;ir suranda visus jose esančius failus. Jeigu konkretus failas yra didesnis nei nurodytas&nbsp;<em>minFileSize = 100 KB</em>, jam įvykdo nuotraukos sumažinimo komandą. Jei failas mažesnis - jį praleidžia. Visą savo darbo eigą skirptas išspausdina į komandinę eilutę.</p>
+<p>Iš komandinės eilutės &nbsp;šį skriptą geriausia paleisti taip:</p>
+<div class="highlight"><pre><span></span>cscript.exe<span class="w"> </span>//nologo<span class="w"> </span>//D<span class="w"> </span>C:<span class="se">\\</span>Kameru_vaizdu_suspaudimas.vbs
+</pre></div>
+<p>Tai apsaugos nuo iššokančių Windows Script Host pranešimų ir kitokių &nbsp;negandų. Geriausia, apskritai pastarąją eilutę įrašyti į BAT failiuką. Taip skriptą galima bus galima paleisti Windows Schedule priemonėmis.</p>
+<p><strong>P. S.</strong> patarimas dėl lietuviškų rašmenų. Bent jau aš susidūriau su tokia problema, kad vbs skriptas piktybiškas nenorėjo&nbsp;&nbsp;pripažinti lietuviškų raidžių kamerų pavadinimuose. Pav. <em>C:\Kameros\***Obuolys*</em> puikiausiai veikė, o vat <em>C:\Kameros\***Kriaušė*</em> niekaip. Šiokį tokį sprendimą radau <a class="reference external" href="http://stackoverflow.com/questions/5788671/calling-any-file-script-with-russian-name-from-vbscript-fails">StackOverflow</a> forumuose. Čia protingas žmogėnas pasiūlė naudoti ne pilną katalogo/failo pavadinimą, o jo &quot;ShortPath&quot; versiją.&nbsp;&quot;ShortPath&quot; vardus galima sužinoti su komanda <strong>dir /x</strong>:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/shortpath.jpg"><img alt="shortpath" class="aligncenter size-full wp-image-914" src="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/shortpath.jpg" style="width: 452px; height: 215px;" /></a></p>
+<p>Grįžtant prie mano VBS skripto,&nbsp;&quot;ShortPath&quot; vardų panaudojimas realizuojamas pakeišiant kamerų direktorijų pavadinimų masyvo reikšmes iš:</p>
+<div class="highlight"><pre><span></span><span class="n">kameros</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;Obuolys&quot;</span><span class="p">,</span><span class="s">&quot;Kriaušė&quot;</span><span class="p">)</span>
+</pre></div>
+<p>į:</p>
+<div class="highlight"><pre><span></span><span class="n">kameros</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;Obuolys&quot;</span><span class="p">,</span><span class="s">&quot;KRIAU~1&quot;</span><span class="p">)</span>
+</pre></div>
+<div class="line-block">
+<div class="line">Štai ir viskas!</div>
+</div>
+<div class="line-block">
+<div class="line"><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/doctorwho.gif"><img alt="doctorwho" class="aligncenter size-full wp-image-917" src="https://paulius.bautrenas.lt/images/nuotrauku-mazinimas/doctorwho.gif" style="width: 500px; height: 282px;" /></a></div>
+</div>
+</div>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
