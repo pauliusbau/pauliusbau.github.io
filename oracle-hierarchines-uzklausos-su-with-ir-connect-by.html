@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Oracle hierarchinės užklausos su WITH ir CONNECT BY - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/oracle-hierarchines-uzklausos-su-with-ir-connect-by.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="connect by,count,data gaps,group by,left join,levels,oracle,with" />
+        <meta name="description" content="Darbe iš nutolusių įrenginių kelis kartus per valanda surenkam įvairius duomenis. Kiekviena surinkimo faktą (surinko ar nesurinko duomenis) taip pat fiksuojame ir saugome DB. Kažkada iškilo poreikis grafiškai pasižiūrėti, kaip vis dėl to mūsų įrenginiai veikia, t. y. kaip kokybiškai teikia mums duomenis. Tam pasirašiau paprastą užklausą, kuri tiesiog suskaičiuoja …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Oracle hierarchinės užklausos su WITH ir CONNECT BY"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/oracle-hierarchines-uzklausos-su-with-ir-connect-by.html"/>
+        <meta property="og:description" content="Darbe iš nutolusių įrenginių kelis kartus per valanda surenkam įvairius duomenis. Kiekviena surinkimo faktą (surinko ar nesurinko duomenis) taip pat fiksuojame ir saugome DB. Kažkada iškilo poreikis grafiškai pasižiūrėti, kaip vis dėl to mūsų įrenginiai veikia, t. y. kaip kokybiškai teikia mums duomenis. Tam pasirašiau paprastą užklausą, kuri tiesiog suskaičiuoja …"/>
+        <meta property="article:published_time" content="2014-08-26" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="connect by" />
+            <meta property="article:tag" content="count" />
+            <meta property="article:tag" content="data gaps" />
+            <meta property="article:tag" content="group by" />
+            <meta property="article:tag" content="left join" />
+            <meta property="article:tag" content="levels" />
+            <meta property="article:tag" content="oracle" />
+            <meta property="article:tag" content="with" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/oracle-hierarchines-uzklausos-su-with-ir-connect-by.html"
+                       rel="bookmark"
+                       title="Permalink to Oracle hierarchinės užklausos su WITH ir CONNECT BY">
+                        Oracle hierarchinės užklausos su WITH ir CONNECT BY
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-08-26T15:20:00+03:00"> an 26 rugpjutis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/connect-by.html">connect by</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/count.html">count</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/data-gaps.html">data gaps</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/group-by.html">group by</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/left-join.html">left join</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/levels.html">levels</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/oracle.html">oracle</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/with.html">with</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/oracle-hierarchines-uzklausos-su-with-ir-connect-by/oracle_hierarchine.png"><img alt="oracle_hierarchine" class="aligncenter size-full wp-image-333" src="https://paulius.bautrenas.lt/images/oracle-hierarchines-uzklausos-su-with-ir-connect-by/oracle_hierarchine.png" style="width: 693px; height: 359px;" /></a></p>
+<p>Darbe iš nutolusių įrenginių kelis kartus per valanda surenkam įvairius duomenis. Kiekviena surinkimo faktą (surinko ar nesurinko duomenis) taip pat fiksuojame ir saugome DB. Kažkada iškilo poreikis grafiškai pasižiūrėti, kaip vis dėl to mūsų įrenginiai veikia, t. y. kaip kokybiškai teikia mums duomenis. Tam pasirašiau paprastą užklausą, kuri tiesiog suskaičiuoja, kiek kiekvieną valandą buvo sėkmingų duomenų surinkimo iteracijų. Kaip ir viskas gerai, tačiau bėda kyla, jei konkrečią valandą nebuvo nei vienos sėkmingos iteracijos. Tada duomenys visai dingsta (žr. nuotrauką viršuje), o norėjosi bent <em>null</em> pamatyti.</p>
+<p>Nieko nelaukęs <a class="reference external" href="https://community.oracle.com/thread/1055543?start=0&amp;tstart=0">susigooglinau</a> šaunų pavyzdėlį, kuriame panaši problema buvo išspręsta hierarchine užklausa panaudojant WITH ir CONNECT BY konstrukcijas (čia jau mano šiek tiek adaptuotas variantas):</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w">  </span><span class="k">WITH</span><span class="w"> </span><span class="k">parameters</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="k">SELECT</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="n">TO_DATE</span><span class="p">(</span><span class="s1">&#39;2014-03-01&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm-dd&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">START_DAY</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="n">TO_DATE</span><span class="p">(</span><span class="s1">&#39;2014-03-02&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm-dd&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">END_DAY</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">DUAL</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="n">hour_range</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="k">SELECT</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="n">START_DAY</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="k">LEVEL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">24</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span>
+<span class="linenos">10</span><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="k">PARAMETERS</span>
+<span class="linenos">11</span><span class="w">  </span><span class="k">CONNECT</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">LEVEL</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">END_DAY</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">START_DAY</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">24</span>
+<span class="linenos">12</span><span class="w">  </span><span class="p">)</span>
+<span class="linenos">13</span><span class="w">  </span><span class="k">SELECT</span>
+<span class="linenos">14</span><span class="w">  </span><span class="n">TO_char</span><span class="p">(</span><span class="n">DT</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD HH24&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">laikas</span>
+<span class="linenos">15</span><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">HOUR_RANGE</span>
+<span class="linenos">16</span><span class="w">  </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span>
+</pre></div>
+<p>Kaip veikia CONNECT BY yra šauniai aprašyta <a class="reference external" href="http://welcometooracle.wordpress.com/2012/10/18/hierarchical/">čia</a>, todėl per daug neišsiplėsiu ir geriau parodysiu, kaip prieš tai aprašytą užklausą pritaikiau savo reikmėms. Po kiek užsitęsusio &quot;būrimo&quot; gavosi štai tokia užklausa:</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w">  </span><span class="k">with</span><span class="w"> </span><span class="n">dummy_date</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">TO_char</span><span class="p">(</span><span class="n">TO_DATE</span><span class="p">(</span><span class="s1">&#39;2014-08-26&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm-dd&#39;</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD HH24&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">dien</span><span class="p">,</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="n">TO_char</span><span class="p">(</span><span class="n">TO_DATE</span><span class="p">(</span><span class="s1">&#39;2014-08-26&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm-dd&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="k">LEVEL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD HH24&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">dual</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="k">CONNECT</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">LEVEL</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">TO_DATE</span><span class="p">(</span><span class="s1">&#39;2014-08-27&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm-dd&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">TO_DATE</span><span class="p">(</span><span class="s1">&#39;2014-08-26&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm-dd&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">24</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="p">,</span><span class="n">iteracijos</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="k">SELECT</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="n">TO_char</span><span class="p">(</span><span class="n">trunc</span><span class="p">(</span><span class="n">DUOM_SUR_ITERACIJOS</span><span class="p">.</span><span class="n">DSI_SURINKIMO_DATA</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;DD&#39;</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD HH24&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">diena</span><span class="p">,</span>
+<span class="linenos">10</span><span class="w">  </span><span class="n">TO_char</span><span class="p">(</span><span class="n">trunc</span><span class="p">(</span><span class="n">DUOM_SUR_ITERACIJOS</span><span class="p">.</span><span class="n">DSI_SURINKIMO_DATA</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;HH&#39;</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;YYYY-MM-DD HH24&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">data</span><span class="p">,</span>
+<span class="linenos">11</span><span class="w">  </span><span class="k">count</span><span class="p">(</span><span class="n">dsi_id</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">iter</span>
+<span class="linenos">12</span><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">DUOM_SUR_ITERACIJOS</span>
+<span class="linenos">13</span><span class="w">  </span><span class="k">WHERE</span>
+<span class="linenos">14</span><span class="w">  </span><span class="n">DUOM_SUR_ITERACIJOS</span><span class="p">.</span><span class="ss">&quot;DSI_SURINKIMO_DATA&quot;</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s1">&#39;2014-08-26&#39;</span>
+<span class="linenos">15</span><span class="w">  </span><span class="k">and</span><span class="w"> </span><span class="n">DUOM_SUR_ITERACIJOS</span><span class="p">.</span><span class="ss">&quot;DSI_SURINKIMO_DATA&quot;</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="s1">&#39;2014-08-27&#39;</span>
+<span class="linenos">16</span><span class="w">  </span><span class="k">and</span><span class="w"> </span><span class="n">DUOM_SUR_ITERACIJOS</span><span class="p">.</span><span class="ss">&quot;DSI_RNG_ID&quot;</span><span class="o">=</span><span class="w"> </span><span class="mi">383</span>
+<span class="linenos">17</span><span class="w">  </span><span class="k">and</span><span class="w"> </span><span class="n">DSI_SU_KLAIDOMIS</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="w">  </span><span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">trunc</span><span class="p">(</span><span class="n">DUOM_SUR_ITERACIJOS</span><span class="p">.</span><span class="n">DSI_SURINKIMO_DATA</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;DD&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">trunc</span><span class="p">(</span><span class="n">DUOM_SUR_ITERACIJOS</span><span class="p">.</span><span class="n">DSI_SURINKIMO_DATA</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;HH&#39;</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="w">  </span><span class="p">)</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="w">  </span><span class="k">select</span>
+<span class="linenos">24</span><span class="w">  </span><span class="n">dummy_date</span><span class="p">.</span><span class="n">dien</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">diena</span>
+<span class="linenos">25</span><span class="w">  </span><span class="p">,</span><span class="n">dummy_date</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">data</span>
+<span class="linenos">26</span><span class="w">  </span><span class="p">,</span><span class="n">iteracijos</span><span class="p">.</span><span class="n">iter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">iter</span>
+<span class="linenos">27</span><span class="w">  </span><span class="k">from</span><span class="w"> </span><span class="n">dummy_date</span><span class="w"> </span><span class="k">left</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">iteracijos</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">iteracijos</span><span class="p">.</span><span class="k">data</span><span class="o">=</span><span class="n">dummy_date</span><span class="p">.</span><span class="n">dt</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="w">  </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">diena</span><span class="p">,</span><span class="w"> </span><span class="k">data</span>
+</pre></div>
+<p>Užklausos vykdymo metu, &quot;virtualioje lentelėje&quot; <em>dummy_date</em>, pagal prieš tai pateiktą pavyzdį, yra sukuriami maždaug tokie dienos (diena su laiku 00:00) ir datos (diena su valanda) įrašai:</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span>  DIEN DT
+<span class="linenos"> 2</span>  ------------- --------------
+<span class="linenos"> 3</span>  2014-08-26 00 2014-08-26 00
+<span class="linenos"> 4</span>  2014-08-26 00 2014-08-26 01
+<span class="linenos"> 5</span>  2014-08-26 00 2014-08-26 02
+<span class="linenos"> 6</span>  2014-08-26 00 2014-08-26 03
+<span class="linenos"> 7</span>  ... ...
+<span class="linenos"> 8</span>  2014-08-26 00 2014-08-27 20
+<span class="linenos"> 9</span>  2014-08-26 00 2014-08-27 21
+<span class="linenos">10</span>  2014-08-26 00 2014-08-27 22
+<span class="linenos">11</span>  2014-08-26 00 2014-08-27 23
+</pre></div>
+<p>Su elementariu select, &quot;virtualioje lentelėje&quot; <em>iteracijos</em> yra sukuriami tokie įrašai (apačioje). Čia paprasčiausiai su <em>group by</em> ir <em>count</em> yra suskaičiuojama, kiek per kiekvieną valandą buvo įvykdyta teisingų iteracijų. Įrašai niekaip nesurūšiuoti, nes rūšiavimas atliekamas paskutinėje select užklausoje.</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span>  DIENA DATA ITER
+<span class="linenos"> 2</span>  ------------- -------------- ----
+<span class="linenos"> 3</span>  2014-08-26 00 2014-08-26 10 4
+<span class="linenos"> 4</span>  2014-08-26 00 2014-08-26 13 4
+<span class="linenos"> 5</span>  2014-08-26 00 2014-08-26 07 3
+<span class="linenos"> 6</span>  2014-08-26 00 2014-08-26 04 1
+<span class="linenos"> 7</span>  2014-08-26 00 2014-08-26 08 3
+<span class="linenos"> 8</span>  2014-08-26 00 2014-08-26 00 4
+<span class="linenos"> 9</span>  2014-08-26 00 2014-08-26 02 1
+<span class="linenos">10</span>  2014-08-26 00 2014-08-26 11 3
+<span class="linenos">11</span>  2014-08-26 00 2014-08-26 12 4
+<span class="linenos">12</span>  2014-08-26 00 2014-08-26 14 3
+<span class="linenos">13</span>  2014-08-26 00 2014-08-26 01 4
+<span class="linenos">14</span>  2014-08-26 00 2014-08-26 09 2
+<span class="linenos">15</span>  2014-08-26 00 2014-08-26 03 4
+</pre></div>
+<p>Paskutinis select'as tiesiog iš &quot;virtualios lentelės&quot; <em>dummy_date</em> paima dienos ir datos stulpelių eilutes ir prie jų su <em>left join</em> prijungia &quot;virtualios lentelės&quot; <em>&quot;*iteracijos</em>&quot;* stulpelio <em>ITER</em>&quot;* reikšmes. Gaunasi iš pat pradžių pageidautas rezultatas:</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span>  DIENA DATA ITER
+<span class="linenos"> 2</span>  ------------- -------------- ----
+<span class="linenos"> 3</span>  2014-08-26 00 2014-08-26 00 4
+<span class="linenos"> 4</span>  2014-08-26 00 2014-08-26 01 4
+<span class="linenos"> 5</span>  2014-08-26 00 2014-08-26 02 1
+<span class="linenos"> 6</span>  2014-08-26 00 2014-08-26 03 4
+<span class="linenos"> 7</span>  2014-08-26 00 2014-08-26 04 1
+<span class="linenos"> 8</span>  2014-08-26 00 2014-08-26 05 null
+<span class="linenos"> 9</span>  2014-08-26 00 2014-08-26 06 null
+<span class="linenos">10</span>  2014-08-26 00 2014-08-26 07 3
+<span class="linenos">11</span>  2014-08-26 00 2014-08-26 08 3
+<span class="linenos">12</span>  2014-08-26 00 2014-08-26 09 2
+<span class="linenos">13</span>  2014-08-26 00 2014-08-26 10 4
+<span class="linenos">14</span>  2014-08-26 00 2014-08-26 11 3
+<span class="linenos">15</span>  2014-08-26 00 2014-08-26 12 4
+<span class="linenos">16</span>  2014-08-26 00 2014-08-26 13 4
+<span class="linenos">17</span>  2014-08-26 00 2014-08-26 14 4
+</pre></div>
+<p>Rezultatas tarp paprastos (&quot;virtuali lentelė&quot; <em>iteracijos</em>) ir hierarchinės užklausos daug akivaizdesnis išpiešus užklausų rezultatus grafiškai. Paprastai ištraukus duomenis, atrodo, kad įrenginys veikia praktiškai be sutrikimų. Duomenis ištraukus &quot;gudresniu&quot; būdu, aiškiai matome duomenų perdavimo trūkius.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/oracle-hierarchines-uzklausos-su-with-ir-connect-by/oracle_hierarchine_jasper.png"><img alt="oracle_hierarchine_jasper" class="aligncenter size-large wp-image-347" src="https://paulius.bautrenas.lt/images/oracle-hierarchines-uzklausos-su-with-ir-connect-by/oracle_hierarchine_jasper-1024x494.png" style="width: 625px; height: 301px;" /></a></p>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/dinaminis-sql-uzklausos-where-salygu-keitimas.html">Dinaminis SQL užklausos &quot;where&quot; sąlygų keitimas</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
