@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Python: Statistinis klaidingų duomenų taškų eliminavimas - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/python-statistinis-klaidingu-duomenu-tasku-eliminavimas.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="Adafruit_DHT,DHT22,first quartile,interquartile ranges,IRQ,kvartiliai,MySQL,numpy,outliers,Q1,Q3,RaspberriPi,third quartile" />
+        <meta name="description" content="Prieš mėnesį prie RaspberryPi prisijungiau porą DHT22 oro temperatūros ir drėgmės jutiklių ir pradėjau automatizuotai iš jų surinktus duomenis saugoti MySQL duomenų bazėje (plačiau čia). Dar programuodamas duomenų surinkimą, pastebėjau, kad laikas nuo laiko DHT22 duomenyse pasitaiko klaidų, pav. vieno iš 10 matavimų rezultatas yra keliais laipsniais didesnis nei likusių …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Python: Statistinis klaidingų duomenų taškų eliminavimas"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/python-statistinis-klaidingu-duomenu-tasku-eliminavimas.html"/>
+        <meta property="og:description" content="Prieš mėnesį prie RaspberryPi prisijungiau porą DHT22 oro temperatūros ir drėgmės jutiklių ir pradėjau automatizuotai iš jų surinktus duomenis saugoti MySQL duomenų bazėje (plačiau čia). Dar programuodamas duomenų surinkimą, pastebėjau, kad laikas nuo laiko DHT22 duomenyse pasitaiko klaidų, pav. vieno iš 10 matavimų rezultatas yra keliais laipsniais didesnis nei likusių …"/>
+        <meta property="article:published_time" content="2014-12-04" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="Adafruit_DHT" />
+            <meta property="article:tag" content="DHT22" />
+            <meta property="article:tag" content="first quartile" />
+            <meta property="article:tag" content="interquartile ranges" />
+            <meta property="article:tag" content="IRQ" />
+            <meta property="article:tag" content="kvartiliai" />
+            <meta property="article:tag" content="MySQL" />
+            <meta property="article:tag" content="numpy" />
+            <meta property="article:tag" content="outliers" />
+            <meta property="article:tag" content="Q1" />
+            <meta property="article:tag" content="Q3" />
+            <meta property="article:tag" content="RaspberriPi" />
+            <meta property="article:tag" content="third quartile" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/python-statistinis-klaidingu-duomenu-tasku-eliminavimas.html"
+                       rel="bookmark"
+                       title="Permalink to Python: Statistinis klaidingų duomenų taškų eliminavimas">
+                        Python: Statistinis klaidingų duomenų taškų eliminavimas
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-12-04T13:25:00+02:00"> kt 04 gruodis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/adafruit_dht.html">Adafruit_DHT</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/dht22.html">DHT22</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/first-quartile.html">first quartile</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/interquartile-ranges.html">interquartile ranges</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/irq.html">IRQ</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/kvartiliai.html">kvartiliai</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/mysql.html">MySQL</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/numpy.html">numpy</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/outliers.html">outliers</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/q1.html">Q1</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/q3.html">Q3</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/raspberripi.html">RaspberriPi</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/third-quartile.html">third quartile</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/python-statistinis-klaidingu-duomenu-tasku-eliminavimas/nekorektiski_taskai.png"><img alt="nekorektiski_taskai" class="aligncenter wp-image-555" src="https://paulius.bautrenas.lt/images/python-statistinis-klaidingu-duomenu-tasku-eliminavimas/nekorektiski_taskai.png" style="width: 531px; height: 187px;" /></a></p>
+<p>Prieš mėnesį prie RaspberryPi prisijungiau porą DHT22 oro temperatūros ir drėgmės jutiklių ir pradėjau automatizuotai iš jų surinktus duomenis saugoti MySQL duomenų bazėje (plačiau <a class="reference external" href="aviete-dht22-mysql">čia</a>). Dar programuodamas duomenų surinkimą, pastebėjau, kad laikas nuo laiko DHT22 duomenyse pasitaiko klaidų, pav. vieno iš 10 matavimų rezultatas yra keliais laipsniais didesnis nei likusių ar pan. Tokias klaidas bandžiau eliminuoti suvidurkindamas kelių matavimų duomenis, tačiau tai padėjo tik iš dalies, nes net vienas klaidingas rezultatas gan stipriai iškreipia vidurkio rezultatą (žr. grafiką viršuje). Nusprendžiau matavimų klaidas eliminuoti panaudodamas statistinį &quot;nukrypėlių&quot; eliminavimo metodą.</p>
+<p>Tinkamo metodo ieškojau ilgai. Pirmiausia į galvą atėjo pasinaudoti vidutiniu kvadratiniu nuokrypiu ar Stjudento kriterijumi. Po to atradau &quot;<a class="reference external" href="http://sebastianraschka.com/Articles/2014_dixon_test.html">Dixon's Q</a>&quot; testą. Kažkiek pažaidęs, visus šiuos metodus atmečiau, nes radau daug paprastesnį ir labai lengvai python'e realizuojamą &quot;<a class="reference external" href="http://en.wikipedia.org/wiki/Interquartile_range">Interquartile range</a>&quot; metodą.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/python-statistinis-klaidingu-duomenu-tasku-eliminavimas/iqr.jpg"><img alt="iqr" class="aligncenter size-full wp-image-561" src="https://paulius.bautrenas.lt/images/python-statistinis-klaidingu-duomenu-tasku-eliminavimas/iqr.jpg" style="width: 443px; height: 165px;" /></a></p>
+<p>Metodo esmė yra ta, kad iš didėjimo tvarka surūšiuoto duomenų masyvo yra atmetamos labai mažos ir labai didelės reikšmės. Tiksliau, atmetamos tos reikšmės, kuriuos yra per daug nutolusios nuo masyvo <a class="reference external" href="https://auzi22.wordpress.com/2009/10/26/moda-ir-mediana/">medianos</a>. Tokių reikšmių atmetimui yra apskaičiuojami 25% ir 75% <a class="reference external" href="https://ausram.wordpress.com/2009/10/28/kvartiliai/">kvartiliai</a> Q1 ir Q3, jų skirtumas IRQ=Q3-Q1 ir atstumai nuo medianos: L=Q1-1,5*IRQ ir H=Q3+1,5*IRQ. Reikšmės patenkančios už L ir H rėžių yra laikomos per daug nutolusiomis ir yra atmetamos.</p>
+<p>Kaip tai atrodo realybėje, yra labai gerai paaiškinta čia: <a class="reference external" href="https://www.youtube.com/watch?v=9aDHbRb4Bf8">https://www.youtube.com/watch?v=9aDHbRb4Bf8</a></p>
+<p>Kaip tai yra realizuojama python'e;</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span>  <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 2</span>  <span class="n">myList</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">22</span><span class="p">]</span>
+<span class="linenos"> 3</span>  <span class="n">MLS</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">myList</span><span class="p">)</span>
+<span class="linenos"> 4</span>  <span class="n">Q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">MLS</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span>
+<span class="linenos"> 5</span>  <span class="n">Q3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">MLS</span><span class="p">,</span><span class="mi">75</span><span class="p">)</span>
+<span class="linenos"> 6</span>  <span class="n">IRQ</span><span class="o">=</span><span class="n">Q3</span><span class="o">-</span><span class="n">Q1</span>
+<span class="linenos"> 7</span>  <span class="n">L</span><span class="o">=</span><span class="n">Q1</span><span class="o">-</span><span class="mf">1.5</span><span class="o">*</span><span class="n">IRQ</span>
+<span class="linenos"> 8</span>  <span class="n">H</span><span class="o">=</span><span class="n">Q1</span><span class="o">+</span><span class="mf">1.5</span><span class="o">*</span><span class="n">IRQ</span>
+<span class="linenos"> 9</span>  <span class="nb">print</span> <span class="s2">&quot;---&quot;</span>
+<span class="linenos">10</span>  <span class="nb">print</span> <span class="s2">&quot;myList: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">myList</span><span class="p">)</span>
+<span class="linenos">11</span>  <span class="nb">print</span> <span class="s2">&quot;MLS: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">MLS</span><span class="p">)</span>
+<span class="linenos">12</span>  <span class="nb">print</span> <span class="s2">&quot;Q1=</span><span class="si">%s</span><span class="s2"> Q3=</span><span class="si">%s</span><span class="s2"> IRQ=</span><span class="si">%s</span><span class="s2"> L=</span><span class="si">%s</span><span class="s2"> H=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">Q1</span><span class="p">,</span><span class="n">Q3</span><span class="p">,</span><span class="n">IRQ</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">H</span><span class="p">)</span>
+</pre></div>
+<p>Kode, kvartiliai Q1 ir Q3 yra apskaičiuojami <a class="reference external" href="http://www.numpy.org/">NumPy</a> bibliotekos funkcija <em>percentile(dataList,percentile)</em>, kuriai paduodamas didėjimo tvarka surūšiuotas masyvas MLS. Likusi matematik matematika - elementari. Kodo rezultatas:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/python-statistinis-klaidingu-duomenu-tasku-eliminavimas/irq_python.jpg"><img alt="irq_python" class="aligncenter size-full wp-image-566" src="https://paulius.bautrenas.lt/images/python-statistinis-klaidingu-duomenu-tasku-eliminavimas/irq_python.jpg" style="width: 453px; height: 65px;" /></a></p>
+<p>Pagal metodiką, visos masyvo reikšmės mažesnės, nei L=6,135 ir didesnės nei H=15,875 yra tikėtinai klaidingos ir tolimesniems skaičiavimams netinkamos.</p>
+<p>Savo DHT22 nuskaitymo reikmėms panaudodamas šį metodą parašiau funkciją, kuri ne tik atmeta tikėtinai klaidingas matavimo reikšmes bet ir iš kart apskaičiuoja matavimo rezultatų vidurkį. Funkciją pavadinau &quot;<em>sanity_test(dataList)</em>&quot;:</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span>  <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span>  <span class="k">def</span> <span class="nf">sanity_test</span><span class="p">(</span><span class="n">dataList</span><span class="p">):</span>
+<span class="linenos"> 4</span>      <span class="nb">print</span> <span class="s2">&quot;myList: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">dataList</span><span class="p">)</span>
+<span class="linenos"> 5</span>      <span class="n">MLS</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dataList</span><span class="p">)</span>
+<span class="linenos"> 6</span>      <span class="nb">print</span> <span class="s2">&quot;MLS: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">MLS</span><span class="p">)</span>
+<span class="linenos"> 7</span>      <span class="n">Q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">MLS</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span>
+<span class="linenos"> 8</span>      <span class="n">Q3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">MLS</span><span class="p">,</span><span class="mi">75</span><span class="p">)</span>
+<span class="linenos"> 9</span>      <span class="n">IRQ</span><span class="o">=</span><span class="n">Q3</span><span class="o">-</span><span class="n">Q1</span>
+<span class="linenos">10</span>      <span class="n">L</span><span class="o">=</span><span class="n">Q1</span><span class="o">-</span><span class="mf">1.5</span><span class="o">*</span><span class="n">IRQ</span>
+<span class="linenos">11</span>      <span class="n">H</span><span class="o">=</span><span class="n">Q1</span><span class="o">+</span><span class="mf">1.5</span><span class="o">*</span><span class="n">IRQ</span>
+<span class="linenos">12</span>      <span class="nb">print</span> <span class="s2">&quot;L: </span><span class="si">%s</span><span class="s2"> H: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">H</span><span class="p">)</span>
+<span class="linenos">13</span>      <span class="nb">print</span> <span class="s2">&quot;----&quot;</span>
+<span class="linenos">14</span>      <span class="n">data</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">15</span>      <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">16</span>      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">MLS</span><span class="p">)):</span>
+<span class="linenos">17</span>          <span class="k">if</span> <span class="p">(</span><span class="n">MLS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">L</span> <span class="ow">and</span> <span class="n">MLS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">H</span><span class="p">):</span>
+<span class="linenos">18</span>              <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="n">MLS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos">19</span>              <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos">20</span>              <span class="nb">print</span> <span class="s2">&quot;+ i: </span><span class="si">%s</span><span class="s2"> MLS[</span><span class="si">%s</span><span class="s2">]: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">MLS</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos">21</span>          <span class="k">else</span><span class="p">:</span>
+<span class="linenos">22</span>              <span class="n">count</span> <span class="o">=</span> <span class="n">count</span>
+<span class="linenos">23</span>              <span class="nb">print</span> <span class="s2">&quot;- i: </span><span class="si">%s</span><span class="s2"> MLS[</span><span class="si">%s</span><span class="s2">]: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">MLS</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span>  <span class="n">data_avg</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">data</span><span class="o">/</span><span class="n">count</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">26</span>      <span class="nb">print</span> <span class="s2">&quot;----&quot;</span>
+<span class="linenos">27</span>      <span class="nb">print</span> <span class="s2">&quot;data_avg=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">data_avg</span><span class="p">)</span>
+<span class="linenos">28</span>      <span class="k">return</span> <span class="n">data_avg</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>  <span class="n">myList</span><span class="o">=</span><span class="p">[</span><span class="mf">24.2</span><span class="p">,</span><span class="mf">24.2</span><span class="p">,</span><span class="mf">24.2</span><span class="p">,</span><span class="mf">24.2</span><span class="p">,</span><span class="mf">24.2</span><span class="p">,</span><span class="mf">24.2</span><span class="p">,</span><span class="mf">24.1</span><span class="p">,</span><span class="mf">29.9</span><span class="p">,</span><span class="mf">24.1</span><span class="p">,</span><span class="mf">24.1</span><span class="p">,</span><span class="mf">24.1</span><span class="p">,</span><span class="mf">24.1</span><span class="p">,</span><span class="mf">20.1</span><span class="p">]</span>
+<span class="linenos">31</span>  <span class="n">sanity_test</span><span class="p">(</span><span class="n">myList</span><span class="p">)</span>
+</pre></div>
+<p>Funkcija veikia gan paprastai. Pirmiausiai funkcijai paduotas masyvas yra surūšiuojamas didėjimo tvarka. Po to, kaip ir prieš tai pateiktame kode, yra apskaičiuojami kvartiliai ir išvedamos ribos L ir H. Po to, cikle yra tikrinamas kiekvienas masyvo elementas ir, atmetant sąlygos netenkinančias reikšmes, yra išvedamas vidurkis. Vidurkis yra gražinamas į išorę. Specialiai kode prirašiau daug <em>print'ų</em>, kad kodo rezultatas būtų kuo vaizdesnis:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/python-statistinis-klaidingu-duomenu-tasku-eliminavimas/sanity_test.jpg"><img alt="sanity_test" class="aligncenter size-full wp-image-571" src="https://paulius.bautrenas.lt/images/python-statistinis-klaidingu-duomenu-tasku-eliminavimas/sanity_test.jpg" style="width: 699px; height: 307px;" /></a></p>
+<p>Iš &quot;screenshot&quot; matome, kad funkcija apskaičiavo, jog &quot;tinkamos&quot; masyvo elementų reikšmių ribos L=23,95 ir H=24,25. Ciklas, eidamas per visus masyvo elementus, atmetė elementus, kurie yra mažesnė ar didesni nei šios ribos: MLS[0]=20,1 &lt; 23,95 ir MLS[12]=29,9 &gt; 24,25. Iš sąlygas tenkinančių reikšmių, ciklas išvedė vidurkį data_avg=24,2. Neišmetus netinkamų verčių, vidurkis gaunasi 24,3.</p>
+<p>Įsitikinęs, kad kodas tikrai veikia, <a class="reference external" href="http://paulius.bautrenas.lt/blog/?p=514">ankstesniame straipsnyje</a> aprašytą DHT22 duomenų surinkimo kodą patobulinau taip:</p>
+<div class="highlight"><pre><span></span><span class="linenos">  1</span>  <span class="c1">#!/usr/bin/python</span>
+<span class="linenos">  2</span>  <span class="c1"># -\*- coding: utf-8 -\*-</span>
+<span class="linenos">  3</span>
+<span class="linenos">  4</span>  <span class="kn">import</span> <span class="nn">MySQLdb</span> <span class="k">as</span> <span class="nn">mdb</span>
+<span class="linenos">  5</span>  <span class="kn">import</span> <span class="nn">sys</span>
+<span class="linenos">  6</span>  <span class="kn">import</span> <span class="nn">arrow</span>
+<span class="linenos">  7</span>  <span class="kn">import</span> <span class="nn">re</span>
+<span class="linenos">  8</span>  <span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="linenos">  9</span>  <span class="kn">import</span> <span class="nn">os</span>
+<span class="linenos"> 10</span>  <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 11</span>  <span class="c1">#import sys</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span>  <span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="k">as</span> <span class="nn">GPIO</span>
+<span class="linenos"> 14</span>
+<span class="linenos"> 15</span>  <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span> <span class="c1">## uses GPIO numbers NOT pin numbers</span>
+<span class="linenos"> 16</span>  <span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span> <span class="kc">False</span> <span class="p">)</span>
+<span class="linenos"> 17</span>  <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span> <span class="c1">## 37 PIN / GPIO26</span>
+<span class="linenos"> 18</span>
+<span class="linenos"> 19</span>  <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;/home/python/&#39;</span><span class="p">))</span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span>  <span class="c1">#globals for temperature and humidity averaging</span>
+<span class="linenos"> 22</span>  <span class="n">temp</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 23</span>  <span class="n">hum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span>  <span class="c1">#smart averaging process witch eliminates outlier data points</span>
+<span class="linenos"> 26</span>  <span class="k">def</span> <span class="nf">sanity_test</span><span class="p">(</span><span class="n">dataList</span><span class="p">):</span>
+<span class="linenos"> 27</span>      <span class="n">MLS</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dataList</span><span class="p">)</span>
+<span class="linenos"> 28</span>      <span class="c1">#print MLS</span>
+<span class="linenos"> 29</span>      <span class="n">Q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">MLS</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span>
+<span class="linenos"> 30</span>      <span class="n">Q3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">MLS</span><span class="p">,</span><span class="mi">75</span><span class="p">)</span>
+<span class="linenos"> 31</span>      <span class="n">IRQ</span><span class="o">=</span><span class="n">Q3</span><span class="o">-</span><span class="n">Q1</span>
+<span class="linenos"> 32</span>      <span class="n">L</span><span class="o">=</span><span class="n">Q1</span><span class="o">-</span><span class="mf">1.5</span><span class="o">*</span><span class="n">IRQ</span>
+<span class="linenos"> 33</span>      <span class="n">H</span><span class="o">=</span><span class="n">Q1</span><span class="o">+</span><span class="mf">1.5</span><span class="o">*</span><span class="n">IRQ</span>
+<span class="linenos"> 34</span>      <span class="c1">#print &quot;L: %s H: %s&quot; %(L,H)</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span>  <span class="n">data</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 37</span>      <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 38</span>      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">MLS</span><span class="p">)):</span>
+<span class="linenos"> 39</span>          <span class="k">if</span> <span class="p">(</span><span class="n">MLS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">L</span> <span class="ow">and</span> <span class="n">MLS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">H</span><span class="p">):</span>
+<span class="linenos"> 40</span>              <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="n">MLS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="linenos"> 41</span>              <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos"> 42</span>              <span class="c1">#print &quot;+ i: %s MLS[%s]: %s count: %s&quot; %(i,i,MLS[i],count)</span>
+<span class="linenos"> 43</span>          <span class="k">else</span><span class="p">:</span>
+<span class="linenos"> 44</span>              <span class="n">count</span> <span class="o">=</span> <span class="n">count</span>
+<span class="linenos"> 45</span>              <span class="c1">#print &quot;- i: %s MLS[%s]: %s count: %s&quot; %(i,i,MLS[i],count)</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span>  <span class="n">data_avg</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">data</span><span class="o">/</span><span class="n">count</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 48</span>      <span class="c1">#print data_avg</span>
+<span class="linenos"> 49</span>      <span class="k">return</span> <span class="n">data_avg</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span>  <span class="k">def</span> <span class="nf">read_dht22</span> <span class="p">(</span> <span class="n">PiPin</span> <span class="p">):</span>
+<span class="linenos"> 52</span>      <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 53</span>      <span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&quot;./Adafruit_DHT&quot;</span><span class="p">,</span> <span class="s2">&quot;2302&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">PiPin</span><span class="p">)])</span>
+<span class="linenos"> 54</span>      <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;Temp =</span><span class="se">\\</span><span class="s2">s+([-+]?[0-9.]+)&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+<span class="linenos"> 55</span>      <span class="k">if</span> <span class="p">(</span><span class="n">matches</span><span class="p">):</span>
+<span class="linenos"> 56</span>          <span class="k">global</span> <span class="n">temp</span>
+<span class="linenos"> 57</span>          <span class="n">temp</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 58</span>          <span class="n">success</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 59</span>          <span class="c1">#print temp</span>
+<span class="linenos"> 60</span>      <span class="k">else</span><span class="p">:</span>
+<span class="linenos"> 61</span>          <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 62</span>          <span class="c1">#print &quot;fail&quot;</span>
+<span class="linenos"> 63</span>      <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;Hum =</span><span class="se">\\</span><span class="s2">s+([0-9.]+)&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+<span class="linenos"> 64</span>      <span class="k">if</span> <span class="p">(</span><span class="n">matches</span><span class="p">):</span>
+<span class="linenos"> 65</span>          <span class="k">global</span> <span class="n">hum</span>
+<span class="linenos"> 66</span>          <span class="n">hum</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 67</span>          <span class="c1">#print hum</span>
+<span class="linenos"> 68</span>      <span class="k">else</span><span class="p">:</span>
+<span class="linenos"> 69</span>          <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 70</span>          <span class="c1">#print &quot;fail&quot;</span>
+<span class="linenos"> 71</span>      <span class="k">return</span> <span class="n">success</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span>  <span class="k">try</span><span class="p">:</span>
+<span class="linenos"> 74</span>      <span class="n">con</span> <span class="o">=</span> <span class="n">mdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;USERNAME&#39;</span><span class="p">,</span> <span class="s1">&#39;PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;warehouse&#39;</span><span class="p">);</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span>  <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="linenos"> 77</span>      <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT VERSION()&quot;</span><span class="p">)</span>
+<span class="linenos"> 78</span>
+<span class="linenos"> 79</span>  <span class="n">ver</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+<span class="linenos"> 80</span>      <span class="n">sys_date</span> <span class="o">=</span> <span class="n">arrow</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;YYYY-MM-DD HH:mm:ss&#39;</span><span class="p">)</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span>  <span class="nb">print</span> <span class="s2">&quot;Database version : </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="n">ver</span>
+<span class="linenos"> 83</span>      <span class="nb">print</span> <span class="n">sys_date</span>
+<span class="linenos"> 84</span>
+<span class="linenos"> 85</span>  <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#Turn LED ON, while reading DHT2 sensors</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span>  <span class="n">count_1</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 88</span>      <span class="n">temperature_1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 89</span>      <span class="n">humidity_1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 90</span>      <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+<span class="linenos"> 91</span>          <span class="k">if</span> <span class="p">(</span><span class="n">read_dht22</span><span class="p">(</span><span class="mi">19</span><span class="p">)):</span>
+<span class="linenos"> 92</span>              <span class="n">count_1</span> <span class="o">=</span> <span class="n">count_1</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos"> 93</span>              <span class="n">temperature_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">temp</span><span class="p">))</span>
+<span class="linenos"> 94</span>              <span class="n">humidity_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">hum</span><span class="p">))</span>
+<span class="linenos"> 95</span>              <span class="c1">#print &quot;[19] Temp: %s Hum: %s Count: %s&quot; %(temp,hum,count_1)</span>
+<span class="linenos"> 96</span>          <span class="k">else</span><span class="p">:</span> <span class="n">count_1</span> <span class="o">=</span> <span class="n">count_1</span> <span class="c1">#print &quot;echem..&quot;</span>
+<span class="linenos"> 97</span>
+<span class="linenos"> 98</span>  <span class="k">if</span> <span class="p">(</span><span class="n">count_1</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+<span class="linenos"> 99</span>          <span class="n">temperature_1</span> <span class="o">=</span> <span class="n">sanity_test</span><span class="p">(</span><span class="n">temperature_1</span><span class="p">)</span>
+<span class="linenos">100</span>          <span class="n">humidity_1</span><span class="o">=</span><span class="n">sanity_test</span><span class="p">(</span><span class="n">humidity_1</span><span class="p">)</span>
+<span class="linenos">101</span>      <span class="k">else</span><span class="p">:</span> <span class="n">count_1</span><span class="o">=</span><span class="n">count_1</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span>  <span class="nb">print</span> <span class="s2">&quot;[19] Temperature: </span><span class="si">%s</span><span class="s2"> Humidity: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">temperature_1</span><span class="p">,</span><span class="n">humidity_1</span><span class="p">)</span>
+<span class="linenos">104</span>
+<span class="linenos">105</span>  <span class="n">count_2</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">106</span>      <span class="n">temperature_2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">107</span>      <span class="n">humidity_2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">108</span>      <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+<span class="linenos">109</span>          <span class="k">if</span> <span class="p">(</span><span class="n">read_dht22</span><span class="p">(</span><span class="mi">13</span><span class="p">)):</span>
+<span class="linenos">110</span>              <span class="n">count_2</span> <span class="o">=</span> <span class="n">count_2</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos">111</span>              <span class="n">temperature_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">temp</span><span class="p">))</span>
+<span class="linenos">112</span>              <span class="n">humidity_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">hum</span><span class="p">))</span>
+<span class="linenos">113</span>              <span class="c1">#print &quot;[1] Temp: %s Hum: %s Count: %s&quot; %(temp,hum,count_2)</span>
+<span class="linenos">114</span>          <span class="k">else</span><span class="p">:</span> <span class="n">count_2</span> <span class="o">=</span> <span class="n">count_2</span> <span class="c1">#print &quot;echem..&quot;</span>
+<span class="linenos">115</span>
+<span class="linenos">116</span>  <span class="k">if</span> <span class="p">(</span><span class="n">count_2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+<span class="linenos">117</span>          <span class="n">temperature_2</span> <span class="o">=</span> <span class="n">sanity_test</span><span class="p">(</span><span class="n">temperature_2</span><span class="p">)</span>
+<span class="linenos">118</span>          <span class="n">humidity_2</span> <span class="o">=</span> <span class="n">sanity_test</span><span class="p">(</span><span class="n">humidity_2</span><span class="p">)</span>
+<span class="linenos">119</span>      <span class="k">else</span><span class="p">:</span> <span class="n">count_2</span><span class="o">=</span><span class="n">count_2</span>
+<span class="linenos">120</span>
+<span class="linenos">121</span>  <span class="nb">print</span> <span class="s2">&quot;[13] Temperature: </span><span class="si">%s</span><span class="s2"> Humidity: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">temperature_2</span><span class="p">,</span><span class="n">humidity_2</span><span class="p">)</span>
+<span class="linenos">122</span>
+<span class="linenos">123</span>  <span class="k">if</span> <span class="p">(</span><span class="n">count_1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count_2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+<span class="linenos">124</span>              <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)</span>
+<span class="linenos">125</span><span class="s2">              VALUES ( </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">, &#39;CronJob&#39;)&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="linenos">126</span>              <span class="p">[</span><span class="n">sys_date</span><span class="p">,</span><span class="n">temperature_1</span><span class="p">,</span><span class="n">humidity_1</span><span class="p">,</span><span class="n">temperature_2</span><span class="p">,</span><span class="n">humidity_2</span><span class="p">])</span>
+<span class="linenos">127</span>
+<span class="linenos">128</span>  <span class="k">elif</span> <span class="p">(</span><span class="n">count_1</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count_2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+<span class="linenos">129</span>              <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)</span>
+<span class="linenos">130</span><span class="s2">              VALUES ( </span><span class="si">%s</span><span class="s2">, NULL,NULL,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">, &#39;CronJob&#39;)&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="linenos">131</span>              <span class="p">[</span><span class="n">sys_date</span><span class="p">,</span><span class="n">temperature_2</span><span class="p">,</span><span class="n">humidity_2</span><span class="p">])</span>
+<span class="linenos">132</span>
+<span class="linenos">133</span>  <span class="k">elif</span> <span class="p">(</span><span class="n">count_1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count_2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+<span class="linenos">134</span>              <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)</span>
+<span class="linenos">135</span><span class="s2">              VALUES ( </span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,NULL,NULL, &#39;CronJob&#39;)&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="linenos">136</span>              <span class="p">[</span><span class="n">sys_date</span><span class="p">,</span><span class="n">temperature_1</span><span class="p">,</span><span class="n">humidity_1</span><span class="p">])</span>
+<span class="linenos">137</span>
+<span class="linenos">138</span>  <span class="k">else</span> <span class="p">:</span>
+<span class="linenos">139</span>              <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;INSERT INTO duomenys (D_ActualDate, D_Temperature_1, D_Humidity_1 ,D_Temperature_2, D_Humidity_2, D_Info)</span>
+<span class="linenos">140</span><span class="s2">              VALUES ( </span><span class="si">%s</span><span class="s2">, NULL,NULL,NULL,NULL, &#39;CronJob&#39;)&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="linenos">141</span>              <span class="p">[</span><span class="n">sys_date</span><span class="p">])</span>
+<span class="linenos">142</span>
+<span class="linenos">143</span>  <span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="linenos">144</span>
+<span class="linenos">145</span>  <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">146</span>
+<span class="linenos">147</span>  <span class="k">except</span> <span class="n">mdb</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+<span class="linenos">148</span>      <span class="k">if</span> <span class="n">con</span><span class="p">:</span>
+<span class="linenos">149</span>          <span class="n">con</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+<span class="linenos">150</span>
+<span class="linenos">151</span>  <span class="nb">print</span> <span class="s2">&quot;Error </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="linenos">152</span>      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">153</span>
+<span class="linenos">154</span>  <span class="k">finally</span><span class="p">:</span>
+<span class="linenos">155</span>
+<span class="linenos">156</span>  <span class="k">if</span> <span class="n">con</span><span class="p">:</span>
+<span class="linenos">157</span>          <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="linenos">158</span>      <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</pre></div>
+<p>Visą kodą, kartu su Adafruit_DHT driveriu, galite paršisiųsti iš čia: <a class="reference external" href="http://paulius.bautrenas.lt/blog/wp-content/uploads/2014/11/dht22_mysql_2.zip">dht22_mysql_2.zip</a></p>
+<p>Naujausią kodo versiją rasite <a class="reference external" href="https://github.com/pauliusbau/raspberrypi-mayhem/tree/master/RPI-Weather">mano GitHub saugykloje</a>!</p>
+<p><strong>Naudinga literatūra:</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.mathwords.com/o/outlier.htm">http://www.mathwords.com/o/outlier.htm</a></li>
+<li><a class="reference external" href="http://www.mathwords.com/i/interquartile_range.htm">http://www.mathwords.com/i/interquartile_range.htm</a></li>
+<li><a class="reference external" href="http://iaingallagher.tumblr.com">http://iaingallagher.tumblr.com</a></li>
+<li><a class="reference external" href="https://ausram.wordpress.com/2009/10/28/kvartiliai">https://ausram.wordpress.com/2009/10/28/kvartiliai</a></li>
+<li><a class="reference external" href="http://goo.gl/Xy0FQ6">http://goo.gl/Xy0FQ6</a></li>
+</ul>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/aviete-dht22-mysql.html">Avietė: DHT22 -&gt; MySQL</a></li>
+        <li><a href="https://paulius.bautrenas.lt/aviete-highcharts.html">Avietė: DHT22 duomenų atvaizdavimas</a></li>
+        <li><a href="https://paulius.bautrenas.lt/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth.html">Flip-Dot Clock laiko sinchronizavimas su Aviete per Bluetooth</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
