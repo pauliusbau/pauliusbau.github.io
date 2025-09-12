@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Hibridinė JasperServer ataskaita iš Oracle ir MS SQL vienu metu - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="iReport,jasper,JasperServer,mssql,NoteForMyself,oracle,sql,subreport" />
+        <meta name="description" content="Taip jau buvo, taip nutiko, kad prisireikė vienoje ataskaitoje dinamiškai &#34;sukirsti&#34; Oracle ir MS SQL Server duomenis. Klasikinis variantas šioje situacijoje yra vienos DB duomenų replikavimas/sinchronizavimas į kitą. Toks variantas gal ir yra pats geriausias/patikimiausiais, tačiau jis toli gražu nėra trivialus. Pirmiausia, aš pats nei vienos iš tų …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Hibridinė JasperServer ataskaita iš Oracle ir MS SQL vienu metu"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu.html"/>
+        <meta property="og:description" content="Taip jau buvo, taip nutiko, kad prisireikė vienoje ataskaitoje dinamiškai &#34;sukirsti&#34; Oracle ir MS SQL Server duomenis. Klasikinis variantas šioje situacijoje yra vienos DB duomenų replikavimas/sinchronizavimas į kitą. Toks variantas gal ir yra pats geriausias/patikimiausiais, tačiau jis toli gražu nėra trivialus. Pirmiausia, aš pats nei vienos iš tų …"/>
+        <meta property="article:published_time" content="2016-06-14" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="iReport" />
+            <meta property="article:tag" content="jasper" />
+            <meta property="article:tag" content="JasperServer" />
+            <meta property="article:tag" content="mssql" />
+            <meta property="article:tag" content="NoteForMyself" />
+            <meta property="article:tag" content="oracle" />
+            <meta property="article:tag" content="sql" />
+            <meta property="article:tag" content="subreport" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu.html"
+                       rel="bookmark"
+                       title="Permalink to Hibridinė JasperServer ataskaita iš Oracle ir MS SQL vienu metu">
+                        Hibridinė JasperServer ataskaita iš Oracle ir MS SQL vienu metu
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2016-06-14T10:43:00+03:00"> an 14 birželis 2016</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/ireport.html">iReport</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/jasper.html">jasper</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/jasperserver.html">JasperServer</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/mssql.html">mssql</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/noteformyself.html">NoteForMyself</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/oracle.html">oracle</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/sql.html">sql</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/subreport.html">subreport</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/dibert_db.png"><img alt="dibert_db" class="aligncenter size-full wp-image-1042" src="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/dibert_db.png" style="width: 600px; height: 270px;" /></a></p>
+<p>Taip jau buvo, taip nutiko, kad prisireikė vienoje ataskaitoje dinamiškai &quot;sukirsti&quot; Oracle ir MS SQL Server duomenis. Klasikinis variantas šioje situacijoje yra vienos DB duomenų replikavimas/sinchronizavimas į kitą. Toks variantas gal ir yra pats geriausias/patikimiausiais, tačiau jis toli gražu nėra trivialus. Pirmiausia, aš pats nei vienos iš tų DB neadministruoju, todėl nagų kišti į vidų kaip ir negaliu. Antra, abiejų DB duomenų modeliai yra skirtingi, todėl norint gražiai perkelti duomenis, reiktų juos perskaičiuoti ir &quot;pritraukti&quot; iki vienos iš DB struktūros. Kol DBA keiksnodami bando įsivertinti darbų apimtis, nusprendžiau užduotį atlikti Jasper priemonėmis. Tiesa pasakius, kol pats nepabandžiau net nebuvau tikras, ar Jasperis iš vis gali imti duomenis iš kelių skirtingų DB vienu metu, bet tai atrodė visai logiška, nes Jasperis leidžia vienoje ataskaitoje manipuliuoti keliais tos pačios DB Dataset'ais. Jei jau galima kurti skirtingus datasetus, kodėl gi būtų negalima jų kurti iš skirtingų DB šaltinių?</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/subreport04.jpg"><img alt="subreport04" class="aligncenter size-full wp-image-1068" src="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/subreport04.jpg" style="width: 714px; height: 170px;" /></a></p>
+<p>Pasirodo, kad vienas iš būdų susieti vienos DB duomenis su kitos DB duomenimis yra subataskaita (angl. subreport). Subataskaita yra kuriama ir įkeliama į pagrindinę ataskaitą įprastai, kaip ir bet kokia kita subataskaita. Vienintelis dalykas, kuris skiriasi, yra subataksaitos &quot;<em>connection expression</em>&quot;.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/subreport01.jpg"><img alt="subreport01" class="aligncenter size-full wp-image-1050" src="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/subreport01.jpg" style="width: 400px; height: 270px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/subreport02.jpg"><img alt="subreport02" class="aligncenter size-full wp-image-1049" src="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/subreport02.jpg" style="width: 309px; height: 270px;" /></a></p>
+<p>Vietoje to, kad kaip įprastai naudotume &quot;<em>Use the same connection used to fill the master report</em>&quot;, renkamės punktą &quot;<em>Use another connection</em>&quot; ir su savo prisijungimo duomenimis įrašome štai tokią eilutę:</p>
+<div class="highlight"><pre><span></span><span class="linenos">1</span><span class="w">  </span><span class="n">java</span><span class="p">.</span><span class="na">sql</span><span class="p">.</span><span class="na">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span>
+<span class="linenos">2</span><span class="w">  </span><span class="s">&quot;jdbc:oracle:thin:@//server_name:server_port/SID_name&quot;</span><span class="p">,</span>
+<span class="linenos">3</span><span class="w">  </span><span class="s">&quot;user&quot;</span><span class="p">,</span>
+<span class="linenos">4</span><span class="w">  </span><span class="s">&quot;password&quot;</span><span class="p">)</span>
+</pre></div>
+<p>Visa skirtingų DB duomenų susiejimo magija vyksta per subataskaitos parametrus. Šioje vietoje reiktų pagrindinės ataskaitos (angl.&nbsp;<em>master report</em>) SQL užklausos rezultatus susieti su subataskaitos SQL užklausos parametrais. Mano atveju &quot;pagrindinė&quot; SQL traukė duomenis iš MS SQL Server, o subataskaita - iš Oracle:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/subreport03.jpg"><img alt="subreport03" class="aligncenter size-full wp-image-1062" src="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/subreport03.jpg" style="width: 660px; height: 446px;" /></a></p>
+<p>Gavosi štai toks duomenų atvaizdavimo kelias:&nbsp; pagrindinė ataskaita sugeneruoja aibę &quot;<em>master query</em>&quot; užklausos rezultatų eilučių, iš kurių kiekvieną paeiliui paduoda subataskaitai. Subataskaita yra &quot;prasukama&quot; su iš &quot;<em>master query</em>&quot; gautais parametrais. Subataskaitos rezultatas yra gražinamas į pagrindinę ataskaitą. Procesas kartojasi. Žodžiu, visa eiga atrodo taip:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/jasper_2db.png"><img alt="jasper_2db" class="aligncenter wp-image-1044 size-medium" src="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/jasper_2db-298x300.png" style="width: 298px; height: 300px;" /></a></p>
+<p>Paskutinis dalykas, kurį liko padaryti, yra sukelti sukurtas ataskaitas į JasperServer ir išbandyti. Hibridinė ataskaita gali neveikti dėl dviejų pagrindinių priežasčių: blogai parinkta atskaitos ir/ar subataskaitos &quot;kalba&quot; arba blogai parinktas į JasperServer įkeltos ataskaitos &quot;Data Source&quot;.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/jasper_language.jpg"><img alt="jasper_language" class="aligncenter size-full wp-image-1071" src="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/jasper_language.jpg" style="width: 444px; height: 114px;" /></a></p>
+<p>Ataskaitos ir subataskaitos &quot;kalba&quot; turėtų būti parinkta <strong>Java</strong>. Nei su Groovy, nei su JS aprašomas metodas neturėtų veikti.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/jasper_data_source.jpg"><img alt="jasper_data_source" class="aligncenter size-full wp-image-1072" src="https://paulius.bautrenas.lt/images/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu/jasper_data_source.jpg" style="width: 996px; height: 230px;" /></a></p>
+<p>Pagrindinės ataskaitos &quot;Data Source&quot; yra nustatomas per JasperServer administravimo aplinką, dešiniu pelės klavišu paspaudus ant konkrečios ataskaitos ir išsirinkus punktą &quot;Edit&quot;. Nukeliavus į nustatymus &quot;Data Source&quot;, reikia nustatyti būtent tą duomenų šaltinį, iš kurio pagrindinė ataskaita turės traukti duomenis. Mano atveju, tai buvo MS SQL Server.</p>
+<div class="section" id="informacijos-saltiniai">
+<h2>Informacijos šaltiniai:</h2>
+<ul class="simple">
+<li><a class="reference external" href="https://www.packtpub.com/books/content/jasperreports-36-using-multiple-relational-databases-generate-report">https://www.packtpub.com/books/content/jasperreports-36-using-multiple-relational-databases-generate-report</a></li>
+<li><a class="reference external" href="http://community.jaspersoft.com/wiki/how-use-two-different-connections-databases-ireport">http://community.jaspersoft.com/wiki/how-use-two-different-connections-databases-ireport</a></li>
+<li><a class="reference external" href="http://community.jaspersoft.com/questions/535964/subreport-using-completely-different-datasource">http://community.jaspersoft.com/questions/535964/subreport-using-completely-different-datasource</a></li>
+<li><a class="reference external" href="http://stackoverflow.com/questions/11843618/error-evaluating-expression-with-multiple-database-in-ireport">http://stackoverflow.com/questions/11843618/error-evaluating-expression-with-multiple-database-in-ireport</a></li>
+</ul>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class.html">JasperServer JFreeChart grafiko išvaizdos tobulinimas su &quot;Customizer Class&quot;</a></li>
+        <li><a href="https://paulius.bautrenas.lt/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes.html">JasperServer date input parameters: kaip nustatyti gudrias &quot;default&quot; vertes</a></li>
+        <li><a href="https://paulius.bautrenas.lt/dinaminis-sql-uzklausos-where-salygu-keitimas.html">Dinaminis SQL užklausos &quot;where&quot; sąlygų keitimas</a></li>
+        <li><a href="https://paulius.bautrenas.lt/laiko-rezis-datos-rezio-oracle-uzklausoje.html">Laiko rėžis datos rėžio oracle užklausoje</a></li>
+        <li><a href="https://paulius.bautrenas.lt/oracle-hierarchines-uzklausos-su-with-ir-connect-by.html">Oracle hierarchinės užklausos su WITH ir CONNECT BY</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
