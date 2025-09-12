@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>JasperServer date input parameters: kaip nustatyti gudrias "default" vertes - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="current day,Defaul Value Expression,first day of current month,first day of last month,iReport,JasperServer,last day of last month" />
+        <meta name="description" content="Kažkada sau prisigalvojau galvos skausmo (gi lengvai gyventi neįdomu) ir nusprendžiau kai kurioms savo JasperServer ataskaitoms suprogramuoti standartines (angl. default) ataskaitos parametrų reikšmes. Konkrečiau, norėjau kad vienos ataskaitos būtų visada automatiškai generuojamos &#34;už praėjusį mėnesį&#34;, o vykdant kitas ataskaitas, vartotojui būtų siūlomos dažniausiai pageidaujamos datos, pav. pirma ir dabartinė einamojo …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="JasperServer date input parameters: kaip nustatyti gudrias &#34;default&#34; vertes"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes.html"/>
+        <meta property="og:description" content="Kažkada sau prisigalvojau galvos skausmo (gi lengvai gyventi neįdomu) ir nusprendžiau kai kurioms savo JasperServer ataskaitoms suprogramuoti standartines (angl. default) ataskaitos parametrų reikšmes. Konkrečiau, norėjau kad vienos ataskaitos būtų visada automatiškai generuojamos &#34;už praėjusį mėnesį&#34;, o vykdant kitas ataskaitas, vartotojui būtų siūlomos dažniausiai pageidaujamos datos, pav. pirma ir dabartinė einamojo …"/>
+        <meta property="article:published_time" content="2014-06-02" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="current day" />
+            <meta property="article:tag" content="Defaul Value Expression" />
+            <meta property="article:tag" content="first day of current month" />
+            <meta property="article:tag" content="first day of last month" />
+            <meta property="article:tag" content="iReport" />
+            <meta property="article:tag" content="JasperServer" />
+            <meta property="article:tag" content="last day of last month" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes.html"
+                       rel="bookmark"
+                       title="Permalink to JasperServer date input parameters: kaip nustatyti gudrias "default" vertes">
+                        JasperServer date input parameters: kaip nustatyti gudrias &quot;default&quot; vertes
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-06-02T14:32:00+03:00"> pr 02 birželis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/current-day.html">current day</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/defaul-value-expression.html">Defaul Value Expression</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/first-day-of-current-month.html">first day of current month</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/first-day-of-last-month.html">first day of last month</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/ireport.html">iReport</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/jasperserver.html">JasperServer</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/last-day-of-last-month.html">last day of last month</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><img alt="data_defaul_value" class="aligncenter size-full wp-image-150" src="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/data_defaul_value.png" style="width: 554px; height: 195px;" /></p>
+<p>Kažkada sau prisigalvojau galvos skausmo (gi lengvai gyventi neįdomu) ir nusprendžiau kai kurioms savo JasperServer ataskaitoms suprogramuoti standartines (angl. <em>default</em>) ataskaitos parametrų reikšmes. Konkrečiau, norėjau kad vienos ataskaitos būtų visada automatiškai generuojamos &quot;už praėjusį mėnesį&quot;, o vykdant kitas ataskaitas, vartotojui būtų siūlomos dažniausiai pageidaujamos datos, pav. pirma ir dabartinė einamojo mėnesio diena.</p>
+<p>Pirmąją užduoti nusprendžiau realizuoti grynai SQL kode. Duomenis traukiu iš Oracle 11g DB, todėl SQL užklausoje galėjau sau leisti štai tokią sąlygą:</p>
+<div class="highlight"><pre><span></span><span class="k">where</span><span class="w"> </span><span class="nb">date</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="n">trunc</span><span class="p">(</span><span class="n">trunc</span><span class="p">(</span><span class="n">sysdate</span><span class="p">,</span><span class="s1">&#39;MM&#39;</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;MM&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">trunc</span><span class="p">(</span><span class="n">sysdate</span><span class="p">,</span><span class="s1">&#39;MM&#39;</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+</pre></div>
+<p>Iš principo, šioje sąlygoje <strong>trunc(sysdate,'MM')-1</strong> - gražina paskutinę praėjusio mėnesio dieną, o <strong>trunc(trunc(sysdate,'MM')-1,'MM')</strong> - pirmą praėjusio mėnesio dieną.</p>
+<p>Pavyzdžiui, įvykdžius štai tokią užklausą:</p>
+<div class="highlight"><pre><span></span><span class="k">select</span>
+<span class="n">sysdate</span><span class="p">,</span>
+<span class="n">trunc</span><span class="p">(</span><span class="n">trunc</span><span class="p">(</span><span class="n">sysdate</span><span class="p">,</span><span class="s1">&#39;MM&#39;</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;MM&#39;</span><span class="p">),</span>
+<span class="n">trunc</span><span class="p">(</span><span class="n">sysdate</span><span class="p">,</span><span class="s1">&#39;MM&#39;</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+<span class="k">from</span><span class="w"> </span><span class="n">dual</span>
+</pre></div>
+<p>Gausime tokį rezultatą:</p>
+<p><img alt="sql" class="aligncenter size-full wp-image-150" src="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/sql.png" style="width: 487px; height: 248px;" /></p>
+<p>Čia kaip ir viskas aišku, tačiau vien tik SQL kodu antrosios sau užsibrėžtos užduoties išspręsti nepavyks. Teks pasitelkti Java ir Jasper input parametrų savybę &quot;Defaul Value Expression&quot;.</p>
+<p>Tarkim, turim du ataskaitos parametrus &quot;Data nuo&quot; ir &quot;Data iki&quot;, kurie vykdant ataskaitą susigeneruoja taip:</p>
+<p><img alt="data_be_defaul_value" class="aligncenter size-full wp-image-156" src="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/data_be_defaul_value.png" style="width: 561px; height: 199px;" /></p>
+<p>Mes norim, kad &quot;Data nuo&quot; visada įgautų pirmą mėnesio dieną, o &quot;Data iki&quot; esamą mėnesio dieną. Kitaip sakant, jeigu šiandien yra <em>2014-06-02</em>, mes norime, kad &quot;Data nuo&quot; būtų lygi <em>2014-06-01</em>, o &quot;Data iki&quot; - <em>2014-06-02.</em></p>
+<p><img alt="data_defaul_value" class="aligncenter size-full wp-image-150" src="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/data_defaul_value.png" style="width: 554px; height: 195px;" /></p>
+<p>Kad gautume pageidaujamą rezultatą, parametro &quot;Data nuo&quot; savybėse (angl. <em>properties</em>), parametre &quot;Defaul Value Expression&quot; įrašome štai tokį kodą:</p>
+<div class="highlight"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDateFormat</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&quot;</span><span class="p">).</span><span class="na">format</span><span class="p">(</span>
+<span class="n">DateUtils</span><span class="p">.</span><span class="na">truncate</span><span class="p">(</span><span class="n">DateUtils</span><span class="p">.</span><span class="na">addMonths</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Date</span><span class="p">(),</span><span class="mi">0</span><span class="p">),</span><span class="n">java</span><span class="p">.</span><span class="na">util</span><span class="p">.</span><span class="na">Calendar</span><span class="p">.</span><span class="na">MONTH</span><span class="w"> </span><span class="p">))</span>
+</pre></div>
+<p>O parametro &quot;Data iki&quot; savybėse (angl. <em>properties</em>),&nbsp; &quot;Defaul Value Expression&quot; įrašome štai tokį kodą:</p>
+<div class="highlight"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDateFormat</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&quot;</span><span class="p">).</span><span class="na">format</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="na">util</span><span class="p">.</span><span class="na">Date</span><span class="p">())</span>
+</pre></div>
+<p>Kadangi pirmajame kode panaudojome <a class="reference external" href="http://commons.apache.org/proper/commons-lang/javadocs/api-2.6/org/apache/commons/lang/time/DateUtils.html">klasę DateUtils</a>, šią klasę yra būtina įtraukti į kuriamą ataskaitą. iReport aplinkoje, tai yra atliekama ataskaitos savybių (angl. <em>Properties</em>) punkte &quot;Imports&quot;&nbsp; įrašius štai tokį kodą:</p>
+<div class="highlight"><pre><span></span><span class="n">org</span><span class="p">.</span><span class="na">apache</span><span class="p">.</span><span class="na">commons</span><span class="p">.</span><span class="na">lang</span><span class="p">.</span><span class="na">time</span><span class="p">.</span><span class="o">*</span>
+</pre></div>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/imports.png"><img alt="imports" class="alignleft wp-image-162" src="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/imports-300x279.png" style="width: 248px; height: 231px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/imports2.png"><img alt="imports2" class="alignleft size-medium wp-image-161" src="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/imports2-300x227.png" style="width: 300px; height: 227px;" /></a></p>
+<p>Note for myself: Neseniai prisireikė duomenis ištraukti už vakar dieną. Tai realizavau su tokiomis &quot;Defaul Value Expression&quot; reikšmėmis:</p>
+<div class="highlight"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">Date</span><span class="p">((</span><span class="k">new</span><span class="w"> </span><span class="n">Date</span><span class="p">()).</span><span class="na">getTime</span><span class="p">()</span><span class="o">-</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span>
+<span class="k">new</span><span class="w"> </span><span class="n">SimpleDateFormat</span><span class="p">(</span><span class="s">&quot;yyyy-MM-dd&quot;</span><span class="p">).</span><span class="na">format</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="na">util</span><span class="p">.</span><span class="na">Date</span><span class="p">())</span>
+</pre></div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
