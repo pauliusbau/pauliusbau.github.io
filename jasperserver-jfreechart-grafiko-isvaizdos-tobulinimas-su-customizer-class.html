@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>JasperServer JFreeChart grafiko išvaizdos tobulinimas su "Customizer Class" - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="Customizer Class,dash line,dashed line,eclipse,iReport,JasperServer,java,jfreechart,punktyrinė linija,spalva,stilius" />
+        <meta name="description" content="Įrašas bus apie taip, kaip gan paprastai galima pagal asmeninius poreikius pasikeisti JasperServer grafikų išvaizdą. Tikriausiai žinot, kad grafikai tiek iReport&#39;e tiek pačiame JasperServer grafikai yra išpiešiami naudojant JFreeChart komponentą. iReport šiek tiek leidžia keisti grafiko išvaizdą, bet nepakankamai. Kažkodėl programuotojai iReport&#39;e sukūrė tik galimybę keisti tik grafiko elementų (linijų …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="JasperServer JFreeChart grafiko išvaizdos tobulinimas su &#34;Customizer Class&#34;"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class.html"/>
+        <meta property="og:description" content="Įrašas bus apie taip, kaip gan paprastai galima pagal asmeninius poreikius pasikeisti JasperServer grafikų išvaizdą. Tikriausiai žinot, kad grafikai tiek iReport&#39;e tiek pačiame JasperServer grafikai yra išpiešiami naudojant JFreeChart komponentą. iReport šiek tiek leidžia keisti grafiko išvaizdą, bet nepakankamai. Kažkodėl programuotojai iReport&#39;e sukūrė tik galimybę keisti tik grafiko elementų (linijų …"/>
+        <meta property="article:published_time" content="2014-10-09" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="Customizer Class" />
+            <meta property="article:tag" content="dash line" />
+            <meta property="article:tag" content="dashed line" />
+            <meta property="article:tag" content="eclipse" />
+            <meta property="article:tag" content="iReport" />
+            <meta property="article:tag" content="JasperServer" />
+            <meta property="article:tag" content="java" />
+            <meta property="article:tag" content="jfreechart" />
+            <meta property="article:tag" content="punktyrinė linija" />
+            <meta property="article:tag" content="spalva" />
+            <meta property="article:tag" content="stilius" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class.html"
+                       rel="bookmark"
+                       title="Permalink to JasperServer JFreeChart grafiko išvaizdos tobulinimas su "Customizer Class"">
+                        JasperServer JFreeChart grafiko išvaizdos tobulinimas su &quot;Customizer Class&quot;
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-10-09T15:15:00+03:00"> kt 09 spalis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/customizer-class.html">Customizer Class</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/dash-line.html">dash line</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/dashed-line.html">dashed line</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/eclipse.html">eclipse</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/ireport.html">iReport</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/jasperserver.html">JasperServer</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/java.html">java</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/jfreechart.html">jfreechart</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/punktyrine-linija.html">punktyrinė linija</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/spalva.html">spalva</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/stilius.html">stilius</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/jfreechart.jpg"><img alt="jfreechart" class="aligncenter wp-image-420 size-medium" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/jfreechart-300x254.jpg" style="width: 300px; height: 254px;" /></a></p>
+<p>Įrašas bus apie taip, kaip gan paprastai galima pagal asmeninius poreikius pasikeisti JasperServer grafikų išvaizdą. Tikriausiai žinot, kad grafikai tiek iReport'e tiek pačiame JasperServer grafikai yra išpiešiami naudojant <a class="reference external" href="http://www.jfree.org/jfreechart/">JFreeChart</a> komponentą. iReport šiek tiek leidžia keisti grafiko išvaizdą, bet nepakankamai. Kažkodėl programuotojai iReport'e sukūrė tik galimybę keisti tik grafiko elementų (linijų, stulpelių ir pan.) spalvą, bet nerealizavo galimybės keisti linijų stilių, išpiešimo eiliškumą ir kitus naudingus parametrus. Yra kaip yra. Viską kitą yra gan lengvai padaroma su/per java Customizer Class.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/jfreechart_2.jpg"><img alt="jfreechart_2" class="aligncenter size-large wp-image-421" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/jfreechart_2-1024x429.jpg" style="width: 625px; height: 261px;" /></a></p>
+<p>Na apie viską iš pradžių. Turių iReport &quot;multi axis&quot; grafiką, kuriame stulpeliais yra išpiešiamas atvaizduojamų duomenų laiko intervalas, o linijiniu grafiku (line chart, ne XY!) yra išpiešiamas tam tikrų duomenų kitimas laike. Linijų (angl. <em>series</em>) iš viso yra net 15. Linijos dažnai persidengia ir linijas vaizduojant vien skirtingomis spalvomis yra labai sunku suprasti, kas kur ir kaip. Seniai žinojau, kad grafiko stilių galima keisti tam tikrais java kustomizatoriais (Customizer Class), tačiau ilgą laiką išsiversdavau ir be jų. Vieną kartą reikalas prispyrė, o nuo ko pradėti nežinojau. Ant tiesos kelio užvedė šis video: <a class="reference external" href="http://goo.gl/DYWAVx">http://goo.gl/DYWAVx</a>, kuriame šaunus indas demonstruoja nuo ko ir kaip reikia pradėti visą šį jovalą.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse.jpg"><img alt="eclipse" class="aligncenter size-large wp-image-432" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse-1024x770.jpg" style="width: 625px; height: 469px;" /></a></p>
+<p>Norint pradėti, pirmiausiai, reikia parsisiųsti <a class="reference external" href="https://projects.eclipse.org/releases/luna">Eclipse Luna</a> java kompiliatorių. Bandžiau NetBeans, nepatiko. Taip pat reikės ir <a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html">Java SE SDK</a>. Viską susidiegus, reikia susikurti naują Eclipse projektą. Kadangi pats dariau viską pagal ankščiau aprašytą <a class="reference external" href="http://goo.gl/DYWAVx">youtube filmuką</a>, tad projektą pasivadinau &quot;CustomLegendList&quot; vardu. Kuriant naują projektą yra labai svarbu teisingai pasirinkti tinkamą JRE aplinką. Pasirinkau &quot;CDC-1.1/Foundation-1.1. Paspaudus &quot;next&quot;, kompiliatorius užklaus papildomų java nustatymų.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_newproject.jpg"><img alt="eclipse_newproject" class="aligncenter size-full wp-image-430" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_newproject.jpg" style="width: 400px; height: 463px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_javasettings.jpg"><img alt="eclipse_javasettings" class="aligncenter size-full wp-image-433" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_javasettings.jpg" style="width: 400px; height: 463px;" /></a></p>
+<p>Perėjus į nustatymo lango kortelę &quot;Libraries&quot;, mygtuku &quot;Add External JARs...&quot; <strong>būtina įtraukti</strong> šiais bibliotekas: <strong>jasperreports-5.5.0.jar</strong>, <strong>jcommon-1.0.15.jar</strong> ir <strong>jfreechart-1.0.12.jar</strong>. Jas rasite savo JasperServer lib direktorijoje. Kelias iki direktorijos, mano atveju, buvo toks: &quot;C:\Program Files\jasperreports-server-cp-5.0.0\apache-tomcat\webapps\jasperserver\WEB-INF\lib&quot;. Kadangi mano jasperis gyvena nutolusiame serveryje, todėl visą lib direktoriją tiesiog persikopijavau į savo lokalų PC, į Eclipse direktoriją. Tiesa, jei bibliotekų projekto kūrimo stadijoje neįtrauksite, tai visada galėsite padaryti projekto savybių (angl. <em>properties</em>) lange:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/bibliotekos.jpg"><img alt="bibliotekos" class="aligncenter size-full wp-image-431" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/bibliotekos.jpg" style="width: 800px; height: 460px;" /></a></p>
+<p>Toliau mūsų sukurtame projekte ant katalogo &quot;src&quot; spaudžiam dešinį pelės klavišą ir susikuriame naują paketą, kurį pavadiname &quot;Customizer&quot;. Paketo pavadinimas yra ypač svarbus, nes jis bus naudojamas iReport'o grafiko nustatymuose.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_newpackage.jpg"><img alt="eclipse_newpackage" class="aligncenter size-full wp-image-436" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_newpackage.jpg" style="width: 400px; height: 418px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_newpackage2.jpg"><img alt="eclipse_newpackage2" class="aligncenter size-full wp-image-435" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_newpackage2.jpg" style="width: 400px; height: 381px;" /></a></p>
+<p>Po to reikia susikurti naują klasę (angl. <em>Class</em>), kurią, paprastumo dėlei, irgi pavadinkime &quot;customizer&quot;:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_class.jpg"><img alt="eclipse_class" class="aligncenter size-full wp-image-438" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_class.jpg" style="width: 400px; height: 442px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_class2.jpg"><img alt="eclipse_class2" class="aligncenter size-full wp-image-437" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_class2.jpg" style="width: 400px; height: 470px;" /></a></p>
+<p>Atsidariusiame darbo lape jau galima rašyti mūsų customize calss'ę. Štai ką po ilgo googlinimo &quot;pribūriau&quot;:</p>
+<div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w">  </span><span class="kn">package</span><span class="w"> </span><span class="nn">Customizer</span><span class="p">;</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">java.awt.BasicStroke</span><span class="p">;</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">java.awt.Color</span><span class="p">;</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">org.jfree.chart.JFreeChart</span><span class="p">;</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">org.jfree.chart.plot.CategoryPlot</span><span class="p">;</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">org.jfree.chart.title.LegendTitle</span><span class="p">;</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">org.jfree.ui.RectangleEdge</span><span class="p">;</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">org.jfree.util.ShapeUtilities</span><span class="p">;</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.jasperreports.engine.JRChart</span><span class="p">;</span>
+<span class="linenos">14</span><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.jasperreports.engine.JRChartCustomizer</span><span class="p">;</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">customizer</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">JRChartCustomizer</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">customize</span><span class="p">(</span><span class="n">JFreeChart</span><span class="w"> </span><span class="n">chart</span><span class="p">,</span><span class="w"> </span><span class="n">JRChart</span><span class="w"> </span><span class="n">jasperChart</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">  </span><span class="n">LegendTitle</span><span class="w"> </span><span class="n">legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chart</span><span class="p">.</span><span class="na">getLegend</span><span class="p">();</span>
+<span class="linenos">21</span><span class="w">  </span><span class="n">legend</span><span class="p">.</span><span class="na">setPosition</span><span class="p">(</span><span class="n">RectangleEdge</span><span class="p">.</span><span class="na">BOTTOM</span><span class="p">);</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="w">  </span><span class="n">CategoryPlot</span><span class="w"> </span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">CategoryPlot</span><span class="p">)</span><span class="w"> </span><span class="n">chart</span><span class="p">.</span><span class="na">getPlot</span><span class="p">();</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="w">  </span><span class="c1">//J1 - J5</span>
+<span class="linenos">26</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">));</span>
+<span class="linenos">27</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">));</span>
+<span class="linenos">28</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">));</span>
+<span class="linenos">29</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">));</span>
+<span class="linenos">30</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span><span class="mf">3.0f</span><span class="p">));</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesShape</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ShapeUtilities</span><span class="p">.</span><span class="na">createDiamond</span><span class="p">(</span><span class="mi">6</span><span class="p">));</span>
+<span class="linenos">33</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesShape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ShapeUtilities</span><span class="p">.</span><span class="na">createDiamond</span><span class="p">(</span><span class="mi">6</span><span class="p">));</span>
+<span class="linenos">34</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesShape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">ShapeUtilities</span><span class="p">.</span><span class="na">createDiamond</span><span class="p">(</span><span class="mi">6</span><span class="p">));</span>
+<span class="linenos">35</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesShape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">ShapeUtilities</span><span class="p">.</span><span class="na">createDiamond</span><span class="p">(</span><span class="mi">6</span><span class="p">));</span>
+<span class="linenos">36</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesShape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">ShapeUtilities</span><span class="p">.</span><span class="na">createDiamond</span><span class="p">(</span><span class="mi">6</span><span class="p">));</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="w">  </span><span class="c1">//J1_TP1 - J5_TP1</span>
+<span class="linenos">39</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">40</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">41</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">6.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">42</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">43</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">44</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">6.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">45</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">46</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">47</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">6.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">48</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">49</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">50</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">6.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">51</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">52</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">53</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">6.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">54</span>
+<span class="linenos">55</span><span class="w">  </span><span class="c1">//J1_TP0 - T5_TP0</span>
+<span class="linenos">56</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">57</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">58</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">59</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">60</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">61</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">62</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">63</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">64</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">65</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">66</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">67</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">68</span><span class="w">  </span><span class="n">plot</span><span class="p">.</span><span class="na">getRenderer</span><span class="p">().</span><span class="na">setSeriesStroke</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">(</span>
+<span class="linenos">69</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">CAP_ROUND</span><span class="p">,</span><span class="w"> </span><span class="n">BasicStroke</span><span class="p">.</span><span class="na">JOIN_ROUND</span><span class="p">,</span>
+<span class="linenos">70</span><span class="w">  </span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0f</span><span class="p">},</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">));</span>
+<span class="linenos">71</span>
+<span class="linenos">72</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">73</span><span class="w">  </span><span class="p">}</span>
+</pre></div>
+<p>Kodas veikia gan paprastai. Praleidus visokių bibliotekų įtraukimus ir naudojamų metodų aprašymus lieka tik krūva eilučių su aibe funkcijų, kurios ir atlieka tam tikrą darbą:</p>
+<ul class="simple">
+<li><strong>.setSeriesStroke(0, new BasicStroke(3.0f))</strong> - nustato linijos storį pasirinktai kreivei (šiuo atveju pirmai, nes kreivės yra skaičiuojamos nuo nulio).</li>
+<li><strong>.setSeriesShape(0, ShapeUtilities.createDiamond(6))</strong> - nustato pasirinktų linijų grafinį žymėjimą, šiuo atveju pirmai kreivei yra priskiriamas deimanto simbolis.</li>
+<li><strong>.setSeriesStroke(5, new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND,1.0f, new float[] {6.0f, 6.0f}, 0.0f))</strong> - nustato pasirinktos linijos stilių, šiuo atveju šešta linija yra piešiama punktyru.</li>
+</ul>
+<p>Beliko kodą susikompiliuoti. Tam ant darbo lapo customizer.java spaudžiam dešiniu klavišu ir pasirenkam &quot;Export&quot;:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export.jpg"><img alt="eclipse_export" class="aligncenter size-medium wp-image-444" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export.jpg" style="width: 400px; height: 546px;" /></a></p>
+<p>Atsidariusiame wizard'e, šuoliuojam per žingsnius, nurodome katalogą, į kurį norime padėti sukompiliuotą jar failą:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export2.jpg"><img alt="eclipse_export2" class="aligncenter wp-image-443 size-full" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export2.jpg" style="width: 400px; height: 473px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export3.jpg"><img alt="eclipse_export3" class="aligncenter wp-image-442 size-full" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export3.jpg" style="width: 400px; height: 473px;" /></a></p>
+<p>Kur reikia nuimame ir uždedame varneles:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export3.jpg"><img alt="image1" class="aligncenter size-full wp-image-442" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export3.jpg" style="width: 400px; height: 473px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export5.jpg"><img alt="eclipse_export5" class="aligncenter size-full wp-image-440" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/eclipse_export5.jpg" style="width: 400px; height: 473px;" /></a></p>
+<p>Viską atlikę, ankščiau nurodytame kataloge rasite jau pilnai paruoštą ir sukompiliuotą failą (tingintiems kompliuoti, savo failo varaitą įkėliau čia: <a class="reference external" href="https://paulius.bautrenas.lt/files/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/customizer.zip">customizer.zip</a>), ką gi dabar daryti su juo?</p>
+<p>Pirmiausia, sukompiliuotą JAR failą reikią įtraukti į iReport ClassPath. Rekomenduoju nustatymų lange ties įtrauktu JAR failu įjungti varnelę &quot;Reloadable&quot;. &quot;Reloadable&quot; reiškia, kad konkretus JAR failas bus kiekvieną kartą iš naujo užkraunamas ataskaitos generavimo metu. Kitu atveju, JAR failas bus užkrautas tik vieną kartą, iReport paleidimo metu. &quot;Reloadable&quot; yra pravartu tada, kai programuojate pačia cusstomize klasę, nes nereikią kiek vieną kartą perkrauti iReport, o užtenka tik iš naujo susigeneruoti ataskaitą.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/ireport_classpath.jpg"><img alt="ireport_classpath" class="aligncenter size-full wp-image-450" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/ireport_classpath.jpg" style="width: 859px; height: 755px;" /></a></p>
+<p>Po to, konkretaus grafiko savybių (angl. <em>Properties</em>) lange reikia nurodyti &quot;Customizer Class&quot;. Tam skirtame langelyje įrašome&nbsp; paketo ir klasės pavadinimą. Mūsų atveju, t. y. &quot;Customizer.customizer&quot;. Toks įdomus pastebėjimas: keista, bet nurodžius klasę bendrai Multi Axis grafikui, ji yra, kažkodėl, pritaikoma tik pirmam iš eilės einančiam grafikui. Kiek bandžiau programiškai prisikasti iki kitų grafikų, man niekaip to padaryti nepavyko. Manau, kad čia yra pačio iReport niuansas arba tiesiog pats kažko nežinau... Na bet kokiu atveju, jei norite keisti tik vieno iš Multi Axis grafiko grafikų stilių, &quot;Customizer Class&quot; nurodykite tik jam, o ne bendrai Multi Axis grafikui. Taip tikrai viskas veiks.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/ireport_chart.jpg"><img alt="ireport_chart" class="aligncenter size-full wp-image-453" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/ireport_chart.jpg" style="width: 399px; height: 471px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/ireport_chart_class.jpg"><img alt="ireport_chart_class" class="aligncenter size-full wp-image-451" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/ireport_chart_class.jpg" style="width: 350px; height: 369px;" /></a></p>
+<p>Viską atlikus, iš naujo sugeneruotoje ataskaitoje grafikas turėtų įgauti naują, programiškai nustatytą stilių. Mano grafikas po pakeitimų atrodo maždaug taip:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/jfreechart_1.jpg"><img alt="jfreechart_1" class="aligncenter size-large wp-image-422" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/jfreechart_1-1024x430.jpg" style="width: 625px; height: 262px;" /></a></p>
+<p>Norint, kad pakeitimai veiktų ir JasperServer Respository gulinčiai ataskaitai, į konkrečios ataskaitos Resources katalogą reikią įkelti mūsų sukompiliuotą JAR failą. Įkeliamą failą reiktų užvadinti tuo pačiu faile naudojamu java klasės pavadinimu, pav. &quot;Customizer&quot;.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/jasper_respository.jpg"><img alt="jasper_respository" class="aligncenter size-full wp-image-456" src="https://paulius.bautrenas.lt/images/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class/jasper_respository.jpg" style="width: 373px; height: 507px;" /></a></p>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes.html">JasperServer date input parameters: kaip nustatyti gudrias &quot;default&quot; vertes</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
