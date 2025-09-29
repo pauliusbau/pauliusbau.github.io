@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>CadSoft Eagle detalės bibliotekos sukūrimas - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/cadsoft-eagle-detales-bibliotekos-sukurimas.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="2x8 LCD,8x2 LCD,cadsoft eagle,eagle,naujos bibliotekos sukūrimas,naujos detalės sukūrimas,new library" />
+        <meta name="description" content="Labai dažnai pasitaiko, kad standartinėse CadSoft Eagle bibliotekose nėra jums reikiamos detalės. Kartais pasiseka ir norimos detalės biblioteką pavyksta rasti internete, tačiau paieškos užimą laiką, ypač jei detalė yra naudojama retai arba yra labai nauja. Taip pat kitų žmonių sukurtose bibliotekose pasitaiko tyčinių ar netyčinių klaidų, todėl internete rastas bibliotekas …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="CadSoft Eagle detalės bibliotekos sukūrimas"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/cadsoft-eagle-detales-bibliotekos-sukurimas.html"/>
+        <meta property="og:description" content="Labai dažnai pasitaiko, kad standartinėse CadSoft Eagle bibliotekose nėra jums reikiamos detalės. Kartais pasiseka ir norimos detalės biblioteką pavyksta rasti internete, tačiau paieškos užimą laiką, ypač jei detalė yra naudojama retai arba yra labai nauja. Taip pat kitų žmonių sukurtose bibliotekose pasitaiko tyčinių ar netyčinių klaidų, todėl internete rastas bibliotekas …"/>
+        <meta property="article:published_time" content="2014-05-16" />
+            <meta property="article:section" content="Elektronika" />
+            <meta property="article:tag" content="2x8 LCD" />
+            <meta property="article:tag" content="8x2 LCD" />
+            <meta property="article:tag" content="cadsoft eagle" />
+            <meta property="article:tag" content="eagle" />
+            <meta property="article:tag" content="naujos bibliotekos sukūrimas" />
+            <meta property="article:tag" content="naujos detalės sukūrimas" />
+            <meta property="article:tag" content="new library" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/elektronika.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Elektronika ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/cadsoft-eagle-detales-bibliotekos-sukurimas.html"
+                       rel="bookmark"
+                       title="Permalink to CadSoft Eagle detalės bibliotekos sukūrimas">
+                        CadSoft Eagle detalės bibliotekos sukūrimas
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-05-16T08:09:00+03:00"> pn 16 geguže 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/2x8-lcd.html">2x8 LCD</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/8x2-lcd.html">8x2 LCD</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/cadsoft-eagle.html">cadsoft eagle</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/eagle.html">eagle</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/naujos-bibliotekos-sukurimas.html">naujos bibliotekos sukūrimas</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/naujos-detales-sukurimas.html">naujos detalės sukūrimas</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/new-library.html">new library</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><img alt="image089" class="size-medium wp-image-30 aligncenter" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image089-300x258.png" style="width: 300px; height: 258px;" /></p>
+<p>Labai dažnai pasitaiko, kad standartinėse CadSoft Eagle bibliotekose nėra jums reikiamos detalės. Kartais pasiseka ir norimos detalės biblioteką pavyksta rasti internete, tačiau paieškos užimą laiką, ypač jei detalė yra naudojama retai arba yra labai nauja. Taip pat kitų žmonių sukurtose bibliotekose pasitaiko tyčinių ar netyčinių klaidų, todėl internete rastas bibliotekas prieš naudojant jas savo projekte reikia kelis kartus pertikrinti.</p>
+<p>Jei nepavyksta rasti norimos detalės bibliotekos nei Eagle bibliotekų sąraše, nei interneto lobynuose, nelieka nieko kito, kaip tik susikurti norimos detalės biblioteką patiems. Tai gan ilgas, tačiau sąlyginai nesudėtingas ir lengvai išmokstamas procesas, kurį pabandžiau apžvelgti beveik prieš metus VGTU EF studentams parašytame vadove (<a class="reference external" href="https://paulius.bautrenas.lt/files/cadsoft-eagle-detales-bibliotekos-sukurimas/Eagle-detalės-bibliotekos-sukūrimas.pdf">Eagle detalės bibliotekos sukūrimas.pdf</a>)</p>
+<hr class="docutils" />
+<div class="section" id="detales-simbolio-sukurimas">
+<h2>1.1. Detalės simbolio sukūrimas</h2>
+<div class="wp-image-34 size-full figure">
+<img alt="image002" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image002.jpg" style="width: 371px; height: 213px;" />
+</div>
+<p>1.1 pav. Skystųjų kristalų vaizduoklis</p>
+<p>Tarkim, kad savo projekte norime panaudoti 2x8 skystųjų kristalų vaizduoklį (1.1 pav.), tačiau niekaip nerandame jau paruoštos būtent šio elemento bibliotekos. Naujos bibliotekos pradedamas Eagle valdymo skyde (angl. Control Panel) paspaudus File -&gt; New -&gt; Library (1.2 pav.)</p>
+<div class="wp-image-35 size-full figure">
+<img alt="image003" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image003.png" style="width: 501px; height: 297px;" />
+<p class="caption">1.2 pav. Naujos bibliotekos kūrimas</p>
+</div>
+<p>Atsidarius naujam programos langui, spaudžiame File -&gt; Save ir išsaugome kuriamą biblioteką norimu vardu (1.3 pav.). Kuriant naujus Eagle elementus, nėra būtina kiekvienam naujam elementui (detalei) kurti po naują biblioteką. Labiau yra priimta savo savybėmis panašius elementus talpinti toje pačioje bibliotekoje, todėl kurdami naują biblioteką, nurodykite prasmingą bibliotekos pavadinimą, pav. DC-DC-keitikliai, indikatoriai ar pan. Šiuo atveju biblioteką pavadinkime „custom-parts“ nes joje talpinsime visus ateityje sukurtus elementus.</p>
+<div class="wp-image-37 size-full figure">
+<img alt="image005" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image005.png" style="width: 625px; height: 448px;" />
+<p class="caption">1.3 pav. Sukurtos bibliotekos išsaugojimo langas</p>
+</div>
+<p>Dažniausiai, naujas elementas pradedamas kurti nuo simbolio, kuris bus naudojamas elektrinėje principinėje schemoje, kūrimo. Norėdami pradėti naujo elemento simbolio kūrimą, bibliotekos lange spaudžiame Library -&gt; Symbol (1.4 pav.).</p>
+<div class="wp-image-40 size-full figure">
+<img alt="image007" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image007.png" style="width: 616px; height: 438px;" />
+<p class="caption">1.4 pav. Naujo elemento simbolio kūrimas</p>
+</div>
+<p>Iššokusiame „Edit“&nbsp; lange įrašome naujo elemento pavadinimą ir spaudžiame „OK“ (1.5 pav.) bei dar kartą patvirtiname, kad tikrai norime iš naują elementą nurodytu vardu.</p>
+<div class="wp-image-41 size-full figure">
+<img alt="image009" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image009.png" style="width: 284px; height: 283px;" />
+<p class="caption">1.5 pav. Naujo elemento simbolio kūrimas</p>
+</div>
+<p>Atsidariusiame lange „Wire“ įrankiu nubrėžiame pageidaujamos formos figūrą. Mūsų pasirinkto skystųjų kristalų vaizduoklio atveju, nubrėžiame 6 x 19 stačiakampį (1.6 pav.). Šiame žingsnyje galima per daug nesistengti, nes visada sudarytą simbolį bus galima modifikuoti (pailginti/sutrumpinti, pastumti ir pan.).</p>
+<div class="wp-image-42 figure">
+<img alt="image011" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image011.png" style="width: 548px; height: 509px;" />
+<p class="caption">1.6 pav. Naujo elemento simbolio kontūro kūrimas</p>
+</div>
+<p>Šiek tiek atsakingesnė dalis: sukursime naujo elemento išvadus. Tam naudojamas įrankis „Draw a pin“. Naujas išvadas yra „padedamas“ norimoje vietoje spustelėjus kairįjį palytės mygtuką. Dešinysis pelytės mygtukas keičia erdvinę orientaciją. Kuriant elemento išvadus svarbu atsiminti, kad elektrinėje principinėje schemoje laidai yra jungiami prie žaliu apskritimu pažymėto išvado galo, todėl išvadus reiktų orientuoti ir prijungti prie simbolio karkaso taip, kad vėliau būtų patogu prijungti laidus (1.7 pav.).</p>
+<div class="wp-image-43 figure">
+<img alt="image013" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image013.png" style="width: 614px; height: 413px;" />
+<p class="caption">1.7 pav. Naujo elemento simbolio išvadų kūrimas</p>
+</div>
+<p>Kuriant išvadus yra priimta nurodyti išvado tipą (paskirtį).&nbsp; Tai galite padaryti įrankio „Draw a pin“ valdymo meniu pakeitę „Direction“ nustatymą. Jei skirtingos paskirties išvadų yra nedaug arba tiesiog kurdami išvadus pamiršote pakeisti kai kurių išvadų tipą, jį visuomet galėsite pakeisti vėliau. Tam puikiai tinka įrankis „Change object properties“. Jo meniu išsirinkite norimą išvado paskirtį (1.8 pav.) ir kairiuoju pelytės mygtuku spustelėkite tuos išvadus, kurių tipą norite keisti.</p>
+<div class="wp-image-44 size-full figure">
+<img alt="image015" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image015.png" style="width: 871px; height: 586px;" />
+<p class="caption">1.8 pav. Įrankio „Change object properties“ nustatymų meniu</p>
+</div>
+<p>Sukurtus išvadus dera pavadinti aiškiai suprantamais vardais. Išvadų vardus patartina nurodyti tokius, kokie yra pateikti kuriamos detalės gamintojo aprašyme.&nbsp; Mūsų atveju, gamintojas nurodo tokius išvadų pavadinimus:</p>
+<div class="wp-image-85 size-full figure">
+<img alt="image018" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image018.jpg" style="width: 495px; height: 50px;" />
+<p class="caption">1.9 pav. Skistųjų kristalų vaizduoklio išvadų pavadinimai</p>
+</div>
+<p>Išvadų pavadinimų nurodymui yra naudojamas įrankis „Name“. Jį aktyvavaus ir kairiuoju palytės mygtuku nuspaudus ant pasirinkto išvado, iššoka lentelė, kurioje yra nurodomas pavadinimas:</p>
+<div class="wp-image-46 size-full figure">
+<img alt="image019" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image019.png" style="width: 771px; height: 527px;" />
+<p class="caption">1.10 pav. Išvadų pavadinimų nurodymas</p>
+</div>
+<p>Šiame etape elemento simbolio kūrimas kaip ir baigtas, tačiau sukurtą simbolį dar galima papildyti grafiniais elementais, kurie naudotojui suteiks daugiau informacijos. CadSoft Eagle leidžia sukurti dinaminius simbolio pavadinimo (angl. <em>name</em>) ir „vertės“ (angl. <em>value</em>) laukus, kurių tekstą galima keisti tiesiai iš principinės schemos sudarymo lango. Norint juos sukurti, reikia teksto kūrimo įrankio „Text“ lange nurodyti pavadinimus „&gt;Name“ ir „&gt;Value“ (be kabučių) (1.11 pav.). Sukurtus tekstinius elementus galite patalpinti norimoje kuriamo simbolio vietoje.</p>
+<div class="wp-image-47 size-full figure">
+<img alt="image021" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image021.png" style="width: 796px; height: 469px;" />
+<p class="caption">1.11 pav. „Name“ ir „Value“ žymių pridėjimas</p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="detales-korpuso-sukurimas">
+<h2>1.2. Detalės korpuso sukūrimas</h2>
+<p>Tai pati sudėtingiausia ir atsakingiausia naujos Eagle bibliotekos detalės kūrimo stadija, nes reikia nuo nulio tiksliai nubraižyti kuo detalesnė fizinį detalės korpusą su išvadais, tvirtinimo taškais ir pan. Dažniausiai tai daroma pagal gamintojo pateiktus brėžinius, tačiau pasitaiko atvejų, kai brėžinių tiesiog nėra. Tada tenka įvairiausiais būdais matuoti pačia fizinę detalę ir&nbsp; remiantis asmenine / profesine patirtimi atkurti gamintojo nepateiktu matmenis. Šiuo atveju mums pasisekė, nes pavyko rasti pasirinkto skystųjų kristalų vaizduoklio fizinius matmenis:</p>
+<div class="wp-image-86 size-full figure">
+<img alt="image024" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image024.jpg" style="width: 520px; height: 335px;" />
+<p class="caption">1.12 pav. Pasirinko SKV techniniai duomenys</p>
+</div>
+<div class="wp-image-49 size-full figure">
+<img alt="image025" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image025.png" style="width: 284px; height: 283px;" />
+<p class="caption">1.13 pav. Naujo detalės korpuso kūrimas</p>
+</div>
+<p>Naujo detalės korpuso kūrimas yra pradedamas panašiai kaip simbolio kūrimas. Bibliotekos lange spaudžiame Library -&gt; Package. Iššokusiame „Edit“ lange (1.13 pav.) nurodome prasmingą korpuso pavadinimą ir spaudžiame „OK“.</p>
+<div class="section" id="detales-konturo-braizymas">
+<h3>1.2.1. Detalės kontūro braižymas</h3>
+<p>Tai atlikus, atsidarys naujo detalės korpuso kūrimo langas (1.14 pav.). Šiame lange, kaip ir daugelyje panašaus tipo CAD programų, detalės korpusas yra braižomas X-Y koordinačių sistemoje, kurios pradžią (tašką 0;0) žymi kryžiukas, 1.14 pav. pažymėtas nr. 1. Jūsų kursoriaus (nr. 2)&nbsp; koordinatės, koordinačių pradžios atžvilgiu, yra rodomos laukelyje šalia komandinės eilutės (nr. 3).</p>
+<div class="wp-image-50 size-full figure">
+<img alt="image027" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image027.png" style="width: 847px; height: 615px;" />
+<p class="caption">1.14 pav. Naujo detalės korpuso kūrimo langas</p>
+</div>
+<p>Svarbu suprasti ir laiku pastebėti, kad vos tik įsijungus naujo korpuso kūrimo langą, standartiškai būna įjungta imperinė matų sistema. Laukelyje nr. 4&nbsp; yra nurodomas koordinačių tinklelio (angl. <em>grid</em>) žingsnis. Šiuo atveju, langelyje nr. 4 yra nurodoma, kad atstumas tarp gretimų vertikalių ir/ar horizontalių tinklelio linijų yra 0,05 colio (angl. <em>inch</em>). Kadangi, mūsų kuriamos detalės matmenys yra pateikti metrinėje sistemoje, todėl mums būtina pakeisti tinklelio nustatymus. Tai atliekama nuspaudus mygtuką „Grid“ (nr. 5).</p>
+<div class="wp-image-51 size-full figure">
+<img alt="image029" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image029.png" style="width: 343px; height: 239px;" />
+<p class="caption">1.15 pav. Koordinačių tinklelio nustatymai</p>
+</div>
+<p>Norint persijungti į metrinę matavimų sistemą, koordinačių tinklelio nustatymų lange (1.15 pav.) laukelių „Size“ ir „Alt“ matų vienetus reikia perjungti iš „inch“ į „mm“. Taip pat reikia pagal pageidavimus pakeisti pačio tinklelio nustatymus. Pradžiai pakeiskite tinklelio žingsnį (ang. <em>size</em>) į 1 mm. Alternatyvų tinklelio žingsnį (ang. <em>alt</em>) nustatykite į 0,5 mm.</p>
+<div class="wp-image-52 size-full figure">
+<img alt="image031" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image031.png" style="width: 719px; height: 503px;" />
+<p class="caption">1.16 pav. Naujo elemento korpuso kūrimas</p>
+</div>
+<p>Pakeitę tinklelio parametrus, galima imtis kuriamos detalės korpuso projektavimo. Šio skystųjų kristalų ekranėlio atveju, braižyti pradėsime nuo ekranėlio fizinių matmenų. Įsijungę įrankį „Wire“ (1.16 pav. nr. 1), darbo lape nubrėžiame skystųjų kristalų ekranėlio dydžio (pagal gamintojo duomenis: 58 x 32 mm) stačiakampį. Svarbu, kad šį stačiakampį nubrėžtumėte sluoksnyje „tPlace“ (1.16 pav. nr. 2). Šis sluoksnis&nbsp; yra skirtas detalės korpuso kontūrui atvaizduoti.</p>
+</div>
+<div class="section" id="detales-tvirtinimo-skyliu-sukurimas">
+<h3>1.2.2. Detalės tvirtinimo skylių sukūrimas</h3>
+<p>Sukūrę detalės korpuso kontūrą, galime sukurti/patalpinti skystųjų kristalų vaizduoklio tvirtinimo skyles. Iš gamintojo pateikto aprašymo (1.12 pav.), matome, kad SKV yra montuojamas keturiais varžtais, kurių skersmuo yra 3 mm. Varžtų tvirtinimo skylėms sukurti galima rinktis įrankį „Hole“, tačiau gaminant spausdintinę plokštę namų sąlygomis, yra labai patogu jei tvirtinimo skylės turi metalo apvadą. Tokiu būdu, ėsdinant plokštę nereikės baimintis, kad pranyks skylių markiruotė, bei bus lengviau buitinėmis sąlygomis grąžtu tiksliau pataikyti į skylės centrą. Šiuo atveju pasirinksime pastarąjį būdą, nes pats skylės (angl. hole) ar metalizuotos aikštelės (angl. pad) padėjimas (angl. place) niekuo nesiskiria.</p>
+<p>Tiksliam skylių (ir kitų detalės korpuso elementų) padėjimui gali būti naudojami šie paprasti metodai: tinklelio žingsnio keitimas ir alternatyvaus&nbsp; tinklelio panaudojimas, reliatyvių koordinačių panaudojimas bei koordinacinis pozicionavimas.</p>
+<div class="section" id="tinklelio-zingsnio-keitimas-ir-alternatyvaus-tinklelio-panaudojimas">
+<h4>1.2.2.1. Tinklelio žingsnio keitimas ir alternatyvaus&nbsp; tinklelio panaudojimas</h4>
+<p>Iš gamintojo pateikto aprašymo (1.12 pav.), matome, kad visos tvirtinimo skylės yra vienodai nutolusios po 2,5 mm nuo kiekvieno SKV kontūro krašto, todėl pirmąją skylę kairiajame apatiniame SKV kampe galima padėti pakeitę tinklelio žingsnį (angl. <em>size)</em> į 2,5 mm (analogiškai, kaip 1.15 pav.).</p>
+<div class="wp-image-53 size-full figure">
+<img alt="image033" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image033.png" style="width: 730px; height: 590px;" />
+<p class="caption">1.17 pav. Skylės padėjimas tinklelio žingsnio keitimo metodu</p>
+</div>
+<p>Įsijungę įrankį „Pad“ (liet. <em>aikštelė</em>), pasirenkame apvalia aikštelės formą bei pagal gamintojo rekomendacijas nustatome aikštelės diametrą – 4,5 mm ir skylės skersmenį (angl. <em>drill</em>) – 3 mm (1.17 pav). Judindami pelytę stebime kintančias kursoriaus&nbsp; koordinates laukelyje, esančiame šalia komandinės eilutės (1.14 pav. nr. 3). Kaip galite pastebėti, aikštelės centras pats „kabinasi“ prie tinklelio (angl. <em>snap to grid</em>), todėl aikštelę padėti taške (2.5 2.5) yra labai lengva.</p>
+<p>Šiek tiek sudėtingesnė situacija yra su apatinio dešinio SKV kampo skyle. Pabandę padėti aikštelę taip pat, kaip darėte ankščiau, pastebėsite, kad „atsistoja“ ne visai ten, kur jums reiktų. Skylė „atsistoja“ šiek tiek per toli nuo dešiniojo SKV krašto: mums reikia, kad aikštelė „atsistotų“ taške (55.5 225), tačiau ji stoja į tašką (55 2.5) (1.18 pav.). Tiksliau aikštelę galite pozicionuoti pasinaudoję alternatyviu koordinačių tinkleliu, kurio žingsnio dydis yra keičiamas koordinačių tinklelio nustatymų lange (1.15 pav.) „Alt“ laukelyje. Jei esate nustatę alternatyvaus tinklelio žingsnį į 0,5 mm, paspauskite ir laikykite paspaudę klaviatūros mygtuką „Atl“. Tai leidžia pozicionuojamą aikštelę judinti jau ne 2,5 mm žingsnio tinklelyje, bet 0,5 mm tinkelyje, kas lengva ir paprastai leidžia padėti aikštelę į pageidaujamą tašką (55.5 2.5) (1.19 pav.).</p>
+<div class="float docutils container">
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image035.png"><img alt="image035" class="wp-image-54 size-medium" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image035-279x300.png" style="width: 279px; height: 300px;" /></a></div>
+<div class="float docutils container">
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image037.png"><img alt="image037" class="wp-image-55 size-medium" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image037-249x300.png" style="width: 249px; height: 300px;" /></a></div>
+</div>
+<div class="section" id="reliatyviu-koordinaciu-panaudojimas">
+<span id="target-1"></span><h4>1.2.2.2. Reliatyvių koordinačių panaudojimas</h4>
+<p>Įrankis „Mark“ leidžia norimoje koordinačių tinklelio vietoje sukurti alternatyvų koordinačių atskaitos tašką, kurio atžvilgiu bus galima pozicionuoti pageidaujamus elementus. Įsijungę šį įrankį, alternatyvų koordinačių atskaitos tašką padėkime viršutiniame dešiniajame SKV kontūro kampe (taške (58 32)) (1.20 pav.).</p>
+<div class="size-full wp-image-56 figure">
+<img alt="1.20 pav. Reliatyvių koordinačių panaudojimas" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image039.png" style="width: 470px; height: 458px;" />
+<p class="caption">1.20 pav. Reliatyvių koordinačių panaudojimas</p>
+</div>
+<p>Pastebėsite, kad judinant žymeklį, reliatyvių koordinačių padėties laukelyje (1.20 paveiksle apvestas raudonai) koordinatės yra skaičiuojamos nuo naujo atskaitos taško. Tai leidžia labai paprastai ir papildomų skaičiavimų pozicionuoti trečiąją SKV tvirtinimo skylę taškę (R -2.5 -2.5), kad pagrindinių koordinačių atveju atitinka tašką (55.5 29.5). Reikia pripažinti, kad šiuo atveju, alternatyvaus koordinačių atskaitos taško panaudojimas nėra labai aktualus, bet įrankis „Mark“ tikrai labai palengvina darbą, projektuojant sudėtingesnius elementus.</p>
+</div>
+<div class="section" id="koordinacinis-pozicionavimas">
+<h4>1.2.2.3. Koordinacinis pozicionavimas</h4>
+<p>Šis metodas reikalauja daugiausiai matematinių veiksmų, todėl jis yra naudojamas rečiausiai, tačiau yra gan patogus, nes nereikia kaitalioti koordinačių tinklelio žingsnio bei žaisti su alternatyvių tinkleliu ir reliatyviomis koordinatėmis.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image041.png"><img alt="1.21 pav. Koordinacinis pozicionavimas" class="wp-image-57 size-medium" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image041-300x209.png" style="width: 300px; height: 209px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image043.png"><img alt="1.22 pav. Koordinacinis pozicionavimas" class="wp-image-58" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image043-249x300.png" style="width: 172px; height: 207px;" /></a></p>
+<p>Norėdami šiuo metodu patalpinti aikštelę norimame taške, pirmiausiai, reikia išskaičiuoti pageidaujamo taško koordinates.&nbsp; Iš gamintojo pateikto aprašymo (1.12 pav.), žinome, kad visos tvirtinimo skylės yra vienodai nutolusios po 2,5 mm nuo kiekvieno SKV kontūro krašto, todėl galime išskaičiuoti, kad tvirtinimo aikštelę kairiajame viršutiniame SKV kontūro kampe reikia patalpinti taške:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/formule.png"><img alt="formule" class="size-medium wp-image-90 aligncenter" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/formule.png" style="width: 251px; height: 71px;" /></a></p>
+<p>Aktyvavus įrankį „Pad“, Eagle komandinėje eilutėje (1.21 pav.) įrašykite pageidaujamas aikštelės centro koordinates: (2.5 29.5) ir paspauskite klaviatūros mygtuką „Enter“. Tai atlikus, aikštelė atsidurs ten, kur ir norėjome (1.22 pav.)</p>
+<div class="size-full wp-image-61 figure">
+<img alt="1.23 pav. Koordinacinis pozicionavimas, keičiant objekto savybes" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image047.png" style="width: 616px; height: 517px;" />
+<p class="caption">1.23 pav. Koordinacinis pozicionavimas, keičiant objekto savybes</p>
+</div>
+<p>Aikštelės (ar kokio kito elemento) koordinates galima pakeisti ir per objekto savybes (angl. <em>properties</em>). Paspaudus dešiniuoju pelytės klavišu ant norimo objekto, iškvieskite objekto savybių langą (1.23 pav.). Laukelyje „Position“, galite pakoreguoti objekto koordinates.</p>
+</div>
+</div>
+<div class="section" id="detales-kontaktiniu-aiksteliu-sukurimas">
+<h3>1.2.3. Detalės kontaktinių aikštelių sukūrimas</h3>
+<p>Pirmiausia, tam kad mūsų 1.2.2. poskyryje sukurtos SKV tvirtinimo aikštelės neapsunkintų simbolio ir detalės korpuso apjungimo, kuri atliksime 1.2.5. poskyryje, pakeisime sukurtų aikštelių pavadinimus. Tai atliksime įrankiu „Name“. Aktyvavę įrankį, pelyte spustelėkite SKV tvirtinimo aikšteles ir pakeiskite jų pavadinimo pirmąjį simbolį į kokį nors kitą, pav. H (1.24 pav.)</p>
+<div class="size-full wp-image-63 figure">
+<img alt="1.24 pav. SKV tvirtinimo aikštelių pavadinimų keitimas" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image050.png" style="width: 312px; height: 165px;" />
+<p class="caption">1.24 pav. SKV tvirtinimo aikštelių pavadinimų keitimas</p>
+</div>
+<p>Tai atlikę, galime pereiti prie SKV kontaktinių aikštelių kūrimo. Iš gamintojo pateikto aprašymo (1.25 pav.) matome, kad SKV turi 16 kontaktų, išdėliotų vertikaliai dviem stulpeliais. Tarpai tarp kontaktų – standartiniai – 2,54 mm. Kontaktų aikštelės rekomenduojamas diametras – 1,6 mm, aikštelės skylės skersmuo (angl. <em>drill</em>) – 0,9 mm.</p>
+<div class="size-full wp-image-64 figure">
+<img alt="1.25 pav. SKV kontaktinių aikštelių techniniai parametrai" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image051.png" style="width: 231px; height: 296px;" />
+<p class="caption">1.25 pav. SKV kontaktinių aikštelių techniniai parametrai</p>
+</div>
+<p>Kad būtų lengviau pozicionuoti SKV kontaktines aikšteles, koordinačių tinklelį perjungiame į 2.54 mm žingsnį. Pagal 1.2.2. poskyrio ir SKV gamintojo rekomendacijas nustatome įrankį „Pad“ ir bet kurioje darbo lapo vietoje pradedame dėlioti kontaktines aikšteles.</p>
+<div class="size-full wp-image-65 figure">
+<img alt="1.26 pav. SKV kontaktinių aikštelių kūrimas" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image053.png" style="width: 676px; height: 413px;" />
+<p class="caption">1.26 pav. SKV kontaktinių aikštelių kūrimas</p>
+</div>
+<p>Verta atsiminti, kad Eagle kontaktinių aikštelių pavadinimus priskiria automatiškai, todėl aikšteles yra patartina darbo lape dėlioti ta tvarka, kuria jos yra išdėstytos realioje detalėje (1.25 pav. pažymėta žaliai). Tai yra, pirmiausia, reikia pasirinktoje darbo lapo vietoje reiktų padėti 1-ąją aikštelę, po to – 2-ąją ir t.t. Būtinai atkreipkite dėmesį į tai, kad SKV 15-16 aikštelės yra ne virš 13-14 aikštelių, tačiau po 1-2 aikštele. Taip kuriamas aikšteles sudėliokite ir jūs.</p>
+<p>Schemotechnikoje pirmąją detalės kojelę yra priimti pažymėti kvadratine kontaktine aikštele. Taip yra daroma vien tik patogumo sumetimais, nes vos tik pasižiūrėjus į spausdintinę plokštę, galima iš kart atskirti pirmą detalės kojelė nuo likusių. Jei aikštelės formos nepakeitėte kurdami aikšteles, ją galite pakeisti aikštelės savybių lange, pakeitę parametrą „Shape“ iš „round“ į „square“ (1.26 pav.)</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image055.png"><img alt="1.27 pav. Kontaktinių aikštelių grupės pažymėjimas" class="size-full wp-image-66" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image055.png" style="width: 172px; height: 219px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image057.png"><img alt="1.28 pav. Kontaktinių aikštelių grupės perkėlimas" class="size-full wp-image-67" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image057.png" style="width: 135px; height: 214px;" /></a></p>
+<p>Sukūrus aikšteles, jas beliko perkelti į tikrąją jų poziciją. Įsijungiame įrankį „Group“ ir juo pažymime visas ką tik sukurtas kontaktines aikšteles (1.27 pav.). Įsijungiame įrankį „Move“ ir laikydami paspaustą klaviatūros mygtuką „Ctrl“, dešiniuoju pelytės mygtuku spustelkime į 16-os kontaktinės aikštelės centrą (1.28 pav.). Šis veiksmas mums leidžia darbo lape judinti visą pasirinktų aikštelių grupę.</p>
+<p>Iš gamintojo pateikto aprašymo (1.25 pav. pažymėta oranžiniu apskritimu) matome, kad 16-a kontaktinė aikštelė yra nuo apatinio kairiojo SKV kampo nutolusi 1,8 mm į dešinę ir 5,8 mm į viršų. Todėl, analogiškai taip, kaip darėme 1.2.2.3.&nbsp; poskyryje, Eagle komandinėje eilutėje įrašom šio taško koordinates (1.8 5.8) ir spaudžiame klaviatūros mygtuką „Enter“.</p>
+<p>Jei viską atlikote teisingai ir nuosekliai, visą jūsų sukurtų aikštelių grupė turėjo atsidurti ten, kur jai ir priklauso!</p>
+</div>
+<div class="section" id="detales-korpuso-papildymas-grafiniais-elementais">
+<span id="target-2"></span><h3>1.2.4. Detalės korpuso papildymas grafiniais elementais</h3>
+<p>Atlikus prieš tai aprašytus veiksmus, beliko kuriamą detalės korpusą papildyti grafiniais elementais, tokiais kaip pats SKV ekranėlis ir jo metalinis apvadas (1.1 pav.). Šie grafiniai elementai leis lengviau orientuotis projektuojant spausdintinę plokštę.</p>
+<div class="size-full wp-image-68 figure">
+<img alt="1.29 pav. SKV korpuso grafinių elementų koordinatės ir pločiai" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image059.png" style="width: 553px; height: 340px;" />
+<p class="caption">1.29 pav. SKV korpuso grafinių elementų koordinatės ir pločiai</p>
+</div>
+<p>Iš 1.29 paveikslo matome, kad SKV korpuso grafiniai elementai yra išorinio kontūro centre, todėl jų kraštinių taškų koordinatės gan „nepatogios“. Taip pat kai kurie SKV ekranėlio metalinio apvado kontūro kraštinių ilgiai yra nelyginiai, todėl juos nubraižyti ranka irgi yra gan nepatogu. Gerai, kad Eagle leidžia visus elementus braižyti koordinacinio pozicionavimo metodu (principas aptartas 1.2.2.3. poskyryje).</p>
+<p>Nubraižykime išorinį SKV ekranėlio metalinio apvado kontūrą. Tam, kad braižoma figūra nesusimaišytų su jau sukurtomis detalėmis, pasinaudosime reliatyvių koordinačių metodu (aptarta (1.2.2.2. poskyryje) ir reliatyvų koordinačių tašką bet kurioje darbo lapo vietoje, tarkim taške (1 -30). Aktyvavę įrankį „Wire“, nustatysime įrankio darbo sluoksnį, nustatysime į „tDocu“ (1.30 pav.) ir Eagle komandinėje eilutėje suvesime komandas, kurios už mus nubraižys ekranėlio apvado kontūrą (1.30 pav.):</p>
+<div class="highlight"><pre><span></span>wire (R 0 0) (R 44.1 0);
+wire (R 0 26.2) (R 44.1 26.2);
+wire (R 0 0) (R 0 26.2);
+wire (R 44.1 0) (R 44.1 26.2)
+</pre></div>
+<div class="size-full wp-image-69 figure">
+<img alt="1.30 pav. SKV ekranėlio išorinis apvado kontūras" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image061.png" style="width: 543px; height: 369px;" />
+<p class="caption">1.30 pav. SKV ekranėlio išorinis apvado kontūras</p>
+</div>
+<p>Tokiu pačiu būdu nubrėšime vidinį SKV ekranėlio apvadą (1.31 pav.). Tam įvykdykite šias komandas:</p>
+<div class="highlight"><pre><span></span>wire (R 3.15 5.1) (R 40.95 5.1);
+wire (R 40.95 5.1) (R 40.95 21.1);
+wire (R 40.95 21.1) (R 3.15 21.1);
+wire (R 3.15 21.1) (R 3.15 5.1)
+</pre></div>
+<div class="size-full wp-image-70 figure">
+<img alt="1.31 pav. SKV ekranėlio vidinis apvado kontūras" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image063.png" style="width: 537px; height: 383px;" />
+<p class="caption">1.31 pav. SKV ekranėlio vidinis apvado kontūras</p>
+</div>
+<p>Panašiu būdu nubrėšime ir SKV ekranėlio simbolių langelius. Vienintelė bėda yra ta, kad reikės nubrėžti net 16 tokių pačių langelių, o tam reikės į komandinę eilutę suvesti net 64 komandas. Net ir teisingai apskaičiavus visas koordinates, galima suklysti rankomis vedant komandas, todėl jas daug patogiau įvykdyti scenarijaus (angl. script) pavidalu.</p>
+<div class="size-full wp-image-71 figure">
+<img alt="1.32 pav. Naujo scenarijaus kūrimas" id="pav" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image065.png" style="width: 357px; height: 244px;" />
+<p class="caption">1.32 pav. Naujo scenarijaus kūrimas</p>
+</div>
+<p>Tam Eagle valdymo skyde (angl. Control Panel) paspauskite File -&gt; New -&gt; Script (1.32 pav.) ir įjunkite scenarijaus redaktorių. Į iššokusį langą nukopijuokite priedo <a class="reference external" href="#P.1.">P.1. turinį</a> ir išsaugokite ką tik sukurtą scenarijų pasirinktu vardu, pav. masyvas.scr (1.33 pav.).</p>
+<div class="wp-image-72 figure">
+<img alt="1.33 pav. Naujo scenarijaus kūrimas" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image067.png" style="width: 340px; height: 353px;" />
+<p class="caption">1.33 pav. Naujo scenarijaus kūrimas</p>
+</div>
+<p>Sukurtą scenarijų paleiskite, Eagle detalės korpuso kūrimo lango meniu paspausdami mygtuką „Execute script“ (1.34 pav.) ir failų naršyklėje pasirinkdami ką tik sukurtą scenarijaus failą.</p>
+<div class="size-full wp-image-73 figure">
+<img alt="1.34 pav. Naujo scenarijaus kūrimas" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image069.png" style="width: 465px; height: 128px;" />
+<p class="caption">1.34 pav. Naujo scenarijaus kūrimas</p>
+</div>
+<p>Viską atlikus teisingai, Eagle pats nubrėš visus SKV simbolių langelius (1.35 pav.). Beliko tik perkelti visus šiame poskyryje sukurtus grafinius elementus į jų realią SKV kontūro vietą. Tai padarysime taip pat, kaip darėme 1.2.3. poskyryje. Įrankiu „Group“ pažymime visus sukurtus grafinius elementus. Įsijungiame įrankį „Move“ ir laikydami paspaustą klaviatūros mygtuką „Ctrl“, dešiniuoju pelytės mygtuku spustelkime į SKV ekranėlio išorinio metalinio apvado apatinį kairįjį kampą. Eagle komandinėje eilutėje nurodomo pageidaujamo taško (1.29 pav.) koordinates (6.95 2.9) ir spaudžiame mygtuką „Enter“.</p>
+<div class="size-full wp-image-74 figure">
+<img alt="1.35 pav. SKV ekranėlio simbolių kontūrai" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image071.png" style="width: 572px; height: 376px;" />
+<p class="caption">1.35 pav. SKV ekranėlio simbolių kontūrai</p>
+</div>
+<p>Jei viską atliko teisingai, visi sukurti grafiniai elementai turėjo užimti tikrąsias savo vietas (1.36 pav.). Jei viskas pavyko – detalės korpuso kūrimas baigtas!</p>
+<div class="size-full wp-image-75 figure">
+<img alt="1.36 pav. Baigtas SKV korpusas" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image073.png" style="width: 572px; height: 334px;" />
+<p class="caption">1.36 pav. Baigtas SKV korpusas</p>
+</div>
+</div>
+</div>
+<div class="section" id="detales-sukurimas-simbolio-ir-korpuso-apjungimas">
+<h2>1.3. Detalės sukūrimas (simbolio ir korpuso apjungimas)</h2>
+<p>Sukūrus detalės simbolį ir korpusą, reikia juos apjungti tarpusavyje, sukuriant naują įrenginį (angl. device). Tam bibliotekos lange spaudžiame Library -&gt; Device. Iššokusiame „Edit“ lange (1.37 pav.) nurodome prasmingą korpuso pavadinimą ir spaudžiame „OK“.</p>
+<div class="size-full wp-image-76 figure">
+<img alt="1.37 pav. Naujo įrenginio kūrimo langas" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image075.png" style="width: 284px; height: 283px;" />
+<p class="caption">1.37 pav. Naujo įrenginio kūrimo langas</p>
+</div>
+<p>Atsidariusiame lange, aktyvuokite įrankį „Add“ (1.38 pav.) ir įtraukite 1.1. poskyryje sukurtą detalės simbolį (1.39 pav.). Tame pačiame naujo įrenginio kūrimo lange (1.40 pav.), paspauskite mygtuką „New“ (1.40 pav. pažymėta raudonai) ir įtraukite 1.2. poskyryje sukurtą detalės korpusą (angl. <em>package</em>).</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image077.png"><img alt="1.38 pav. Įrenginio simbolio įtraukimas" class="wp-image-77" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image077-300x244.png" style="width: 255px; height: 207px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image079.png"><img alt="1.39 pav. Įtraukas įrenginio simbolis" class="wp-image-78" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image079-300x232.png" style="width: 269px; height: 208px;" /></a></p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image081.png"><img alt="1.40 pav. Naujo įrenginio kūrimo langas" class="wp-image-79 size-full" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image081.png" style="width: 866px; height: 597px;" /></a></p>
+<p>Paspaudus mygtuką „Connect“ (1.40 pav. pažymėta žaliai), yra įjungiamas simbolio išvadų ir detalės korpuso aikštelių sujungimo langas. Šiame lange, pagal 1.9 pav., apjunksime 1.1. poskyryje sukurtus SKV simbolio išvadus (angl. Pin) su 1.2. poskyryje sukurtomis SKV kontaktinėmis aikštelėmis (angl. Pad). Atkreipkite dėmesį, kad SKV išvadai kairiajame lango stulpelyje yra surūšiuoti abėcėlės, o ne logine tvarka, todėl&nbsp; aklai jungti išvadų prie SKV kontaktinių aikštelių negalime. Tai pat, aikštelių sąraše yra išvardytos ir 1.2.2. poskyryje sukurtos SKV tvirtinimo skylės, kurių šiame pavyzdyje niekur nejunksime.</p>
+<p>Iš 1.9 pav. manome, kad pirmasis SKV išvadas yra „VSS“ ir šis išvadas yra sujungtas su pirmąją SKV kontaktine aikštele, todėl simbolio išvadų ir detalės korpuso aikštelių sujungimo lange, stulpelyje „Pin“, pelyte pasirenkame išvadą pavadinimu „G$1.VSS“, o stulpelyje – aikštelę „P$1“ ir spaudžiame mygtuką „Connect“. Tą patį atliekame su likusiais SVK simbolio išvadais, kol gauname rezultatą, matomą paveiksle 1.42. Paspaudus mygtuką „OK“ kontaktinių aikštelių ir išvadų apjungimo nustatymai yra išsaugomi ir priskiriami naujai kuriamam įrenginiui.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image083.png"><img alt="1.41 pav. Simbolio išvadų ir detalės korpuso aikštelių sujungimo langas" class="size-medium wp-image-80" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image083-214x300.png" style="width: 214px; height: 300px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image085.png"><img alt="1.42 pav. Simbolio išvadų ir detalės korpuso aikštelių sujungimo langas" class="size-medium wp-image-81" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image085-247x300.png" style="width: 247px; height: 300px;" /></a></p>
+<p>Paskutinis dalykas, kurį reiktų padaryti yra detalės prefikso nustatymas. Prefiksas – tai detalės nekintama detalės vardo, matomo elektrinės principinės schemos kūrimo lange, dalis, pav.: „IC“, „R“, „D“ ir pan. Norėdami priskirti naują prefiksą kuriamam įrenginiui, naujo įrenginio kūrimo lange nuspauskite mygtuką „Prefix“ (1.40 pav. pažymėta mėlynai). Iššokusiame lange, nurodome norimą prefiksą, pav. „LCD“ ir jį išsaugome.</p>
+<p>Išsaugome naujai sukurtą įrenginį ir uždarome įrenginio kūrimo langą (1.40 pav.). Viskas. Naujos Eagle detalės bibliotekos kūrimas baigtas! Įsikėlę šią biblioteką į Eagle bibliotekų sąrašą, sukurtą detalė jau galite naudoti kurdami elektrinę principinę schemą (1.43 pav.) bei braižydami spausdintinę plokštę (1.44 pav.).</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image087.png"><img alt="1.43 pav. Elektrinės principinės schemos kūrimo langas" class="wp-image-82" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image087-300x269.png" style="width: 256px; height: 229px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image0891.png"><img alt="1.44 pav. Spausdintinės plokštės kūrimo langas" class="wp-image-83" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image0891-300x258.png" style="width: 269px; height: 231px;" /></a></p>
+</div>
+<div class="section" id="p-1-langeliu-masyvo-eagle-kodas">
+<span id="p-1"></span><h2>P.1. Langelių masyvo Eagle kodas</h2>
+<div class="highlight"><pre><span></span># Langelių masyvas:
+# Langeliu dydis: 2.96 x 5.56
+# Tarpai tarp stulpeliu: 0.59
+# Tarpai tarp eiluciu: 0.38
+# Pradzios taskas: (8.14 7.35)
+# Is viso langeliu: 16
+#------------------
+# 1-oji eilutė
+# 1-as langelis
+wire (R 8.14 7.35) (R 11.10 7.35);
+wire (R 11.10 7.35) (R 11.10 12.91);
+wire (R 11.10 12.91) (R 8.14 12.91);
+wire (R 8.14 12.91) (R 8.14 7.35);
+# 2-as langelis
+wire (R 11.69 7.35) (R 14.65 7.35);
+wire (R 14.65 7.35) (R 14.65 12.91);
+wire (R 14.65 12.91) (R 11.69 12.91);
+wire (R 11.69 12.91) (R 11.69 7.35);
+# 3-as langelis
+wire (R 15.24 7.35) (R 18.20 7.35);
+wire (R 18.20 7.35) (R 18.20 12.91);
+wire (R 18.20 12.91) (R 15.24 12.91);
+wire (R 15.24 12.91) (R 15.24 7.35);
+# 4-as langelis
+wire (R 18.79 7.35) (R 21.75 7.35);
+wire (R 21.75 7.35) (R 21.75 12.91);
+wire (R 21.75 12.91) (R 18.79 12.91);
+wire (R 18.79 12.91) (R 18.79 7.35);
+# 5-as langelis
+wire (R 22.34 7.35) (R 25.30 7.35);
+wire (R 25.30 7.35) (R 25.30 12.91);
+wire (R 25.30 12.91) (R 22.34 12.91);
+wire (R 22.34 12.91) (R 22.34 7.35);
+# 6-as langelis
+wire (R 25.89 7.35) (R 28.85 7.35);
+wire (R 28.85 7.35) (R 28.85 12.91);
+wire (R 28.85 12.91) (R 25.89 12.91);
+wire (R 25.89 12.91) (R 25.89 7.35);
+# 7-as langelis
+wire (R 29.44 7.35) (R 32.40 7.35);
+wire (R 32.40 7.35) (R 32.40 12.91);
+wire (R 32.40 12.91) (R 29.44 12.91);
+wire (R 29.44 12.91) (R 29.44 7.35);
+# 8-as langelis
+wire (R 32.99 7.35) (R 35.95 7.35);
+wire (R 35.95 7.35) (R 35.95 12.91);
+wire (R 35.95 12.91) (R 32.99 12.91);
+wire (R 32.99 12.91) (R 32.99 7.35);
+
+#------------------
+# 2-oji eilutė
+# 1-as langelis
+wire (R 8.14 13.29) (R 11.10 13.29);
+wire (R 11.10 13.29) (R 11.10 18.85);
+wire (R 11.10 18.85) (R 8.14 18.85);
+wire (R 8.14 18.85) (R 8.14 13.29);
+# 2-as langelis
+wire (R 11.69 13.29) (R 14.65 13.29);
+wire (R 14.65 13.29) (R 14.65 18.85);
+wire (R 14.65 18.85) (R 11.69 18.85);
+wire (R 11.69 18.85) (R 11.69 13.29);
+# 3-as langelis
+wire (R 15.24 13.29) (R 18.20 13.29);
+wire (R 18.20 13.29) (R 18.20 18.85);
+wire (R 18.20 18.85) (R 15.24 18.85);
+wire (R 15.24 18.85) (R 15.24 13.29);
+# 4-as langelis
+wire (R 18.79 13.29) (R 21.75 13.29);
+wire (R 21.75 13.29) (R 21.75 18.85);
+wire (R 21.75 18.85) (R 18.79 18.85);
+wire (R 18.79 18.85) (R 18.79 13.29);
+# 5-as langelis
+wire (R 22.34 13.29) (R 25.30 13.29);
+wire (R 25.30 13.29) (R 25.30 18.85);
+wire (R 25.30 18.85) (R 22.34 18.85);
+wire (R 22.34 18.85) (R 22.34 13.29);
+# 6-as langelis
+wire (R 25.89 13.29) (R 28.85 13.29);
+wire (R 28.85 13.29) (R 28.85 18.85);
+wire (R 28.85 18.85) (R 25.89 18.85);
+wire (R 25.89 18.85) (R 25.89 13.29);
+# 7-as langelis
+wire (R 29.44 13.29) (R 32.40 13.29);
+wire (R 32.40 13.29) (R 32.40 18.85);
+wire (R 32.40 18.85) (R 29.44 18.85);
+wire (R 29.44 18.85) (R 29.44 13.29);
+# 8-as langelis
+wire (R 32.99 13.29) (R 35.95 13.29);
+wire (R 35.95 13.29) (R 35.95 18.85);
+wire (R 35.95 18.85) (R 32.99 18.85);
+wire (R 32.99 18.85) (R 32.99 13.29);
+</pre></div>
+</div>
+<div class="section" id="p-2-atsisiuntimai">
+<span id="p-2"></span><h2>P.2. Atsisiuntimai</h2>
+<p>Jei norite atsisiųsti šiame &quot;straipsnyje&quot; aprašyto LDC ekranėlio eagle biblioteką, spauskit čia: <a class="reference external" href="https://paulius.bautrenas.lt/files/cadsoft-eagle-detales-bibliotekos-sukurimas/lcd_8x2_eagle.zip">lcd_8x2_eagle.zip</a></p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
