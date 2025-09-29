@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>HC05 BlueTooth moduliai - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/hc05-bluetooth-moduliai.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="bluetooth,firmware,HC05,PCB" />
+        <meta name="description" content="Prieš metus (~ 2013 m. vasarą) pasidaviau madai ir nusipirkau porą nepadoriai pigių HC05 bluetooth moduliukų su CSR Bluetooth valdiklais. Modulius pirkau tik dėl galimybės juos naudoti kaip USART &#34;pass-through&#34; tiltą tarp PC ir mikrovaldiklio ar tarp mikrovaldiklio ir mikrovaldiklio. Pirkdamas žinojau, kad šie moduliai &#34;by default&#34; bus sukonfigūruoti kaip  bluetooth …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="HC05 BlueTooth moduliai"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/hc05-bluetooth-moduliai.html"/>
+        <meta property="og:description" content="Prieš metus (~ 2013 m. vasarą) pasidaviau madai ir nusipirkau porą nepadoriai pigių HC05 bluetooth moduliukų su CSR Bluetooth valdiklais. Modulius pirkau tik dėl galimybės juos naudoti kaip USART &#34;pass-through&#34; tiltą tarp PC ir mikrovaldiklio ar tarp mikrovaldiklio ir mikrovaldiklio. Pirkdamas žinojau, kad šie moduliai &#34;by default&#34; bus sukonfigūruoti kaip  bluetooth …"/>
+        <meta property="article:published_time" content="2014-10-30" />
+            <meta property="article:section" content="Elektronika" />
+            <meta property="article:tag" content="bluetooth" />
+            <meta property="article:tag" content="firmware" />
+            <meta property="article:tag" content="HC05" />
+            <meta property="article:tag" content="PCB" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/elektronika.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Elektronika ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/hc05-bluetooth-moduliai.html"
+                       rel="bookmark"
+                       title="Permalink to HC05 BlueTooth moduliai">
+                        HC05 BlueTooth moduliai
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-10-30T14:55:00+02:00"> kt 30 spalis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/bluetooth.html">bluetooth</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/firmware.html">firmware</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/hc05.html">HC05</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/pcb.html">PCB</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/IMG_7005.jpg"><img alt="IMG_7005" class="aligncenter size-medium wp-image-497" src="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/IMG_7005-300x225.jpg" style="width: 300px; height: 225px;" /></a></p>
+<p>Prieš metus&nbsp;(~ 2013 m. vasarą) pasidaviau madai ir nusipirkau porą nepadoriai pigių HC05 bluetooth moduliukų su CSR Bluetooth valdiklais. Modulius pirkau tik dėl galimybės juos naudoti kaip USART &quot;pass-through&quot; tiltą tarp PC ir mikrovaldiklio ar tarp mikrovaldiklio ir mikrovaldiklio. Pirkdamas žinojau, kad šie moduliai &quot;by default&quot; bus sukonfigūruoti kaip&nbsp; bluetooth audio imtuvai, tačiau juos bus&nbsp;gan lengva perprogramuoti (perrašyti firmware). Dėl pastarojo &quot;bus lengva&quot; visas projektas užtruko praktiškai metus, nes perrašyti firmware nebuvo taip jau ir trivialu...</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/hc05.png"><img alt="hc05" class="aligncenter size-large wp-image-500" src="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/hc05-1024x696.png" style="width: 625px; height: 424px;" /></a>
+<a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/hc05pcb.png"><img alt="hc05pcb" class="aligncenter size-full wp-image-499" src="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/hc05pcb.png" style="width: 490px; height: 502px;" /></a></p>
+<p>Pirmiausia, kol moduliai dar tik keliavo į Lietuvą, nusprendžiau pasigaminti jiems&nbsp;PCB. HC05 reikia&nbsp;+3.3V maitinimo, jų I/O taip pat&nbsp;yra 3V3 loginio lygio, todėl tam, kad galėčiau modulius naudoti 5V sistemose, į PCB įprojektavau <a class="reference external" href="http://www.vishay.com/docs/74442/sip21106.pdf">SiP21106</a> 3V3 įtampos reguliatorių. USART TX ir RX linijas apsaugojau rezistoriais R6 – R8&nbsp;(žr. schemą). HC05&nbsp;RST (reset) išvadą prijungiau per standartinę RC grandinėlę. Prie PIO8 ir PIO9 prijungiau po šviesos diodą, kurie rodo, ką veikia HC05. PCB taip pat įprojektavau ir HC05 perprogravimo jungtį JP1 ir darbo režimo nustatymo &quot;jumperį&quot; JP3. Pastaruoju, galima <a class="reference external" href="http://byron76.blogspot.com/2011/09/hc05-firmware.html">įjungti arba išjungti</a> HC05 <a class="reference external" href="http://elecfreaks.com/store/download/datasheet/Bluetooth/HC-0305%20serail%20module%20AT%20commamd%20set%20201104%20revised.pdf">AT komandų funkciją</a>.</p>
+<p>Eagle failus galite atsisiųsti iš čia:&nbsp;<a class="reference external" href="https://paulius.bautrenas.lt/files/hc05-bluetooth-moduliai/HC05.zip">HC05</a></p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/IMG_7004e.jpg"><img alt="IMG_7004e" class="aligncenter size-large wp-image-496" src="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/IMG_7004e-1024x550.jpg" style="width: 625px; height: 335px;" /></a></p>
+<p>Nekreipiant dėmesio į sovietinį stiklotekstolitą ir netolygų aplitavimą, PCB gavosi gan&nbsp;graži ir pakankamai maža. Mano reikmėms pilnai užtenka. Žinoma, dabar kinietiškos parduotuvės knibžtėte knibžta daug mažesniais, iš karto paruoštais naudoti <a class="reference external" href="http://www.dx.com/p/hc-05-wireless-bluetooth-serial-pass-through-module-w-backboard-green-blue-298911">HC05 moduliais,</a>&nbsp;todėl mano PCB gal ir atrodo kiek&nbsp;kvailai, bet prieš metus tokių modulių už žemą kainą tiesiog nebuvo...</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/spi.jpg"><img alt="spi" class="aligncenter size-large wp-image-505" src="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/spi-1024x583.jpg" style="width: 625px; height: 355px;" /></a></p>
+<p>Atėjo laikas perprogramuoti modulius. Pagal &quot;<a class="reference external" href="http://byron76.blogspot.com/2011/09/upgrade-your-bluetooth-module.html">Byron's blog</a>&quot; pateiktą schemą (viršuje), surinkau elementarų LPT SPI programatorių.&nbsp;Atidžiai išstudijavęs &quot;Byron's blog&quot; <a class="reference external" href="http://byron76.blogspot.com/2011/09/i-hope-you-have-good-time-soldering.html">įrašą apie HC05 perprogramavimą</a>, susiinstaliavau BlueSuite 2.4 programinę įrangą (tam, kad jums nereikėtų ilgai ieškoti, BlueSuit 2.4 instaliaciją įkėliau <a class="reference external" href="http://www.failai.lt/cjsaotoyea8h/InstallBlueSuite2_4.exe">čia</a>) ir puoliau perrašinėti firmware. Tik še tau kad nori, nieko nepavyko. Mano PC motininė neturi integruoto LPT porto, tačiau turiu nusipirkęs PCI LPT kortą. Gal dėl to ir nepavyko perprogramuoti. Dar vienas įtakojantis faktorius galėjo būti tai, kad pas mane sukasi Win7 x64. Internete prisiskaičiau, kad su Win7 BlueSuite &nbsp;nelabai nori veikti. Pabandžiau ant WMware susiinstaliuoti WinXP ir iš virtualios mašinos bandyti perprogramuoti HC05, tačiau irgi nieko gero nepavyko :/ Kaip BlueFlashCmd nematė&nbsp;LPT porto, taip ir nepamatė. Dar kažkiek pasikankinau su Windows LPT nustatymais, tačiau nieko nepešęs modulius numečiau į stalčiaus gilumą ir pamiršau.</p>
+<p>Visai neseniai gavau &quot;chalturkę&quot; perinstaliuoti seną PC su WindowsXP. Ir ką jūs manot, kompas buvo su tikru LPT! Bandau perprogramuoti HC05, bet vėl nieko nesigauna :/ Šį kartą taip lengvai nusprendžiau nepasiduoti. Atidžiai perskaičiau visus&nbsp;&quot;Byron's blog&quot; <a class="reference external" href="http://byron76.blogspot.com/2011/09/i-hope-you-have-good-time-soldering.html">įrašo</a>&nbsp;apie HC05 perprogramavimą komentarus. Ant tiesos kelio užvedė <a class="reference external" href="http://byron76.blogspot.com/2011/09/i-hope-you-have-good-time-soldering.html?showComment=1329737488256#c7413800432950805595">šis</a> komentaras.:</p>
+<div class="line-block">
+<div class="line">[text]After messing around with parallel port settings, I finally</div>
+<div class="line">found a working configuration: EPP had to be activated in BIOS,</div>
+<div class="line">neither SPP nor ECP worked (the software didn't find the port then)[/text]</div>
+</div>
+<p>Pasiknisau BIOS'e ir pakeičiau reikiamus nustatymus. Šį kartą&nbsp;BlueFlashCmd LPT portą rado, bet gražino klaidą, kad nepavyksta susikomunikuoti su&nbsp;&nbsp;HC05. Tikriausiai, kažkas blogai su mano programatoriumi... Akurat, buvau sumaišęs MISO ir MOSI portus! Jie turi jungties ne tiesiogiai MISO - MISO (HC05) ir MOSI - MOSI (HC05), o atvirkščiai MISO - MOSI (HC05) ir MOSI - MISO (HC05), kaip ir jungiant bet kokį kitą SPI įrenginį. <a class="reference external" href="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/7c29f6fd31400e05f910ece8c695225e.290x267x1.gif">D'oh!</a>&nbsp;Sujungus teisingai -&nbsp;BlueFlashCmd nebesikeikė ir leido nusisiurbti HC05 firmware. Firmware perrašymo veiksmus vykdžiau pagal <a class="reference external" href="http://byron76.blogspot.com/2011/09/i-hope-you-have-good-time-soldering.html">Byron's instrukciją</a>. Daugiau nesklandumų nekilo ir po kelių minučių mano HC05 jau buvo su normaliu USART pritaikytu firmware.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/btinit.gif"><img alt="btinit" class="aligncenter size-full wp-image-509" src="https://paulius.bautrenas.lt/images/hc05-bluetooth-moduliai/btinit.gif" style="width: 461px; height: 207px;" /></a></p>
+<p>Beliko susikonfigūruoti HC05 pagal savo poreikius, t. y. nustatyti modulio vardą, PIN kodą, ir USART porto nustatymus (greitį, duomenų ir stop bitų skaičių). Visas tas daroma AT komandomis,&nbsp;HC05 PIO11 portą užtrumpinus į VCC. Būtų galima kiekvieną AT komandą vesti rankomis, tačiau tai gan varginantis procesas. Geriau pasinaudoti šaunia brolių ukrainiečių programėle&nbsp;<a class="reference external" href="http://silabs.org.ua/bc4/btinit.exe">BTinit.exe</a>, apie kurią galite pasiskaityti čia:&nbsp;<a class="reference external" href="http://silabs.org.ua/hcxx_cfg.htm">http://silabs.org.ua/hcxx_cfg.htm</a>.</p>
+<p>Tereikia suvesti pageidaujamus parametrus, išsirinkti norimą USART greitį ir spausti &quot;write&quot;.&nbsp;Programėlė visą juoda darbą padarys už mus!</p>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/flip-dot-clock-laiko-sinchronizavimas-su-aviete-per-bluetooth.html">Flip-Dot Clock laiko sinchronizavimas su Aviete per Bluetooth</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
