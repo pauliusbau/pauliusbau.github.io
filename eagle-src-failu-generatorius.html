@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Eagle .scr failų generatorius - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/eagle-src-failu-generatorius.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="array,C,cadsoft eagle,eagle,naujos bibliotekos sukūrimas,naujos detalės sukūrimas,new library,scr" />
+        <meta name="description" content="CadSoft Eagle detalės bibliotekos sukūrimas poskyryje &#34;1.2.4. Detalės korpuso papildymas grafiniais elementais&#34; šiek tiek užsiminiau Eagle scenarijus (angl. script) ir jų panaudojimą Eagle detalių bibliotekų kūrime, tačiau niekur neparašiau kaip / iš kur aš gavau priedo &#34;P.1.&#34; kodą. Savaime suprantam, ranka aš jo nerašiau.. Tiksliau, iš pat pradžių …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Eagle .scr failų generatorius"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/eagle-src-failu-generatorius.html"/>
+        <meta property="og:description" content="CadSoft Eagle detalės bibliotekos sukūrimas poskyryje &#34;1.2.4. Detalės korpuso papildymas grafiniais elementais&#34; šiek tiek užsiminiau Eagle scenarijus (angl. script) ir jų panaudojimą Eagle detalių bibliotekų kūrime, tačiau niekur neparašiau kaip / iš kur aš gavau priedo &#34;P.1.&#34; kodą. Savaime suprantam, ranka aš jo nerašiau.. Tiksliau, iš pat pradžių …"/>
+        <meta property="article:published_time" content="2014-05-19" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="array" />
+            <meta property="article:tag" content="C" />
+            <meta property="article:tag" content="cadsoft eagle" />
+            <meta property="article:tag" content="eagle" />
+            <meta property="article:tag" content="naujos bibliotekos sukūrimas" />
+            <meta property="article:tag" content="naujos detalės sukūrimas" />
+            <meta property="article:tag" content="new library" />
+            <meta property="article:tag" content="scr" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/eagle-src-failu-generatorius.html"
+                       rel="bookmark"
+                       title="Permalink to Eagle .scr failų generatorius">
+                        Eagle .scr failų generatorius
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-05-19T13:50:00+03:00"> pr 19 geguže 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/array.html">array</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/c.html">C</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/cadsoft-eagle.html">cadsoft eagle</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/eagle.html">eagle</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/naujos-bibliotekos-sukurimas.html">naujos bibliotekos sukūrimas</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/naujos-detales-sukurimas.html">naujos detalės sukūrimas</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/new-library.html">new library</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/scr.html">scr</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><img alt="cmd" class="aligncenter wp-image-110 size-full" src="https://paulius.bautrenas.lt/images/eagle-src-failu-generatorius/cmd.jpg" style="width: 677px; height: 342px;" /></p>
+<p><a class="reference external" href="cadsoft-eagle-detales-bibliotekos-sukurimas">CadSoft Eagle detalės bibliotekos sukūrimas</a> poskyryje &quot;1.2.4. Detalės korpuso papildymas grafiniais elementais&quot; šiek tiek užsiminiau Eagle scenarijus (angl. <em>script</em>) ir jų panaudojimą Eagle detalių bibliotekų kūrime, tačiau niekur neparašiau kaip / iš kur aš gavau priedo &quot;P.1.&quot; kodą. Savaime suprantam, ranka aš jo nerašiau.. Tiksliau, iš pat pradžių bandžiau rašyti ranką, bet mirtinai susipainiojęs, parašiau nedidukę C programėlę, kuri pagal įvestus nustatymus automatiškai sugeneruoja Eagle .scr kodą, pritaikytą išpiešti pasirinkto dydžio &quot;langelių masyvą&quot;.</p>
+<p>Pačio programos kodo neaptarinėsiu, nes programuojantiems ten nebus nieko naujo, o ne programuojantiems straipsnio gale yra pateiktas archyvas su jau sukompiliuota programos versija, tačiau aptarsiu programos naudojimosi ypatumus.</p>
+<div class="section" id="naudojimosi-ypatumai">
+<h2>Naudojimosi ypatumai</h2>
+<p><img alt="langeliai" class="aligncenter wp-image-118" src="https://paulius.bautrenas.lt/images/eagle-src-failu-generatorius/langeliai.png" style="width: 332px; height: 334px;" /></p>
+<p>Tarkim, kad norim nusibraižyti langelių masyvą, sudarytą iš 2 eilučių ir 2 stulpelių. Kiekvieno langelio dydis - 2x2 (x=2 ir y=2). Tarpai tarp eilučių ir stulpelių – 1. Pasileidžiam programėlę <strong>eagle_masyvas.exe</strong> ir atsidariusiame lange suvedame norimus langelių masyvo parametrus:</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/eagle-src-failu-generatorius/pvz.jpg"><img alt="pvz" class="aligncenter size-full wp-image-121" src="https://paulius.bautrenas.lt/images/eagle-src-failu-generatorius/pvz.jpg" style="width: 677px; height: 330px;" /></a></p>
+<p>Nurodžius stulpelių ir eilučių skaičių, programa klausia, ar bus naudojamos absoliutinės, ar reliatyviosios koordinatės. Po to yra prašoma nurodyti langelių masyvo &quot;pradžios tašką&quot;. Programa yra sukurta taip, kad &quot;pradžios taškas&quot; yra apatiniame kairiajame langelių masyvo kampe. Nuo šio taško stulpeliai yra skaičiuojami į dešinę, o eilutės į viršų.</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/eagle-src-failu-generatorius/pvz2.jpg"><img alt="pvz2" class="aligncenter size-full wp-image-124" src="https://paulius.bautrenas.lt/images/eagle-src-failu-generatorius/pvz2.jpg" style="width: 371px; height: 577px;" /></a></p>
+<p>Suvedus visus parametrus, programa automatiškai sugeneruoja failą <strong>masyvas.scr</strong>, kurį įvykdžius, Eagle nubrėš norimą langelių masyvą.</p>
+<p>Programos source kodas ir sukompiliuota versija: <a class="reference external" href="https://paulius.bautrenas.lt/files/eagle-src-failu-generatorius/eagle_masyvas.zip">eagle_masyvas.zip</a></p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/cadsoft-eagle-detales-bibliotekos-sukurimas.html">CadSoft Eagle detalės bibliotekos sukūrimas</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
