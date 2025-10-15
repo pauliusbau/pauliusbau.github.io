@@ -92,6 +92,14 @@ Paulius Bautrėnas            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="https://paulius.bautrenas.lt/isklausiau-kursus-oracle-db-ivadas-i-sql.html">Išklausiau kursus &quot;Oracle Database 12c: Introduction to SQL Ed 1&quot;</a></h2>
+                <div class="summary"><p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/isklausiau-kursus-oracle-db-ivadas-i-sql/oracle_mini.jpg"><img alt="oracle_mini" class="aligncenter size-full wp-image-405" src="https://paulius.bautrenas.lt/images/isklausiau-kursus-oracle-db-ivadas-i-sql/oracle_mini.jpg" style="width: 600px; height: 450px;" /></a></p>
+<p>Ilgai delsiau, bet pagaliau išklausiau &quot;Oracle Database 12c: Introduction to SQL Ed 1&quot; (lt. <em>Oracle DB: Įvadas į SQL</em>) 5 dienų trukmės kursus. Nors pavadinimas kaip ir nieko daug nežada, bet kaip savamoksliui programuotojui kursai buvo labai naudingi. Ne tik tuo, kad prisisėmiau daug teorinių žinių ir supratau, kodėl kai …</p>
+                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/isklausiau-kursus-oracle-db-ivadas-i-sql.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="https://paulius.bautrenas.lt/keistas-daiktas.html">Keistas daiktas naujoje Škodoje</a></h2>
                 <div class="summary"><p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/keistas-daiktas/IMG_6628.jpg"><img alt="IMG_6628.JPG" class="aligncenter size-large wp-image-393" src="https://paulius.bautrenas.lt/images/keistas-daiktas/IMG_6628-1024x768.jpg" style="width: 400px; height: 300px;" /></a>
 <a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/keistas-daiktas/IMG_6629.jpg"><img alt="IMG_6629.JPG" class="aligncenter size-large wp-image-392" src="https://paulius.bautrenas.lt/images/keistas-daiktas/IMG_6629-1024x768.jpg" style="width: 400px; height: 300px;" /></a></p>
@@ -106,6 +114,16 @@ Paulius Bautrėnas            </a>
 <p>Kaip žiniai, Avietė neturi padoraus RTC, t. y. išjungus maitinimą, avietės sisteminis laikrodis nusimuša ir rodo pievas. Gal reiktų ateityje ant I2C pakabinti kokį DSC1307, bet dabar užteks ir paprasto laiko sinchronizavimo su NTP serveriu.</p>
 <p>Gerai, kad Raspbian iš kart turi visus reikalingus demonus, tad belieka tik juos tinkamai sukonfigūruoti …</p>
                     <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/aviete-ntp-nustatymai.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://paulius.bautrenas.lt/jasperserver-smtp-autentifikacija.html">JasperServer: SMTP autentifikacija</a></h2>
+                <div class="summary"><p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-smtp-autentifikacija/mail_auth.png"><img alt="mail_auth" class="aligncenter size-full wp-image-372" src="https://paulius.bautrenas.lt/images/jasperserver-smtp-autentifikacija/mail_auth.png" style="width: 437px; height: 112px;" /></a></p>
+<p>Note for myself: jei jasperis niekaip nenori išsiųsti laiško, patikrink ar nepamiršai įjungti SMTP autentifikacijos, kuri yra konfigūruojama faile <em>$TOMCAT/webapps/jasperserver/WEB-INF/</em><strong>applicationContext-report-scheduling.xml</strong> ! Configo <em>applicationContext-report-scheduling.xml</em> šaka <strong>reportSchedulerMailSender</strong> atrodo taip:</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;bean</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;reportSchedulerMailSender&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;org.springframework.mail.javamail.JavaMailSenderImpl&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;host&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${report.scheduler.mail.sender.host …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/jasperserver-smtp-autentifikacija.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -143,34 +161,19 @@ Ant dėžutės nieko įdomaus. Parašyta, tik kad kalonėlė yra maitinama iš 3
             </article>
             <hr/>
             <article>
-                <h2><a href="https://paulius.bautrenas.lt/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes.html">JasperServer date input parameters: kaip nustatyti gudrias &quot;default&quot; vertes</a></h2>
-                <div class="summary"><p><img alt="data_defaul_value" class="aligncenter size-full wp-image-150" src="https://paulius.bautrenas.lt/images/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes/data_defaul_value.png" style="width: 554px; height: 195px;" /></p>
-<p>Kažkada sau prisigalvojau galvos skausmo (gi lengvai gyventi neįdomu) ir nusprendžiau kai kurioms savo JasperServer ataskaitoms suprogramuoti standartines (angl. <em>default</em>) ataskaitos parametrų reikšmes. Konkrečiau, norėjau kad vienos ataskaitos būtų visada automatiškai generuojamos &quot;už praėjusį mėnesį&quot;, o vykdant kitas ataskaitas, vartotojui būtų siūlomos dažniausiai pageidaujamos datos, pav. pirma ir dabartinė einamojo …</p>
-                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes.html">more ...</a>
+                <h2><a href="https://paulius.bautrenas.lt/jasperserver-respository-backup.html">Pusiau automatinė JasperServer atsarginė kopija</a></h2>
+                <div class="summary"><p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-respository-backup/jasperserver_backup.png"><img alt="jasperserver_backup" class="aligncenter size-full wp-image-185" src="https://paulius.bautrenas.lt/images/jasperserver-respository-backup/jasperserver_backup.png" style="width: 600px; height: 240px;" /></a></p>
+<p>Kaip pasidaryti ir atkurti atsarginę JasperServer saugyklos (angl. <em>repository</em>) kopiją yra puikiai aprašyta <a class="reference external" href="http://passionfordata.blogspot.com/2012/04/how-to-take-backup-of-jasperreport.html">sharad-gupta bloge</a>. Iš principo, tereikia <em>js-export.bat</em> įrankį paleisti su&nbsp;<em>--everything</em> ir <em>--output-zip</em> <em>backup.zip</em> raktais,&nbsp; ir po kelių minučių turėsite pilną JasperServer repository atsarginę kopiją backup.zip archyve. Tačiau ką daryti, jei norime jei norime atlikti …</p>
+                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/jasperserver-respository-backup.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="https://paulius.bautrenas.lt/bitwise-logines-operacijos-excelyje.html">Bitwise (loginės) operacijos excelyje</a></h2>
-                <div class="summary"><p><img alt="excel_bitwise" class="aligncenter size-full wp-image-131" src="https://paulius.bautrenas.lt/images/bitwise-logines-operacijos-excelyje/excel_bitwise.png" style="width: 328px; height: 159px;" /></p>
-<p>Neįtikėtina, bet MS Excel <strong>neturi</strong> integruotų loginių &quot;bitwise&quot; funkcijų! Žinoma, galima bandyti kaip nors sunktis iš padėtis ir vietoj XOR naudoti kažką panašaus į A1&lt;&gt;A2, tačiau visos tokios ir panašios Miscrosoft siūlomos formulių alternatyvos yra labiau prietiakytos gražinti loginę &quot;true&quot; arba &quot;false&quot; reikšmę, o ne normaliai, programuotojams priimtiną skaitinę …</p>
-                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/bitwise-logines-operacijos-excelyje.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://paulius.bautrenas.lt/eagle-src-failu-generatorius.html">Eagle .scr failų generatorius</a></h2>
-                <div class="summary"><p><img alt="cmd" class="aligncenter wp-image-110 size-full" src="https://paulius.bautrenas.lt/images/eagle-src-failu-generatorius/cmd.jpg" style="width: 677px; height: 342px;" /></p>
-<p><a class="reference external" href="cadsoft-eagle-detales-bibliotekos-sukurimas">CadSoft Eagle detalės bibliotekos sukūrimas</a> poskyryje &quot;1.2.4. Detalės korpuso papildymas grafiniais elementais&quot; šiek tiek užsiminiau Eagle scenarijus (angl. <em>script</em>) ir jų panaudojimą Eagle detalių bibliotekų kūrime, tačiau niekur neparašiau kaip / iš kur aš gavau priedo &quot;P.1.&quot; kodą. Savaime suprantam, ranka aš jo nerašiau.. Tiksliau, iš pat pradžių …</p>
-                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/eagle-src-failu-generatorius.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://paulius.bautrenas.lt/cadsoft-eagle-detales-bibliotekos-sukurimas.html">CadSoft Eagle detalės bibliotekos sukūrimas</a></h2>
-                <div class="summary"><p><img alt="image089" class="size-medium wp-image-30 aligncenter" src="https://paulius.bautrenas.lt/images/cadsoft-eagle-detales-bibliotekos-sukurimas/image089-300x258.png" style="width: 300px; height: 258px;" /></p>
-<p>Labai dažnai pasitaiko, kad standartinėse CadSoft Eagle bibliotekose nėra jums reikiamos detalės. Kartais pasiseka ir norimos detalės biblioteką pavyksta rasti internete, tačiau paieškos užimą laiką, ypač jei detalė yra naudojama retai arba yra labai nauja. Taip pat kitų žmonių sukurtose bibliotekose pasitaiko tyčinių ar netyčinių klaidų, todėl internete rastas bibliotekas …</p>
-                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/cadsoft-eagle-detales-bibliotekos-sukurimas.html">more ...</a>
+                <h2><a href="https://paulius.bautrenas.lt/jasperserver-sulietuvinimas.html">JasperServer sulietuvinimas</a></h2>
+                <div class="summary"><p><img alt="jasperserver_lt" class="aligncenter size-full wp-image-169" src="https://paulius.bautrenas.lt/images/jasperserver-sulietuvinimas/jasperserver_lt.png" style="width: 260px; height: 217px;" /></p>
+<p>Dažna problema po mūsų saule - iš kur gauti užsienietiškų programinių paketų sulietuvinimus. JasperServer – ne iš imtis. Kai reikėjo, kiek ieškojau internete, niekur neradau bent minimalaus sulietuvinimo varianto. Teko vartotojo sąsają versti pačiam..</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-sulietuvinimas/jasperserver_messages.png"><img alt="jasperserver_messages" class="aligncenter size-full wp-image-173" src="https://paulius.bautrenas.lt/images/jasperserver-sulietuvinimas/jasperserver_messages.png" style="width: 913px; height: 584px;" /></a>Taigi, apie viską iš pradžių. Visa tekstinė JasperServer vartotojo sąsaja yra sudėta <em>jasperserver_messages.properties</em> faile, kuris guli <em>\jasperserver …</em></p>
+                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/jasperserver-sulietuvinimas.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -184,7 +187,10 @@ Ant dėžutės nieko įdomaus. Parašyta, tik kad kalonėlė yra maitinama iš 3
                             href="https://paulius.bautrenas.lt/index2.html">2</a></li>
                     <li class="active"><a
                             href="https://paulius.bautrenas.lt/index3.html">3</a></li>
-                <li class="next disabled"><a href="#">&raquo;</a></li>
+                    <li class=""><a
+                            href="https://paulius.bautrenas.lt/index4.html">4</a></li>
+                <li class="next"><a
+                        href="https://paulius.bautrenas.lt/index4.html">&raquo;</a></li>
         </ul>
         </div>
         <div class="col-sm-3" id="sidebar">
@@ -212,10 +218,7 @@ Ant dėžutės nieko įdomaus. Parašyta, tik kad kalonėlė yra maitinama iš 3
       <a href="https://modding.lt" target="_blank">modding.lt</a>
     </li>
     <li class="list-group-item">
-      <a href="http://getpelican.com/" target="_blank">Pelican</a>
-    </li>
-    <li class="list-group-item">
-      <a href="http://python.org/" target="_blank">Python.org</a>
+      <a href="https://hackaday.io/pauliusbau" target="_blank">hackaday.io</a>
     </li>
   </ul>
 </li>

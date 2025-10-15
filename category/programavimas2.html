@@ -94,6 +94,16 @@ Paulius Bautrėnas            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="https://paulius.bautrenas.lt/jasperserver-smtp-autentifikacija.html">JasperServer: SMTP autentifikacija</a></h2>
+                <div class="summary"><p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-smtp-autentifikacija/mail_auth.png"><img alt="mail_auth" class="aligncenter size-full wp-image-372" src="https://paulius.bautrenas.lt/images/jasperserver-smtp-autentifikacija/mail_auth.png" style="width: 437px; height: 112px;" /></a></p>
+<p>Note for myself: jei jasperis niekaip nenori išsiųsti laiško, patikrink ar nepamiršai įjungti SMTP autentifikacijos, kuri yra konfigūruojama faile <em>$TOMCAT/webapps/jasperserver/WEB-INF/</em><strong>applicationContext-report-scheduling.xml</strong> ! Configo <em>applicationContext-report-scheduling.xml</em> šaka <strong>reportSchedulerMailSender</strong> atrodo taip:</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;bean</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;reportSchedulerMailSender&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;org.springframework.mail.javamail.JavaMailSenderImpl&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;host&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${report.scheduler.mail.sender.host …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/jasperserver-smtp-autentifikacija.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="https://paulius.bautrenas.lt/laiko-rezis-datos-rezio-oracle-uzklausoje.html">Laiko rėžis datos rėžio oracle užklausoje</a></h2>
                 <div class="summary"><p><img alt="sql_date_time" class="aligncenter wp-image-365 size-full" src="https://paulius.bautrenas.lt/images/laiko-rezis-datos-rezio-oracle-uzklausoje/sql_date_time.jpg" style="width: 551px; height: 148px;" /></p>
 <p>Laikas nuo laiko tenka ištraukti tam tikrų valandų kelių dienų duomenis, pav. gauti duomenis už praėjusio mėnesio kiekvieną dieną 08:00–09:00 valandomis. Kartais pasitaiko dar įdomesni poreikiai, pav. gauti tam tikro laiko intervalo duomenis tik savaitgaliais arba tik konkrečią dieną (pav. tik antradieniais ir pan.). Užduotis paprasta, bet …</p>
@@ -106,6 +116,23 @@ Paulius Bautrėnas            </a>
                 <div class="summary"><p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/oracle-hierarchines-uzklausos-su-with-ir-connect-by/oracle_hierarchine.png"><img alt="oracle_hierarchine" class="aligncenter size-full wp-image-333" src="https://paulius.bautrenas.lt/images/oracle-hierarchines-uzklausos-su-with-ir-connect-by/oracle_hierarchine.png" style="width: 693px; height: 359px;" /></a></p>
 <p>Darbe iš nutolusių įrenginių kelis kartus per valanda surenkam įvairius duomenis. Kiekviena surinkimo faktą (surinko ar nesurinko duomenis) taip pat fiksuojame ir saugome DB. Kažkada iškilo poreikis grafiškai pasižiūrėti, kaip vis dėl to mūsų įrenginiai veikia, t. y. kaip kokybiškai teikia mums duomenis. Tam pasirašiau paprastą užklausą, kuri tiesiog suskaičiuoja …</p>
                     <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/oracle-hierarchines-uzklausos-su-with-ir-connect-by.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://paulius.bautrenas.lt/jasperserver-respository-backup.html">Pusiau automatinė JasperServer atsarginė kopija</a></h2>
+                <div class="summary"><p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-respository-backup/jasperserver_backup.png"><img alt="jasperserver_backup" class="aligncenter size-full wp-image-185" src="https://paulius.bautrenas.lt/images/jasperserver-respository-backup/jasperserver_backup.png" style="width: 600px; height: 240px;" /></a></p>
+<p>Kaip pasidaryti ir atkurti atsarginę JasperServer saugyklos (angl. <em>repository</em>) kopiją yra puikiai aprašyta <a class="reference external" href="http://passionfordata.blogspot.com/2012/04/how-to-take-backup-of-jasperreport.html">sharad-gupta bloge</a>. Iš principo, tereikia <em>js-export.bat</em> įrankį paleisti su&nbsp;<em>--everything</em> ir <em>--output-zip</em> <em>backup.zip</em> raktais,&nbsp; ir po kelių minučių turėsite pilną JasperServer repository atsarginę kopiją backup.zip archyve. Tačiau ką daryti, jei norime jei norime atlikti …</p>
+                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/jasperserver-respository-backup.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://paulius.bautrenas.lt/jasperserver-sulietuvinimas.html">JasperServer sulietuvinimas</a></h2>
+                <div class="summary"><p><img alt="jasperserver_lt" class="aligncenter size-full wp-image-169" src="https://paulius.bautrenas.lt/images/jasperserver-sulietuvinimas/jasperserver_lt.png" style="width: 260px; height: 217px;" /></p>
+<p>Dažna problema po mūsų saule - iš kur gauti užsienietiškų programinių paketų sulietuvinimus. JasperServer – ne iš imtis. Kai reikėjo, kiek ieškojau internete, niekur neradau bent minimalaus sulietuvinimo varianto. Teko vartotojo sąsają versti pačiam..</p>
+<p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-sulietuvinimas/jasperserver_messages.png"><img alt="jasperserver_messages" class="aligncenter size-full wp-image-173" src="https://paulius.bautrenas.lt/images/jasperserver-sulietuvinimas/jasperserver_messages.png" style="width: 913px; height: 584px;" /></a>Taigi, apie viską iš pradžių. Visa tekstinė JasperServer vartotojo sąsaja yra sudėta <em>jasperserver_messages.properties</em> faile, kuris guli <em>\jasperserver …</em></p>
+                    <a class="btn btn-default btn-xs" href="https://paulius.bautrenas.lt/jasperserver-sulietuvinimas.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -161,10 +188,7 @@ Paulius Bautrėnas            </a>
       <a href="https://modding.lt" target="_blank">modding.lt</a>
     </li>
     <li class="list-group-item">
-      <a href="http://getpelican.com/" target="_blank">Pelican</a>
-    </li>
-    <li class="list-group-item">
-      <a href="http://python.org/" target="_blank">Python.org</a>
+      <a href="https://hackaday.io/pauliusbau" target="_blank">hackaday.io</a>
     </li>
   </ul>
 </li>

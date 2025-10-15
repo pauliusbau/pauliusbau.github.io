@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="lt" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>JasperServer: SMTP autentifikacija - Paulius Bautrėnas</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://paulius.bautrenas.lt/jasperserver-smtp-autentifikacija.html">
+
+        <meta name="author" content="pauliusbau" />
+        <meta name="keywords" content="authentification,JasperServer,mail,NoteForMyself,smtp" />
+        <meta name="description" content="Note for myself: jei jasperis niekaip nenori išsiųsti laiško, patikrink ar nepamiršai įjungti SMTP autentifikacijos, kuri yra konfigūruojama faile $TOMCAT/webapps/jasperserver/WEB-INF/applicationContext-report-scheduling.xml ! Configo applicationContext-report-scheduling.xml šaka reportSchedulerMailSender atrodo taip: &lt;bean id=&#34;reportSchedulerMailSender&#34; class=&#34;org.springframework.mail.javamail.JavaMailSenderImpl&#34;&gt; &lt;property name=&#34;host&#34; value=&#34;${report.scheduler.mail.sender.host …" />
+
+        <meta property="og:site_name" content="Paulius Bautrėnas" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="JasperServer: SMTP autentifikacija"/>
+        <meta property="og:url" content="https://paulius.bautrenas.lt/jasperserver-smtp-autentifikacija.html"/>
+        <meta property="og:description" content="Note for myself: jei jasperis niekaip nenori išsiųsti laiško, patikrink ar nepamiršai įjungti SMTP autentifikacijos, kuri yra konfigūruojama faile $TOMCAT/webapps/jasperserver/WEB-INF/applicationContext-report-scheduling.xml ! Configo applicationContext-report-scheduling.xml šaka reportSchedulerMailSender atrodo taip: &lt;bean id=&#34;reportSchedulerMailSender&#34; class=&#34;org.springframework.mail.javamail.JavaMailSenderImpl&#34;&gt; &lt;property name=&#34;host&#34; value=&#34;${report.scheduler.mail.sender.host …"/>
+        <meta property="article:published_time" content="2014-09-08" />
+            <meta property="article:section" content="Programavimas" />
+            <meta property="article:tag" content="authentification" />
+            <meta property="article:tag" content="JasperServer" />
+            <meta property="article:tag" content="mail" />
+            <meta property="article:tag" content="NoteForMyself" />
+            <meta property="article:tag" content="smtp" />
+            <meta property="article:author" content="pauliusbau" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/bootstrap.darkly.min.css" type="text/css"/>
+    <link href="https://paulius.bautrenas.lt/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://paulius.bautrenas.lt/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://paulius.bautrenas.lt/theme/css/style.css" type="text/css"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas ATOM Feed"/>
+
+        <link href="https://paulius.bautrenas.lt/feeds/programavimas.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Paulius Bautrėnas Programavimas ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id='G-QZDGKTE256'"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QZDGKTE256');
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://paulius.bautrenas.lt/" class="navbar-brand">
+Paulius Bautrėnas            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/elektronika.html">Elektronika</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://paulius.bautrenas.lt/category/programavimas.html">Programavimas</a>
+                        </li>
+                        <li >
+                            <a href="https://paulius.bautrenas.lt/category/rand.html">Rand()</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://paulius.bautrenas.lt/jasperserver-smtp-autentifikacija.html"
+                       rel="bookmark"
+                       title="Permalink to JasperServer: SMTP autentifikacija">
+                        JasperServer: SMTP autentifikacija
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-09-08T10:50:00+03:00"> pr 08 rugsejis 2014</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://paulius.bautrenas.lt/tag/authentification.html">authentification</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/jasperserver.html">JasperServer</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/mail.html">mail</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/noteformyself.html">NoteForMyself</a>
+        /
+	<a href="https://paulius.bautrenas.lt/tag/smtp.html">smtp</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a class="reference external image-reference" href="https://paulius.bautrenas.lt/images/jasperserver-smtp-autentifikacija/mail_auth.png"><img alt="mail_auth" class="aligncenter size-full wp-image-372" src="https://paulius.bautrenas.lt/images/jasperserver-smtp-autentifikacija/mail_auth.png" style="width: 437px; height: 112px;" /></a></p>
+<p>Note for myself: jei jasperis niekaip nenori išsiųsti laiško, patikrink ar nepamiršai įjungti SMTP autentifikacijos, kuri yra konfigūruojama faile <em>$TOMCAT/webapps/jasperserver/WEB-INF/</em><strong>applicationContext-report-scheduling.xml</strong> ! Configo <em>applicationContext-report-scheduling.xml</em> šaka <strong>reportSchedulerMailSender</strong> atrodo taip:</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;bean</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;reportSchedulerMailSender&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;org.springframework.mail.javamail.JavaMailSenderImpl&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;host&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${report.scheduler.mail.sender.host}&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;username&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${report.scheduler.mail.sender.username}&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;password&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${report.scheduler.mail.sender.password}&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;protocol&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${report.scheduler.mail.sender.protocol}&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;port&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${report.scheduler.mail.sender.port}&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;javaMailProperties&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;props&gt;</span>
+<span class="nt">&lt;prop</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;mail.smtp.auth&quot;</span><span class="nt">&gt;</span>false<span class="nt">&lt;/prop&gt;</span>
+<span class="nt">&lt;/props&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</pre></div>
+<p>Mus domina šakelė <strong>javaMailProperties,</strong> kurioje <em>mail.smtp.auth</em> reikia nustatyti kaip <strong>true.&nbsp;**Norint naudoti GMail SMTP yra būtina TLS autentifikacija. Ją įjungti galima pridedant raktą&nbsp;**mail.smtp.starttls.enable.</strong> Norint naudoti MS Exchange, papildomai reikia rakto&nbsp;<strong>mail.smtp.starttls.required</strong>.</p>
+<div class="highlight"><pre><span></span><span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;javaMailProperties&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;props&gt;</span>
+<span class="nt">&lt;prop</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;mail.smtp.auth&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/prop&gt;</span>
+<span class="nt">&lt;prop</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;mail.smtp.starttls.enable&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/prop&gt;</span><span class="w"> </span><span class="cm">&lt;!-- GMail autentifikacijai --&gt;</span>
+<span class="nt">&lt;prop</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;mail.smtp.starttls.required&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/prop&gt;</span><span class="w"> </span><span class="cm">&lt;!-- Būtina MS Exchange autentifikacijai --&gt;</span>
+<span class="nt">&lt;/props&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+</pre></div>
+<p>Tiesa, dėl viso pikto, patys SMTP nustatymai yra keičiami <em>$TOMCAT\webapps\jasperserver\WEB-INF\js\quartz.properties</em> ;)</p>
+<div class="highlight"><pre><span></span><span class="c1"># This file will consolidate all the configurable quartz properties</span>
+<span class="c1">#</span>
+<span class="c1"># Other properties which didn&#39;t need configuration are kept in js.quartz.base.properties</span>
+<span class="na">quartz.delegateClass</span><span class="o">=</span><span class="s">org.quartz.impl.jdbcjobstore.StdJDBCDelegate</span>
+<span class="na">quartz.tablePrefix</span><span class="o">=</span><span class="s">QRTZ</span><span class="se">\_</span>
+<span class="na">quartz.extraSettings</span><span class="o">=</span>
+<span class="na">report.scheduler.web.deployment.uri</span><span class="o">=</span><span class="s">http://localhost:8080/jasperserver-pro</span>
+<span class="na">report.scheduler.mail.sender.host</span><span class="o">=</span><span class="s">mail.localhost.com</span>
+<span class="na">report.scheduler.mail.sender.username</span><span class="o">=</span><span class="s">admin</span>
+<span class="na">report.scheduler.mail.sender.password</span><span class="o">=</span><span class="s">password</span>
+<span class="na">report.scheduler.mail.sender.from</span><span class="o">=</span><span class="s">admin@localhost.com</span>
+<span class="na">report.scheduler.mail.sender.protocol</span><span class="o">=</span><span class="s">smtp</span>
+<span class="na">report.scheduler.mail.sender.port</span><span class="o">=</span><span class="s">25</span>
+</pre></div>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://paulius.bautrenas.lt/hibridine-jasperserver-ataskaita-is-oracle-ir-ms-sql-vienu-metu.html">Hibridinė JasperServer ataskaita iš Oracle ir MS SQL vienu metu</a></li>
+        <li><a href="https://paulius.bautrenas.lt/jasperserver-jfreechart-grafiko-isvaizdos-tobulinimas-su-customizer-class.html">JasperServer JFreeChart grafiko išvaizdos tobulinimas su &quot;Customizer Class&quot;</a></li>
+        <li><a href="https://paulius.bautrenas.lt/jasperserver-respository-backup.html">Pusiau automatinė JasperServer atsarginė kopija</a></li>
+        <li><a href="https://paulius.bautrenas.lt/jasperserver-sulietuvinimas.html">JasperServer sulietuvinimas</a></li>
+        <li><a href="https://paulius.bautrenas.lt/jasperserver-date-input-parameters-kaip-nustatyti-gudrias-default-vertes.html">JasperServer date input parameters: kaip nustatyti gudrias &quot;default&quot; vertes</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/pauliusbau"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://linkedin.com/in/pauliusbautrenas"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/pauliusbau"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="https://modding.lt" target="_blank">modding.lt</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://hackaday.io/pauliusbau" target="_blank">hackaday.io</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2023 Paulius Bautrėnas
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://paulius.bautrenas.lt/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://paulius.bautrenas.lt/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://paulius.bautrenas.lt/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
